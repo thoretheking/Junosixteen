@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641666340234",
+    "project_id": "junosixteen-a1f50",
+    "storage_bucket": "junosixteen-a1f50.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641666340234:android:cf74bfbaafb32ea2fa6473",
+        "android_client_info": {
+          "package_name": "Juno.sixteen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALeGNbniggLQwIUW9zVEtFdIe_peE8yMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
