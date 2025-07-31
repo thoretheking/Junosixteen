@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 JunoSixteen - Live Demo Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .cluster-viz {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .cluster-item {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .typ-a { background: #3B82F6; }
+        .typ-b { background: #10B981; }
+        .typ-c { background: #F59E0B; }
+
+        .demo-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .demo-button {
+            background: white;
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .demo-button h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .demo-button p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-style: italic;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10B981;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .json-display {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 JunoSixteen Live Demo</h1>
+            <p><span class="status-indicator"></span>UL/MCP Integration • Adaptive KI • Real-time Analytics</p>
+        </div>
+
+        <div id="stats-container" class="stats-grid">
+            <div class="loading">🔄 Lade Demo-Daten...</div>
+        </div>
+
+        <div class="demo-actions">
+            <button class="demo-button" onclick="testULClustering()">
+                <h4>🧠 UL-Clustering testen</h4>
+                <p>Analysiere Benutzerverhalten und erkenne Lerntyp automatisch</p>
+            </button>
+            
+            <button class="demo-button" onclick="testMCPGeneration()">
+                <h4>🤖 MCP-Generierung testen</h4>
+                <p>Generiere adaptive Frage basierend auf Lerntyp</p>
+            </button>
+            
+            <button class="demo-button" onclick="showLeaderboard()">
+                <h4>🏆 Leaderboard anzeigen</h4>
+                <p>Top-Benutzer und Gamification-Statistiken</p>
+            </button>
+            
+            <button class="demo-button" onclick="showModules()">
+                <h4>📚 Module-Übersicht</h4>
+                <p>Alle verfügbaren Lern-Module und Fortschritt</p>
+            </button>
+        </div>
+
+        <div id="demo-output" style="margin-top: 30px;"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+
+        async function fetchData(endpoint) {
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`);
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                return null;
+            }
+        }
+
+        async function loadDashboard() {
+            try {
+                const [mcpStats, clusterOverview, gameStats] = await Promise.all([
+                    fetchData('/mcp/stats'),
+                    fetchData('/ul/cluster-overview'),
+                    fetchData('/gamification/stats')
+                ]);
+
+                const container = document.getElementById('stats-container');
+                container.innerHTML = `
+                    <div class="stat-card">
+                        <h3>🤖 MCP-Statistiken</h3>
+                        <div class="stat-value">${mcpStats?.totalGenerated || 0}</div>
+                        <div class="stat-label">Generierte Fragen</div>
+                        <div class="stat-value" style="font-size: 1.5rem; margin-top: 10px;">${mcpStats?.successRate || 0}%</div>
+                        <div class="stat-label">Erfolgsrate</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3>👥 Benutzer-Clustering</h3>
+                        <div class="stat-value">${clusterOverview?.totalUsers || 0}</div>
+                        <div class="stat-label">Gesamt Benutzer</div>
+                        <div class="cluster-viz">
+                            <div class="cluster-item typ-a">
+                                <div style="font-weight: bold;">${clusterOverview?.clusterDistribution?.['Typ_A'] || 0}</div>
+                                <div style="font-size: 0.8rem;">Analytisch</div>
+                            </div>
+                            <div class="cluster-item typ-b">
+                                <div style="font-weight: bold;">${clusterOverview?.clusterDistribution?.['Typ_B'] || 0}</div>
+                                <div style="font-size: 0.8rem;">Praktisch</div>
+                            </div>
+                            <div class="cluster-item typ-c">
+                                <div style="font-weight: bold;">${clusterOverview?.clusterDistribution?.['Typ_C'] || 0}</div>
+                                <div style="font-size: 0.8rem;">Visuell</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3>🎮 Gamification</h3>
+                        <div class="stat-value">Level ${gameStats?.level || 0}</div>
+                        <div class="stat-label">Aktueller Level</div>
+                        <div class="stat-value" style="font-size: 1.5rem; margin-top: 10px;">${gameStats?.totalPoints || 0}</div>
+                        <div class="stat-label">Gesamtpunkte</div>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('stats-container').innerHTML = 
+                    '<div class="stat-card"><h3>❌ Server nicht erreichbar</h3><p>Stellen Sie sicher, dass der Demo-Server läuft: <code>node demo-server.js</code></p></div>';
+            }
+        }
+
+        async function testULClustering() {
+            const output = document.getElementById('demo-output');
+            output.innerHTML = '<div class="stat-card"><h3>🧠 UL-Clustering Test läuft...</h3></div>';
+
+            const testData = {
+                avgTime: Math.floor(Math.random() * 30000) + 10000,
+                errors: Math.floor(Math.random() * 4),
+                clicks: Math.floor(Math.random() * 8) + 2,
+                moduleId: 1
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/ul/cluster-analyze`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                const result = await response.json();
+
+                output.innerHTML = `
+                    <div class="stat-card">
+                        <h3>🧠 UL-Clustering Ergebnis</h3>
+                        <div class="stat-value cluster-item ${result.cluster.toLowerCase().replace('_', '-')}" style="display: inline-block; padding: 10px 20px; margin: 10px 0;">
+                            ${result.cluster}
+                        </div>
+                        <p><strong>Typ:</strong> ${result.clusterDescription.name}</p>
+                        <p><strong>Vertrauen:</strong> ${(result.confidence * 100).toFixed(1)}%</p>
+                        <p><strong>Empfehlungen:</strong></p>
+                        <ul>${result.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
+                        <div class="json-display">${JSON.stringify(testData, null, 2)}</div>
+                    </div>
+                `;
+            } catch (error) {
+                output.innerHTML = '<div class="stat-card"><h3>❌ Fehler beim UL-Test</h3></div>';
+            }
+        }
+
+        async function testMCPGeneration() {
+            const output = document.getElementById('demo-output');
+            output.innerHTML = '<div class="stat-card"><h3>🤖 MCP-Fragengenerierung läuft...</h3></div>';
+
+            const testData = {
+                moduleId: Math.floor(Math.random() * 5) + 1,
+                level: Math.floor(Math.random() * 10) + 1,
+                cluster: ['Typ_A', 'Typ_B', 'Typ_C'][Math.floor(Math.random() * 3)],
+                difficulty: ['easy', 'medium', 'hard'][Math.floor(Math.random() * 3)],
+                isRiskQuestion: Math.random() > 0.7
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/mcp/generate-question`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                const result = await response.json();
+
+                output.innerHTML = `
+                    <div class="stat-card">
+                        <h3>🤖 MCP-Generierte Frage</h3>
+                        <p><strong>Frage-ID:</strong> ${result.questionId}</p>
+                        <p><strong>Frage:</strong> ${result.question.question}</p>
+                        <p><strong>Antworten:</strong></p>
+                        <ol>${result.question.answers.map(a => `<li>${a}</li>`).join('')}</ol>
+                        <p><strong>Richtige Antwort:</strong> ${result.question.answers[result.question.correctAnswer]}</p>
+                        <p><strong>Adaptiert für:</strong> <span class="cluster-item ${testData.cluster.toLowerCase().replace('_', '-')}" style="display: inline-block; padding: 5px 10px;">${testData.cluster}</span></p>
+                        <p><strong>Risiko-Frage:</strong> ${result.question.isRiskQuestion ? '⚠️ Ja' : '✅ Nein'}</p>
+                    </div>
+                `;
+            } catch (error) {
+                output.innerHTML = '<div class="stat-card"><h3>❌ Fehler beim MCP-Test</h3></div>';
+            }
+        }
+
+        async function showLeaderboard() {
+            const output = document.getElementById('demo-output');
+            output.innerHTML = '<div class="stat-card"><h3>🏆 Lade Leaderboard...</h3></div>';
+
+            try {
+                const result = await fetchData('/gamification/leaderboard');
+                
+                output.innerHTML = `
+                    <div class="stat-card">
+                        <h3>🏆 Leaderboard</h3>
+                        <div style="margin-top: 15px;">
+                            ${result.leaderboard.map(entry => `
+                                <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee;">
+                                    <span><strong>#${entry.rank}</strong> ${entry.displayName}</span>
+                                    <span>${entry.totalPoints} Pkt (Level ${entry.level})</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                output.innerHTML = '<div class="stat-card"><h3>❌ Fehler beim Laden des Leaderboards</h3></div>';
+            }
+        }
+
+        async function showModules() {
+            const output = document.getElementById('demo-output');
+            output.innerHTML = '<div class="stat-card"><h3>📚 Lade Module...</h3></div>';
+
+            try {
+                const result = await fetchData('/modules');
+                
+                output.innerHTML = `
+                    <div class="stat-card">
+                        <h3>📚 Lern-Module</h3>
+                        <div style="margin-top: 15px;">
+                            ${result.modules.map(module => `
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; margin: 10px 0; background: #f8f9fa; border-radius: 8px;">
+                                    <div>
+                                        <strong>${module.title}</strong>
+                                        <div style="color: #666; font-size: 0.9rem;">Modul ${module.moduleId}</div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <span style="padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8rem; 
+                                            background: ${module.status === 'completed' ? '#10B981' : 
+                                                       module.status === 'available' ? '#3B82F6' : '#6B7280'}">
+                                            ${module.status === 'completed' ? '✅ Abgeschlossen' : 
+                                              module.status === 'available' ? '🔓 Verfügbar' : '🔒 Gesperrt'}
+                                        </span>
+                                        ${module.score ? `<div style="font-size: 0.9rem; color: #666; margin-top: 5px;">${(module.score * 100).toFixed(0)}% Score</div>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                output.innerHTML = '<div class="stat-card"><h3>❌ Fehler beim Laden der Module</h3></div>';
+            }
+        }
+
+        // Auto-refresh Dashboard
+        loadDashboard();
+        setInterval(loadDashboard, 30000); // Refresh every 30 seconds
+    </script>
+</body>
+</html> 
