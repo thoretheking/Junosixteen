@@ -1,0 +1,2237 @@
+{
+  "version": "1.0",
+  "generatedAt": "2025-07-31T16:51:49.058Z",
+  "totalBereiche": 105,
+  "totalQuestions": 105000,
+  "bereiche": [
+    {
+      "name": "Datenschutz",
+      "filename": "datenschutz.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "DSGVO",
+      "filename": "dsgvo.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "IT-Sicherheit",
+      "filename": "itsicherheit.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Cybersecurity",
+      "filename": "cybersecurity.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "KI & Ethik",
+      "filename": "ki__ethik.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "EU AI Act",
+      "filename": "eu_ai_act.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Algorithmic Bias",
+      "filename": "algorithmic_bias.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "DEI",
+      "filename": "dei.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Rassismus",
+      "filename": "rassismus.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Menschenrechte",
+      "filename": "menschenrechte.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Pflegeethik",
+      "filename": "pflegeethik.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Medizinethik",
+      "filename": "medizinethik.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Kommunikation",
+      "filename": "kommunikation.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Leadership",
+      "filename": "leadership.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Change Management",
+      "filename": "change_management.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Konfliktmanagement",
+      "filename": "konfliktmanagement.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Teamführung",
+      "filename": "teamfhrung.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Projektmanagement",
+      "filename": "projektmanagement.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Zeitmanagement",
+      "filename": "zeitmanagement.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Stressmanagement",
+      "filename": "stressmanagement.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Burnout-Prävention",
+      "filename": "burnoutprvention.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Work-Life-Balance",
+      "filename": "worklifebalance.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Resilienz",
+      "filename": "resilienz.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Selbstorganisation",
+      "filename": "selbstorganisation.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Digitale Kompetenz",
+      "filename": "digitale_kompetenz.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Cloud Computing",
+      "filename": "cloud_computing.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Blockchain",
+      "filename": "blockchain.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Machine Learning",
+      "filename": "machine_learning.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Deep Learning",
+      "filename": "deep_learning.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Natural Language Processing",
+      "filename": "natural_language_processing.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Computer Vision",
+      "filename": "computer_vision.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Robotics",
+      "filename": "robotics.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "IoT",
+      "filename": "iot.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Big Data",
+      "filename": "big_data.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Data Analytics",
+      "filename": "data_analytics.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Business Intelligence",
+      "filename": "business_intelligence.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Agile Methoden",
+      "filename": "agile_methoden.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Scrum",
+      "filename": "scrum.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Kanban",
+      "filename": "kanban.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "DevOps",
+      "filename": "devops.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Software Engineering",
+      "filename": "software_engineering.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Clean Code",
+      "filename": "clean_code.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Testing",
+      "filename": "testing.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Code Review",
+      "filename": "code_review.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Version Control",
+      "filename": "version_control.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Continuous Integration",
+      "filename": "continuous_integration.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Deployment",
+      "filename": "deployment.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Monitoring",
+      "filename": "monitoring.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Performance Optimization",
+      "filename": "performance_optimization.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Scalability",
+      "filename": "scalability.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Microservices",
+      "filename": "microservices.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "API Design",
+      "filename": "api_design.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Database Design",
+      "filename": "database_design.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "SQL",
+      "filename": "sql.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "NoSQL",
+      "filename": "nosql.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Web Development",
+      "filename": "web_development.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Frontend Development",
+      "filename": "frontend_development.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Backend Development",
+      "filename": "backend_development.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Mobile Development",
+      "filename": "mobile_development.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "UI/UX Design",
+      "filename": "uiux_design.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "User Research",
+      "filename": "user_research.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Information Architecture",
+      "filename": "information_architecture.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Interaction Design",
+      "filename": "interaction_design.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Visual Design",
+      "filename": "visual_design.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Accessibility",
+      "filename": "accessibility.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Usability Testing",
+      "filename": "usability_testing.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "A/B Testing",
+      "filename": "ab_testing.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Conversion Optimization",
+      "filename": "conversion_optimization.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "SEO",
+      "filename": "seo.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Content Marketing",
+      "filename": "content_marketing.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Social Media Marketing",
+      "filename": "social_media_marketing.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Email Marketing",
+      "filename": "email_marketing.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Performance Marketing",
+      "filename": "performance_marketing.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Brand Management",
+      "filename": "brand_management.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Customer Experience",
+      "filename": "customer_experience.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Sales Management",
+      "filename": "sales_management.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Account Management",
+      "filename": "account_management.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Business Development",
+      "filename": "business_development.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Negotiation",
+      "filename": "negotiation.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Presentation Skills",
+      "filename": "presentation_skills.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Public Speaking",
+      "filename": "public_speaking.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Meeting Management",
+      "filename": "meeting_management.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Remote Work",
+      "filename": "remote_work.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Virtual Collaboration",
+      "filename": "virtual_collaboration.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Digital Communication",
+      "filename": "digital_communication.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Cross-Cultural Communication",
+      "filename": "crosscultural_communication.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Internationale Zusammenarbeit",
+      "filename": "internationale_zusammenarbeit.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Globalisation",
+      "filename": "globalisation.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Supply Chain",
+      "filename": "supply_chain.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Logistics",
+      "filename": "logistics.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Quality Management",
+      "filename": "quality_management.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Risk Management",
+      "filename": "risk_management.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Compliance",
+      "filename": "compliance.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Audit",
+      "filename": "audit.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Finance",
+      "filename": "finance.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Controlling",
+      "filename": "controlling.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Budgeting",
+      "filename": "budgeting.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Investment",
+      "filename": "investment.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Startup",
+      "filename": "startup.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Innovation Management",
+      "filename": "innovation_management.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Design Thinking",
+      "filename": "design_thinking.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Lean Startup",
+      "filename": "lean_startup.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Business Model Canvas",
+      "filename": "business_model_canvas.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Strategy",
+      "filename": "strategy.json",
+      "questionCount": 1000,
+      "levels": 10
+    },
+    {
+      "name": "Market Research",
+      "filename": "market_research.json",
+      "questionCount": 1000,
+      "levels": 10
+    }
+  ],
+  "statistics": {
+    "totalGenerated": 105000,
+    "byBereich": {
+      "Datenschutz": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "DSGVO": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "IT-Sicherheit": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Cybersecurity": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "KI & Ethik": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "EU AI Act": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Algorithmic Bias": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "DEI": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Rassismus": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Menschenrechte": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Pflegeethik": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Medizinethik": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Kommunikation": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Leadership": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Change Management": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Konfliktmanagement": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Teamführung": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Projektmanagement": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Zeitmanagement": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Stressmanagement": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Burnout-Prävention": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Work-Life-Balance": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Resilienz": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Selbstorganisation": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Digitale Kompetenz": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Cloud Computing": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Blockchain": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Machine Learning": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Deep Learning": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Natural Language Processing": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Computer Vision": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Robotics": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "IoT": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Big Data": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Data Analytics": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Business Intelligence": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Agile Methoden": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Scrum": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Kanban": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "DevOps": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Software Engineering": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Clean Code": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Testing": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Code Review": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Version Control": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Continuous Integration": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Deployment": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Monitoring": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Performance Optimization": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Scalability": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Microservices": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "API Design": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Database Design": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "SQL": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "NoSQL": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Web Development": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Frontend Development": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Backend Development": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Mobile Development": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "UI/UX Design": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "User Research": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Information Architecture": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Interaction Design": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Visual Design": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Accessibility": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Usability Testing": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "A/B Testing": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Conversion Optimization": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "SEO": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Content Marketing": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Social Media Marketing": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Email Marketing": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Performance Marketing": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Brand Management": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Customer Experience": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Sales Management": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Account Management": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Business Development": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Negotiation": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Presentation Skills": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Public Speaking": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Meeting Management": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Remote Work": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Virtual Collaboration": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Digital Communication": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Cross-Cultural Communication": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Internationale Zusammenarbeit": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Globalisation": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Supply Chain": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Logistics": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Quality Management": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Risk Management": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Compliance": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Audit": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Finance": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Controlling": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Budgeting": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Investment": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Startup": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Innovation Management": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Design Thinking": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Lean Startup": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Business Model Canvas": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Strategy": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      },
+      "Market Research": {
+        "total": 1000,
+        "byLevel": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100,
+          "6": 100,
+          "7": 100,
+          "8": 100,
+          "9": 100,
+          "10": 100
+        }
+      }
+    },
+    "byLevel": {
+      "1": 10500,
+      "2": 10500,
+      "3": 10500,
+      "4": 10500,
+      "5": 10500,
+      "6": 10500,
+      "7": 10500,
+      "8": 10500,
+      "9": 10500,
+      "10": 10500
+    },
+    "byType": {
+      "default": 73500,
+      "risk": 21000,
+      "team": 10500
+    },
+    "generationTime": 0,
+    "startTime": 1753980708140
+  }
+}
