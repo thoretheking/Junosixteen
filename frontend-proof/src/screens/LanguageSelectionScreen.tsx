@@ -51,16 +51,48 @@ const LanguageSelectionScreen: React.FC<LanguageSelectionScreenProps> = ({ navig
     i18n.setLanguage(languageCode);
   };
 
-  const handleNext = () => {
-    // Save language choice
-    navigation.navigate('Avatar', {
-      userData: {
+  const handleNext = async () => {
+    try {
+      const updatedUserData = {
         ...userData,
-        language: selectedLanguage
-      },
-      selectedLanguage,
-    });
+        preferredLanguage: selectedLanguage
+      };
+
+      navigation.navigate('AvatarSelection', { userData: updatedUserData });
+    } catch (error) {
+      Alert.alert('Fehler', 'Spracheinstellung konnte nicht gespeichert werden');
+    }
   };
+
+  const renderLanguageOption = (language: Language) => (
+    <TouchableOpacity
+      key={language.code}
+      style={[
+        styles.languageOption,
+        selectedLanguage === language.code && {
+          backgroundColor: colors.primary + '15',
+          borderColor: colors.primary,
+        }
+      ]}
+      onPress={() => handleLanguageSelect(language.code)}
+    >
+      <Text style={styles.flag}>{language.flag}</Text>
+      <Text style={[
+        styles.languageName,
+        selectedLanguage === language.code && { color: colors.primary }
+      ]}>
+        {language.name}
+      </Text>
+      <View style={[
+        styles.radioButton,
+        selectedLanguage === language.code && { backgroundColor: colors.primary }
+      ]}>
+        {selectedLanguage === language.code && (
+          <View style={styles.radioButtonInner} />
+        )}
+      </View>
+    </TouchableOpacity>
+  );
 
   const styles = StyleSheet.create({
     container: {
@@ -68,15 +100,14 @@ const LanguageSelectionScreen: React.FC<LanguageSelectionScreenProps> = ({ navig
       backgroundColor: colors.background,
     },
     header: {
-      padding: spacing.lg,
+      padding: spacing.large,
+      paddingTop: spacing.extraLarge,
       alignItems: 'center',
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
     },
     title: {
-      ...typography.title,
-      color: colors.primary,
-      marginBottom: spacing.sm,
+      ...typography.heading,
+      color: colors.text,
+      marginBottom: spacing.small,
     },
     subtitle: {
       ...typography.body,
@@ -85,63 +116,64 @@ const LanguageSelectionScreen: React.FC<LanguageSelectionScreenProps> = ({ navig
     },
     content: {
       flex: 1,
-      padding: spacing.lg,
+      paddingHorizontal: spacing.medium,
     },
-    languageGrid: {
+    infoBox: {
+      backgroundColor: colors.primary + '10',
+      padding: spacing.medium,
+      borderRadius: 8,
+      marginBottom: spacing.large,
+    },
+    infoText: {
+      ...typography.caption,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    languageOption: {
       flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-    },
-    languageCard: {
-      width: (width - spacing.lg * 3) / 2,
+      alignItems: 'center',
+      padding: spacing.medium,
+      marginBottom: spacing.small,
       backgroundColor: colors.surface,
       borderRadius: 12,
-      padding: spacing.md,
-      marginBottom: spacing.md,
-      alignItems: 'center',
       borderWidth: 2,
       borderColor: 'transparent',
-      minHeight: 100,
-      justifyContent: 'center',
     },
-    languageCardSelected: {
-      borderColor: colors.primary,
-      backgroundColor: colors.primary + '10',
-    },
-    languageFlag: {
-      fontSize: 32,
-      marginBottom: spacing.sm,
+    flag: {
+      fontSize: 24,
+      marginRight: spacing.medium,
     },
     languageName: {
       ...typography.body,
-      textAlign: 'center',
       color: colors.text,
-      fontWeight: '600',
+      flex: 1,
+    },
+    radioButton: {
+      width: 20,
+      height: 20,
+      borderRadius: 10,
+      borderWidth: 2,
+      borderColor: colors.border,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    radioButtonInner: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: colors.background,
     },
     footer: {
-      padding: spacing.lg,
-      backgroundColor: colors.surface,
-      borderTopWidth: 1,
-      borderTopColor: colors.border,
+      padding: spacing.large,
     },
     button: {
       backgroundColor: colors.primary,
+      paddingVertical: spacing.medium,
       borderRadius: 12,
-      paddingVertical: spacing.md,
       alignItems: 'center',
     },
     buttonText: {
       ...typography.button,
-      color: 'white',
-    },
-    infoBox: {
-      backgroundColor: colors.primary + '10',
-      borderRadius: 8,
-      padding: spacing.md,
-      marginBottom: spacing.lg,
-    },
-    infoText: {
-      ...typography.caption,
       color: colors.primary,
       textAlign: 'center',
     },
@@ -163,19 +195,8 @@ const LanguageSelectionScreen: React.FC<LanguageSelectionScreenProps> = ({ navig
           </Text>
         </View>
 
-        <View style={styles.languageGrid}>
-          {languages.map((language) => (
-            <TouchableOpacity
-              key={language.code}
-              style={[
-                styles.languageCard,
-                selectedLanguage === language.code && styles.languageCardSelected,
-              ]}
-              onPress={() => handleLanguageSelect(language.code)}>
-              <Text style={styles.languageFlag}>{language.flag}</Text>
-              <Text style={styles.languageName}>{language.name}</Text>
-            </TouchableOpacity>
-          ))}
+        <View>
+          {languages.map(renderLanguageOption)}
         </View>
       </ScrollView>
 
