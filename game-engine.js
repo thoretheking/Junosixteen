@@ -85,17 +85,23 @@ const BADGE_DEFINITIONS = {
 // ===================================================
 
 const LEVEL_CONFIG = {
-  1: { difficulty: 'sehr_einfach', baseScore: 200, questionTypes: ['default'] },
-  2: { difficulty: 'einfach', baseScore: 250, questionTypes: ['default'] },
-  3: { difficulty: 'einfach', baseScore: 300, questionTypes: ['default', 'team'] },
-  4: { difficulty: 'mittel', baseScore: 350, questionTypes: ['default', 'team'] },
-  5: { difficulty: 'mittel', baseScore: 400, questionTypes: ['default', 'team', 'risk'] }, // Risiko-Level
-  6: { difficulty: 'mittel', baseScore: 450, questionTypes: ['default', 'team'] },
-  7: { difficulty: 'schwer', baseScore: 500, questionTypes: ['default', 'team'] },
-  8: { difficulty: 'schwer', baseScore: 550, questionTypes: ['default', 'team'] },
-  9: { difficulty: 'expert', baseScore: 600, questionTypes: ['default', 'team'] },
-  10: { difficulty: 'expert', baseScore: 700, questionTypes: ['default', 'team', 'risk'] } // Risiko-Level
+  1: { difficulty: 'sehr_einfach', baseMultiplier: 50, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  2: { difficulty: 'einfach', baseMultiplier: 100, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  3: { difficulty: 'einfach', baseMultiplier: 150, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  4: { difficulty: 'mittel', baseMultiplier: 200, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  5: { difficulty: 'mittel', baseMultiplier: 250, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  6: { difficulty: 'mittel', baseMultiplier: 300, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  7: { difficulty: 'schwer', baseMultiplier: 350, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  8: { difficulty: 'schwer', baseMultiplier: 400, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  9: { difficulty: 'expert', baseMultiplier: 450, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  10: { difficulty: 'expert', baseMultiplier: 500, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 }
 };
+
+// Punktberechnung: Level × 50 × Fragennummer
+// Beispiel Level 2, Frage 3: 2 × 50 × 3 = 300 Punkte
+function calculateQuestionPoints(level, questionNumber) {
+  return level * 50 * questionNumber;
+}
 
 // ===================================================
 // 🎮 GAME ENGINE CLASS

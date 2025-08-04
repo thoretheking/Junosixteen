@@ -4,19 +4,31 @@ const router = express.Router();
 
 const db = admin.firestore();
 
-// Level-Konfiguration basierend auf JunoSixteen Design
+// Level-Konfiguration basierend auf korrektem JunoSixteen Spielmodus
 const LEVEL_CONFIG = {
-  1: { points: 200, isRiskLevel: false, color: '#3B82F6', theme: 'Starter' },
-  2: { points: 300, isRiskLevel: false, color: '#3B82F6', theme: 'Lernender' },
-  3: { points: 400, isRiskLevel: false, color: '#3B82F6', theme: 'Fortgeschritten' },
-  4: { points: 500, isRiskLevel: false, color: '#3B82F6', theme: 'Experte' },
-  5: { points: 0, isRiskLevel: true, color: '#F59E0B', theme: 'RISIKO - Alles oder Nichts!' },
-  6: { points: 600, isRiskLevel: false, color: '#3B82F6', theme: 'Meister' },
-  7: { points: 700, isRiskLevel: false, color: '#3B82F6', theme: 'Virtuose' },
-  8: { points: 800, isRiskLevel: false, color: '#3B82F6', theme: 'Champion' },
-  9: { points: 900, isRiskLevel: false, color: '#3B82F6', theme: 'Legende' },
-  10: { points: 0, isRiskLevel: true, color: '#EF4444', theme: 'FINALES RISIKO!' }
+  1: { baseMultiplier: 50, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Rookie' },
+  2: { baseMultiplier: 100, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Explorer' },
+  3: { baseMultiplier: 150, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Challenger' },
+  4: { baseMultiplier: 200, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Strategist' },
+  5: { baseMultiplier: 250, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Specialist' },
+  6: { baseMultiplier: 300, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Virtuose' },
+  7: { baseMultiplier: 350, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Master' },
+  8: { baseMultiplier: 400, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Legend' },
+  9: { baseMultiplier: 450, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Expert' },
+  10: { baseMultiplier: 500, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Super Expert' }
 };
+
+// Punktberechnung: Level × 50 × Fragennummer
+function calculateQuestionPoints(level, questionNumber) {
+  return level * 50 * questionNumber;
+}
+
+// Fragentyp-Bestimmung
+function getQuestionType(questionNumber) {
+  if (questionNumber === 5 || questionNumber === 10) return 'risk';
+  if (questionNumber === 9) return 'team';
+  return 'standard';
+}
 
 // Badge-System
 const BADGES = {

@@ -78,7 +78,14 @@ Level 3: Frage 1 = 150 Punkte, Frage 2 = 300 Punkte, Frage 3 = 450 Punkte...
 - **🤝 Squad Sync** - Teamfrage gelöst (300 Punkte)
 - **🏆 Expert Certified** - Level 10 erreicht (1000 Punkte)
 
-#### **🎯 Detaillierte Spielregeln**
+#### **🎯 Detaillierte Spielregeln (10 Fragen pro Level)**
+
+### **💯 Punktberechnung**
+**Formel:** Level × 50 × Fragennummer
+- **Level 1, Frage 1:** 1 × 50 × 1 = 50 Punkte
+- **Level 1, Frage 2:** 1 × 50 × 2 = 100 Punkte
+- **Level 2, Frage 1:** 2 × 50 × 1 = 100 Punkte
+- **Level 2, Frage 3:** 2 × 50 × 3 = 300 Punkte
 
 ### **📝 Standardfragen (Fragen 1-4, 6-8)**
 - **Bei richtiger Antwort:** Punkte werden gutgeschrieben
