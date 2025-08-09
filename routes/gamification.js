@@ -6,16 +6,16 @@ const db = admin.firestore();
 
 // Level-Konfiguration basierend auf korrektem JunoSixteen Spielmodus
 const LEVEL_CONFIG = {
-  1: { baseMultiplier: 50, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Rookie' },
-  2: { baseMultiplier: 100, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Explorer' },
-  3: { baseMultiplier: 150, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Challenger' },
-  4: { baseMultiplier: 200, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Strategist' },
-  5: { baseMultiplier: 250, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Specialist' },
-  6: { baseMultiplier: 300, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Virtuose' },
-  7: { baseMultiplier: 350, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Master' },
-  8: { baseMultiplier: 400, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Legend' },
-  9: { baseMultiplier: 450, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Expert' },
-  10: { baseMultiplier: 500, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9, theme: 'Super Expert' }
+  1: { name: 'Rookie', baseMultiplier: 50, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  2: { name: 'Explorer', baseMultiplier: 100, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  3: { name: 'Challenger', baseMultiplier: 150, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  4: { name: 'Strategist', baseMultiplier: 200, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  5: { name: 'Specialist', baseMultiplier: 250, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  6: { name: 'Advanced', baseMultiplier: 300, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  7: { name: 'Virtuose', baseMultiplier: 350, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  8: { name: 'Master', baseMultiplier: 400, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  9: { name: 'Legend', baseMultiplier: 450, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  10: { name: 'Super Expert', baseMultiplier: 500, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 }
 };
 
 // Punktberechnung: Level × 50 × Fragennummer

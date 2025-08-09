@@ -85,16 +85,16 @@ const BADGE_DEFINITIONS = {
 // ===================================================
 
 const LEVEL_CONFIG = {
-  1: { difficulty: 'sehr_einfach', baseMultiplier: 50, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
-  2: { difficulty: 'einfach', baseMultiplier: 100, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
-  3: { difficulty: 'einfach', baseMultiplier: 150, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
-  4: { difficulty: 'mittel', baseMultiplier: 200, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
-  5: { difficulty: 'mittel', baseMultiplier: 250, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
-  6: { difficulty: 'mittel', baseMultiplier: 300, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
-  7: { difficulty: 'schwer', baseMultiplier: 350, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
-  8: { difficulty: 'schwer', baseMultiplier: 400, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
-  9: { difficulty: 'expert', baseMultiplier: 450, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
-  10: { difficulty: 'expert', baseMultiplier: 500, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 }
+  1: { name: 'Rookie', difficulty: 'sehr_einfach', baseMultiplier: 50, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  2: { name: 'Explorer', difficulty: 'einfach', baseMultiplier: 100, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  3: { name: 'Challenger', difficulty: 'einfach', baseMultiplier: 150, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  4: { name: 'Strategist', difficulty: 'mittel', baseMultiplier: 200, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  5: { name: 'Specialist', difficulty: 'mittel', baseMultiplier: 250, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  6: { name: 'Advanced', difficulty: 'mittel', baseMultiplier: 300, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  7: { name: 'Virtuose', difficulty: 'schwer', baseMultiplier: 350, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  8: { name: 'Master', difficulty: 'schwer', baseMultiplier: 400, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  9: { name: 'Legend', difficulty: 'expert', baseMultiplier: 450, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 },
+  10: { name: 'Super Expert', difficulty: 'expert', baseMultiplier: 500, questionsPerLevel: 10, riskQuestions: [5, 10], teamQuestion: 9 }
 };
 
 // Punktberechnung: Level × 50 × Fragennummer
