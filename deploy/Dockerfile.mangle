@@ -1,0 +1,55 @@
+FROM golang:1.21-alpine AS builder
+
+# Install dependencies for mg CLI
+RUN apk add --no-cache git
+
+# Install mg CLI
+RUN go install github.com/google/mangle/interpreter/mg@latest
+
+# Set working directory
+WORKDIR /app
+
+# Copy go mod files
+COPY services/mangle/go.mod services/mangle/go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy source code
+COPY services/mangle/ ./
+
+# Build the application
+RUN go build -o mangle_service .
+
+# Final stage
+FROM alpine:latest
+
+# Install runtime dependencies
+RUN apk add --no-cache ca-certificates
+
+# Create app directory
+WORKDIR /app
+
+# Copy binary from builder
+COPY --from=builder /app/mangle_service .
+
+# Copy mg binary from builder
+COPY --from=builder /go/bin/mg /usr/local/bin/mg
+
+# Copy rules directory (will be mounted in docker-compose)
+COPY rules/ ./rules/
+
+# Set environment variables
+ENV MANGLE_PORT=8088
+ENV MANGLE_RULES_DIR=./rules
+ENV MG_BIN=mg
+
+# Expose port
+EXPOSE 8088
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8088/health || exit 1
+
+# Run the application
+CMD ["./mangle_service"] 

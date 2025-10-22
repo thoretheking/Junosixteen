@@ -1,0 +1,53 @@
+policy_version: v1.0
+world: public
+mission_template:
+  lives_start: 3
+  questions:
+    standard: 7
+    risk_at: [5, 10]
+    team_at: [9]
+  challenge_fallback: true
+
+compose:
+  max_quests_per_loop: 10
+  modality_weights:
+    mcq: 0.6
+    challenge: 0.3
+    reflection: 0.1
+
+zpd:
+  start: medium
+  adjust_rules:
+    - when: score_avg > 0.82
+      do: raise
+    - when: score_avg < 0.55 or help_rate > 0.25
+      do: lower
+
+risk_guard:
+  max_attempts: 2
+  cooldown_ms: 30000
+  boss_challenge_ids:
+    q5: application_priority_crisis
+    q10: critical_citizen_case
+
+gamification:
+  base_points:
+    standard: 200
+    risk: 400
+    team: 300
+  bonus_minigame:
+    points: 5000
+    life_plus: 1
+    life_cap: 5
+
+avatar_feedback:
+  success_style: upbeat
+  fail_style: supportive
+
+story:
+  briefing: "Citizen Service Challenge gestartet! Bürger brauchen deine Hilfe. Bearbeite Anträge, löse Probleme, humanisiere die Verwaltung!"
+  debrief_success: "Bürgerzufriedenheit 100%! Du hast allen effizient und freundlich geholfen. Die Verwaltung dankt dir!"
+  debrief_fail: "Service-Ausfall! Diesmal waren die Prozesse zu komplex. Aber der beste Service kommt durch Übung!"
+  cliffhanger: "DRINGEND: Ein Bürger mit kritischem Anliegen wartet am Schalter. Bist du bereit?"
+
+

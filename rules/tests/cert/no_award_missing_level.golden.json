@@ -1,0 +1,5 @@
+{
+  "facts": "fixtures/cert_missing_level.json",
+  "query": "award_certificate(U,C,Tier)?",
+  "expectContains": []
+} 

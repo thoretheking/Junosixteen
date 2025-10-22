@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 JunoSixteen - Berufsspezifische Lernpfade</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1em;
+            opacity: 0.7;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .paths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .path-card {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .path-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+        }
+
+        .path-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            position: relative;
+        }
+
+        .path-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .path-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .path-subtitle {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .path-body {
+            padding: 25px;
+        }
+
+        .path-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .level-preview {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .level-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .level-content {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-badge {
+            background: #e9ecef;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            color: #495057;
+        }
+
+        .badge-info {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .path-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .path-detail.active {
+            display: flex;
+        }
+
+        .detail-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            margin: 20px;
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .detail-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .detail-title {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .detail-subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .detail-body {
+            padding: 30px;
+        }
+
+        .levels-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .levels-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .levels-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+
+        .levels-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .level-number {
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .special-feature {
+            background: #e7f3ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .game-mechanics {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .mechanics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .mechanic-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .mechanic-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .mechanic-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #667eea;
+        }
+
+        .mechanic-desc {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .gamification-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .overlay-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .overlay-item {
+            text-align: center;
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .stats-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 10px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .paths-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-content {
+                width: 95%;
+                margin: 10px;
+            }
+            
+            .levels-table {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Berufsspezifische Lernpfade</h1>
+        <p>Maßgeschneiderte Qualifizierung für verschiedene Branchen</p>
+        <div class="subtitle">📺 Video → ❓ Frage (Time-Lock) → 🎮 Reaktion → ⏩ Fortschritt → 🔁 Level-Abschluss</div>
+    </div>
+
+    <div class="container">
+        <!-- Statistiken -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number">5</span>
+                <span class="stat-label">Berufspfade</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Level gesamt</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">13</span>
+                <span class="stat-label">Kategorien</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">500+</span>
+                <span class="stat-label">Fragen pro Pfad</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">7</span>
+                <span class="stat-label">Sprachen</span>
+            </div>
+        </div>
+
+        <!-- Berufsspezifische Pfade -->
+        <div class="paths-grid">
+            <!-- CleanRoom Essentials -->
+            <div class="path-card" onclick="showPathDetail('cleanroom')">
+                <div class="path-header">
+                    <span class="path-icon">🩺</span>
+                    <div class="path-title">CleanRoom Essentials</div>
+                    <div class="path-subtitle">Pflege & Gesundheitswesen</div>
+                </div>
+                <div class="path-body">
+                    <div class="path-description">
+                        Spezialisierte Hygiene- und Sicherheitsschulung für medizinische Einrichtungen mit praxisnahen Szenarien.
+                    </div>
+                    <div class="level-preview">
+                        <div class="level-title">Level 1-3 Preview:</div>
+                        <div class="level-content">Händedesinfektion, PSA, GMP-Grundlagen, Dokumentation</div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-badge">Desinfektionsspiel</span>
+                        <span class="feature-badge">Audio-Reaktionen</span>
+                        <span class="feature-badge">Fallbeispiele</span>
+                    </div>
+                    <div class="badge-info">
+                        🏆 Badge: Hygieneheld:in
+                    </div>
+                </div>
+            </div>
+
+            <!-- DataLegal Drive -->
+            <div class="path-card" onclick="showPathDetail('datalegal')">
+                <div class="path-header">
+                    <span class="path-icon">⚖️</span>
+                    <div class="path-title">DataLegal Drive</div>
+                    <div class="path-subtitle">Kanzleien & Agenturen</div>
+                </div>
+                <div class="path-body">
+                    <div class="path-description">
+                        DSGVO und Datenschutz speziell für Rechtsanwaltskanzleien und Agenturen mit praxisrelevanten Szenarien.
+                    </div>
+                    <div class="level-preview">
+                        <div class="level-title">Level 1-3 Preview:</div>
+                        <div class="level-content">DSGVO-Grundlagen, Aktenvernichtung, Auftragsverarbeitung</div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-badge">Anwalt Bot Avatar</span>
+                        <span class="feature-badge">Drag & Drop</span>
+                        <span class="feature-badge">IT-Szenarien</span>
+                    </div>
+                    <div class="badge-info">
+                        🏆 Badge: Datenschutzprofi
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Safety Sprint -->
+            <div class="path-card" onclick="showPathDetail('digitalsafety')">
+                <div class="path-header">
+                    <span class="path-icon">👩‍💻</span>
+                    <div class="path-title">Digital Safety Sprint</div>
+                    <div class="path-subtitle">Tech-Startups</div>
+                </div>
+                <div class="path-body">
+                    <div class="path-description">
+                        IT-Security für Entwickler und PMs mit Code-Challenges und modernen Security-Konzepten.
+                    </div>
+                    <div class="level-preview">
+                        <div class="level-title">Level 1-3 Preview:</div>
+                        <div class="level-content">IT-Security Basics, Passwort-Richtlinien, AI-Nutzung</div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-badge">Code-Minigames</span>
+                        <span class="feature-badge">Prompt-Training</span>
+                        <span class="feature-badge">GitHub-Leaks</span>
+                    </div>
+                    <div class="badge-info">
+                        🏆 Badge: ZeroTrust Hero
+                    </div>
+                </div>
+            </div>
+
+            <!-- Factory First -->
+            <div class="path-card" onclick="showPathDetail('factory')">
+                <div class="path-header">
+                    <span class="path-icon">🏭</span>
+                    <div class="path-title">Factory First</div>
+                    <div class="path-subtitle">Produktion & Logistik</div>
+                </div>
+                <div class="path-body">
+                    <div class="path-description">
+                        Arbeitsschutz und Prozesssicherheit für Produktionsumgebungen mit immersiven Fabrik-Simulationen.
+                    </div>
+                    <div class="level-preview">
+                        <div class="level-title">Level 1-3 Preview:</div>
+                        <div class="level-content">PSA & Fluchtwege, Notfall-Verhalten, Lean & 5S</div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-badge">1st-Person Video</span>
+                        <span class="feature-badge">Sound-Quiz</span>
+                        <span class="feature-badge">Sortier-Minigame</span>
+                    </div>
+                    <div class="badge-info">
+                        🏆 Badge: Safety Champion
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Kompetent -->
+            <div class="path-card" onclick="showPathDetail('government')">
+                <div class="path-header">
+                    <span class="path-icon">🏛️</span>
+                    <div class="path-title">Digital Kompetent</div>
+                    <div class="path-subtitle">Öffentliche Verwaltung</div>
+                </div>
+                <div class="path-body">
+                    <div class="path-description">
+                        Digitalisierung und KI-Ethik für öffentliche Verwaltung mit Fokus auf Barrierefreiheit und Bürgernähe.
+                    </div>
+                    <div class="level-preview">
+                        <div class="level-title">Level 1-3 Preview:</div>
+                        <div class="level-content">Barrierefreiheit, E-Mail-Sicherheit, KI & Ethik</div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-badge">Gebärdensprache</span>
+                        <span class="feature-badge">Amts-Beispiele</span>
+                        <span class="feature-badge">EU AI Act</span>
+                    </div>
+                    <div class="badge-info">
+                        🏆 Badge: Digitale:r Verwaltungsprofi
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Path Detail Modal -->
+    <div class="path-detail" id="pathDetail">
+        <div class="detail-content">
+            <div class="detail-header">
+                <button class="close-btn" onclick="closePathDetail()">×</button>
+                <div class="detail-icon" id="detailIcon">🩺</div>
+                <div class="detail-title" id="detailTitle">CleanRoom Essentials</div>
+                <div class="detail-subtitle" id="detailSubtitle">Pflege & Gesundheitswesen</div>
+            </div>
+            <div class="detail-body">
+                <div id="detailContent">
+                    <!-- Content wird hier eingefügt -->
+                </div>
+
+                <!-- Spielmechaniken -->
+                <div class="game-mechanics">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">🎮 Spielmechaniken in allen Pfaden</h3>
+                    <div class="mechanics-grid">
+                        <div class="mechanic-item">
+                            <span class="mechanic-icon">🎬</span>
+                            <div class="mechanic-title">Video</div>
+                            <div class="mechanic-desc">35 Sek., nicht vorspulbar</div>
+                        </div>
+                        <div class="mechanic-item">
+                            <span class="mechanic-icon">⌛</span>
+                            <div class="mechanic-title">Time-Lock</div>
+                            <div class="mechanic-desc">Zeitlimit für Antwort</div>
+                        </div>
+                        <div class="mechanic-item">
+                            <span class="mechanic-icon">💥</span>
+                            <div class="mechanic-title">Fehler-Reaktion</div>
+                            <div class="mechanic-desc">Animation oder Mini-Spiel</div>
+                        </div>
+                        <div class="mechanic-item">
+                            <span class="mechanic-icon">🚀</span>
+                            <div class="mechanic-title">Levelstruktur</div>
+                            <div class="mechanic-desc">10 Fragen → XP → neues Level</div>
+                        </div>
+                        <div class="mechanic-item">
+                            <span class="mechanic-icon">🎯</span>
+                            <div class="mechanic-title">Risikofrage</div>
+                            <div class="mechanic-desc">Frage 5 & 10: Alles oder nichts</div>
+                        </div>
+                        <div class="mechanic-item">
+                            <span class="mechanic-icon">🧠</span>
+                            <div class="mechanic-title">Teamfrage</div>
+                            <div class="mechanic-desc">Frage 9: Squad Sync Badge</div>
+                        </div>
+                        <div class="mechanic-item">
+                            <span class="mechanic-icon">⭐</span>
+                            <div class="mechanic-title">Feedback</div>
+                            <div class="mechanic-desc">Lern-Avatar reagiert</div>
+                        </div>
+                        <div class="mechanic-item">
+                            <span class="mechanic-icon">🏆</span>
+                            <div class="mechanic-title">Highscore</div>
+                            <div class="mechanic-desc">Nach Thema, Level, Team, Zeit</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gamification Overlay -->
+                <div class="gamification-section">
+                    <h3 style="margin-bottom: 15px;">📊 Gamification-Overlay für alle Pfade</h3>
+                    <div class="overlay-grid">
+                        <div class="overlay-item">
+                            <div style="font-size: 1.5em; margin-bottom: 5px;">📈</div>
+                            <div>Levelanzeige</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">"Level 3: Strategist"</div>
+                        </div>
+                        <div class="overlay-item">
+                            <div style="font-size: 1.5em; margin-bottom: 5px;">🔥</div>
+                            <div>Live Score</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Real-time Update</div>
+                        </div>
+                        <div class="overlay-item">
+                            <div style="font-size: 1.5em; margin-bottom: 5px;">🤖</div>
+                            <div>Lernavatar</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Mimik & Motivation</div>
+                        </div>
+                        <div class="overlay-item">
+                            <div style="font-size: 1.5em; margin-bottom: 5px;">🛡️</div>
+                            <div>Erfolgsbadges</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Spezielle Achievements</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="btn" onclick="startPath()">🚀 Pfad starten</button>
+                    <button class="btn" style="background: #6c757d;" onclick="closePathDetail()">Zurück zur Übersicht</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pathDetails = {
+            cleanroom: {
+                icon: '🩺',
+                title: 'CleanRoom Essentials',
+                subtitle: 'Pflege & Gesundheitswesen',
+                description: 'Umfassende Hygiene- und Sicherheitsschulung für medizinische Einrichtungen',
+                avatar: 'Hygiene-Expert Dr. Clean 🧼',
+                levels: [
+                    {
+                        number: '1 (Rookie)',
+                        content: 'Händedesinfektion, PSA, Sauberkeitsklassen',
+                        special: 'Intro-Quiz mit interaktiver Händewaschung'
+                    },
+                    {
+                        number: '2 (Explorer)',
+                        content: 'GMP-Grundlagen, Ethik im Alltag',
+                        special: 'Mini-Challenge: Desinfektionsspiel mit Timer'
+                    },
+                    {
+                        number: '3 (Challenger)',
+                        content: 'Dokumentation, Protokollfehler',
+                        special: 'Risikofrage: Fallbeispiel aus echtem Klinikalltag'
+                    },
+                    {
+                        number: '4–10',
+                        content: 'Hygienezonen, Patientensicherheit, Kommunikation mit Angehörigen',
+                        special: 'Teamfrage, Audio-Reaktionen, Badge: Hygieneheld:in'
+                    }
+                ],
+                badge: '🧼 Hygieneheld:in',
+                xp: '+1.200 XP'
+            },
+            datalegal: {
+                icon: '⚖️',
+                title: 'DataLegal Drive',
+                subtitle: 'Kanzleien & Agenturen',
+                description: 'DSGVO-Compliance speziell für Rechtsanwaltskanzleien und Beratungsagenturen',
+                avatar: 'Anwalt Bot Justicia ⚖️',
+                levels: [
+                    {
+                        number: '1',
+                        content: 'DSGVO-Grundlagen für Kanzleien',
+                        special: 'Video vom Avatar „Anwalt Bot" mit juristischen Fachbegriffen'
+                    },
+                    {
+                        number: '2',
+                        content: 'Aktenvernichtung, Mandantenkommunikation',
+                        special: 'Interaktive Drag & Drop Challenge: Dokumente richtig zuordnen'
+                    },
+                    {
+                        number: '3',
+                        content: 'Auftragsverarbeitung, Drittlandtransfer',
+                        special: 'Risikofrage mit komplexem IT-Szenario'
+                    },
+                    {
+                        number: '4–10',
+                        content: 'Fristen, GOBD, Anti-Stress in der Kanzlei',
+                        special: 'Badge: Datenschutzprofi mit Zertifikat'
+                    }
+                ],
+                badge: '🛡️ Datenschutzprofi',
+                xp: '+1.100 XP'
+            },
+            digitalsafety: {
+                icon: '👩‍💻',
+                title: 'Digital Safety Sprint',
+                subtitle: 'Tech-Startups',
+                description: 'IT-Security für Entwickler, PMs und Tech-Teams mit praktischen Code-Challenges',
+                avatar: 'Security-Ninja CodeGuard 🥷',
+                levels: [
+                    {
+                        number: '1',
+                        content: 'IT-Security Basics für Devs & PMs',
+                        special: 'Code-Fehlersuche als Mini-Game mit echten Vulnerabilities'
+                    },
+                    {
+                        number: '2',
+                        content: 'Passwortrichtlinien, SSO, VPN',
+                        special: 'Visuelle Szenarien: Login-Flows sicher gestalten'
+                    },
+                    {
+                        number: '3',
+                        content: 'AI-Nutzung und Prompt-Richtlinien',
+                        special: 'Feedbacksystem: „Guter Prompt – Schlechter Prompt"'
+                    },
+                    {
+                        number: '4–10',
+                        content: 'GitHub-Leak, Slack-Fehler, BYOD',
+                        special: 'Badge: ZeroTrust Hero mit GitHub-Integration'
+                    }
+                ],
+                badge: '🥷 ZeroTrust Hero',
+                xp: '+1.500 XP'
+            },
+            factory: {
+                icon: '🏭',
+                title: 'Factory First',
+                subtitle: 'Produktion & Logistik',
+                description: 'Arbeitsschutz und Prozesssicherheit mit immersiven Fabrik-Simulationen',
+                avatar: 'Safety Guard Werkmeister 🦺',
+                levels: [
+                    {
+                        number: '1',
+                        content: 'PSA, Fluchtwege, Gerätesicherheit',
+                        special: 'Video aus 1st-Person-Perspektive: Fabrikbegehung'
+                    },
+                    {
+                        number: '2',
+                        content: 'Verhalten im Notfall',
+                        special: 'Sound-Quiz: Alarme richtig erkennen und zuordnen'
+                    },
+                    {
+                        number: '3',
+                        content: 'Lean, 5S, Prozesssicherheit',
+                        special: 'Mini-Spiel: Stapel richtig sortieren nach 5S-Methode'
+                    },
+                    {
+                        number: '4–10',
+                        content: 'Gefahrgut, Fahrlogik, Lagerführung',
+                        special: 'Teamfrage: Sicherheitsanalyse, Badge: Safety Champion'
+                    }
+                ],
+                badge: '🦺 Safety Champion',
+                xp: '+1.300 XP'
+            },
+            government: {
+                icon: '🏛️',
+                title: 'Digital Kompetent',
+                subtitle: 'Öffentliche Verwaltung',
+                description: 'Digitalisierung und KI-Ethik für öffentliche Verwaltung mit Bürgerfokus',
+                avatar: 'Amt-Digital Bureaucrat 💻',
+                levels: [
+                    {
+                        number: '1',
+                        content: 'Digitale Barrierefreiheit',
+                        special: 'Video mit Gebärdensprach-Overlay und Untertiteln'
+                    },
+                    {
+                        number: '2',
+                        content: 'E-Mail-Sicherheit im Amt',
+                        special: 'Quiz mit realen Amtsbeispielen und Phishing-Simulationen'
+                    },
+                    {
+                        number: '3',
+                        content: 'KI & Ethik im Verwaltungskontext',
+                        special: 'Fallanalyse: AI-Einsatz bei Bürgeranfragen ethisch bewerten'
+                    },
+                    {
+                        number: '4–10',
+                        content: 'Datenschutz, Aktenführung, EU AI Act',
+                        special: 'Compliance für öffentliche Stellen, Badge: Digitale:r Verwaltungsprofi'
+                    }
+                ],
+                badge: '🏛️ Digitale:r Verwaltungsprofi',
+                xp: '+900 XP'
+            }
+        };
+
+        function showPathDetail(pathId) {
+            const path = pathDetails[pathId];
+            if (!path) return;
+
+            document.getElementById('detailIcon').textContent = path.icon;
+            document.getElementById('detailTitle').textContent = path.title;
+            document.getElementById('detailSubtitle').textContent = path.subtitle;
+
+            const content = `
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">📖 Beschreibung</h3>
+                    <p style="line-height: 1.6; color: #666;">${path.description}</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">🤖 Lern-Avatar</h3>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center;">
+                        <strong>${path.avatar}</strong>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">📋 Level-Struktur</h3>
+                    <table class="levels-table">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Inhalt</th>
+                                <th>Besonderheiten</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${path.levels.map(level => `
+                                <tr>
+                                    <td>
+                                        <span class="level-number">${level.number}</span>
+                                    </td>
+                                    <td>${level.content}</td>
+                                    <td>
+                                        <div class="special-feature">
+                                            ${level.special}
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">🏆 Belohnung</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div style="background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%); color: white; padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 1.2em; font-weight: bold;">${path.badge}</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 1.2em; font-weight: bold;">${path.xp}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detailContent').innerHTML = content;
+            document.getElementById('pathDetail').classList.add('active');
+        }
+
+        function closePathDetail() {
+            document.getElementById('pathDetail').classList.remove('active');
+        }
+
+        function startPath() {
+            alert('🚀 Pfad gestartet!\n\nSie werden nun zum interaktiven Lernbereich weitergeleitet...\n\n📺 Video wird geladen\n⏱️ Time-Lock aktiviert\n🎮 Gamification gestartet');
+        }
+
+        // Tastatur-Shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('pathDetail').classList.contains('active')) {
+                if (e.key === 'Escape') closePathDetail();
+                if (e.key === 'Enter') startPath();
+            }
+        });
+
+        // Loading Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.path-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html> 

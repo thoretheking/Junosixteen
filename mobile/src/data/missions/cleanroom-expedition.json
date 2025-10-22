@@ -1,0 +1,311 @@
+{
+  "id": "cleanroom-expedition",
+  "title": "CleanRoom Expedition", 
+  "world": "health",
+  "difficulty": "medium",
+  "livesStart": 3,
+  "description": "Erkunde die sterile Welt des CleanRooms und meistere die Herausforderungen der Kontaminationskontrolle.",
+  "briefing": "Willkommen zur CleanRoom Expedition! Du betrittst eine sterile Umgebung, wo jeder Fehler zu Kontamination führen kann. Deine Mission: Alle Sicherheitsprotokolle befolgen und die Proben sicher handhaben. Bei falschen Antworten warten praktische Challenges auf dich. Viel Erfolg!",
+  "debriefSuccess": "🎉 Expedition erfolgreich! Du hast alle CleanRoom-Protokolle gemeistert und die Proben sicher gehandhabt. Du bist jetzt ein zertifizierter CleanRoom-Spezialist!",
+  "debriefFail": "💥 Expedition fehlgeschlagen. Kontamination aufgetreten. Überprüfe die Protokolle und versuche es erneut. Jeder Fehler ist eine Lernchance!",
+  "unlocked": true,
+  "completed": false,
+  "questions": [
+    {
+      "id": "cr_q1",
+      "index": 1,
+      "kind": "standard",
+      "stem": "Was ist der erste Schritt beim Betreten eines CleanRooms?",
+      "points": 100,
+      "options": [
+        {
+          "id": "cr_q1_a",
+          "text": "Sofort mit der Arbeit beginnen",
+          "correct": false
+        },
+        {
+          "id": "cr_q1_b", 
+          "text": "Hände desinfizieren und Schutzkleidung anlegen",
+          "correct": true
+        },
+        {
+          "id": "cr_q1_c",
+          "text": "Fenster öffnen für frische Luft",
+          "correct": false
+        },
+        {
+          "id": "cr_q1_d",
+          "text": "Telefon auf stumm schalten",
+          "correct": false
+        }
+      ],
+      "onWrongChallengeId": "protective_gear_order"
+    },
+    {
+      "id": "cr_q2",
+      "index": 2,
+      "kind": "standard",
+      "stem": "Welche Luftqualitätsklasse hat ein CleanRoom der ISO-Klasse 5?",
+      "points": 150,
+      "options": [
+        {
+          "id": "cr_q2_a",
+          "text": "Maximal 100.000 Partikel ≥ 0,5 μm pro m³",
+          "correct": false
+        },
+        {
+          "id": "cr_q2_b",
+          "text": "Maximal 3.520 Partikel ≥ 0,5 μm pro m³", 
+          "correct": true
+        },
+        {
+          "id": "cr_q2_c",
+          "text": "Maximal 1.000 Partikel ≥ 0,5 μm pro m³",
+          "correct": false
+        },
+        {
+          "id": "cr_q2_d",
+          "text": "Keine Partikel erlaubt",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "id": "cr_q3",
+      "index": 3,
+      "kind": "standard",
+      "stem": "Wie oft müssen CleanRoom-Oberflächen gereinigt werden?",
+      "points": 120,
+      "options": [
+        {
+          "id": "cr_q3_a",
+          "text": "Einmal pro Woche",
+          "correct": false
+        },
+        {
+          "id": "cr_q3_b",
+          "text": "Täglich vor Schichtbeginn",
+          "correct": true
+        },
+        {
+          "id": "cr_q3_c",
+          "text": "Nur bei sichtbarer Verschmutzung", 
+          "correct": false
+        },
+        {
+          "id": "cr_q3_d",
+          "text": "Einmal pro Monat",
+          "correct": false
+        }
+      ],
+      "onWrongChallengeId": "contamination_swipe"
+    },
+    {
+      "id": "cr_q4",
+      "index": 4,
+      "kind": "standard",
+      "stem": "Was ist bei der Probenlagerung im CleanRoom zu beachten?",
+      "points": 130,
+      "options": [
+        {
+          "id": "cr_q4_a",
+          "text": "Proben können überall gelagert werden",
+          "correct": false
+        },
+        {
+          "id": "cr_q4_b",
+          "text": "Nur in designierten, sterilen Bereichen",
+          "correct": true
+        },
+        {
+          "id": "cr_q4_c",
+          "text": "Neben der Eingangstür für schnellen Zugriff",
+          "correct": false
+        },
+        {
+          "id": "cr_q4_d",
+          "text": "In der Nähe der Klimaanlage",
+          "correct": false
+        }
+      ],
+      "onWrongChallengeId": "secure_sample"
+    },
+    {
+      "id": "cr_q5",
+      "index": 5,
+      "kind": "risk",
+      "stem": "RISIKOFRAGE: Was passiert bei Kontaminationsalarm?",
+      "points": 200,
+      "options": [
+        {
+          "id": "cr_q5_a",
+          "text": "Sofortiger Stopp aller Aktivitäten",
+          "correct": true
+        },
+        {
+          "id": "cr_q5_b",
+          "text": "Weitermachen bis Schichtende",
+          "correct": false
+        },
+        {
+          "id": "cr_q5_c",
+          "text": "Nur die betroffene Person verlässt den Raum",
+          "correct": false
+        },
+        {
+          "id": "cr_q5_d",
+          "text": "Alarm ignorieren wenn nicht sicher",
+          "correct": false
+        }
+      ],
+      "onWrongChallengeId": "contamination_swipe"
+    },
+    {
+      "id": "cr_q6",
+      "index": 6,
+      "kind": "standard",
+      "stem": "Welche Temperatur ist optimal für CleanRoom-Arbeiten?",
+      "points": 110,
+      "options": [
+        {
+          "id": "cr_q6_a",
+          "text": "18-22°C mit 45-55% Luftfeuchtigkeit",
+          "correct": true
+        },
+        {
+          "id": "cr_q6_b",
+          "text": "25-30°C mit hoher Luftfeuchtigkeit",
+          "correct": false
+        },
+        {
+          "id": "cr_q6_c",
+          "text": "Unter 15°C für maximale Sterilität",
+          "correct": false
+        },
+        {
+          "id": "cr_q6_d",
+          "text": "Temperatur ist irrelevant",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "id": "cr_q7",
+      "index": 7,
+      "kind": "standard",
+      "stem": "Wie werden Geräte vor CleanRoom-Einsatz vorbereitet?",
+      "points": 140,
+      "options": [
+        {
+          "id": "cr_q7_a",
+          "text": "Nur oberflächlich abwischen",
+          "correct": false
+        },
+        {
+          "id": "cr_q7_b",
+          "text": "Vollständige Sterilisation und Validierung",
+          "correct": true
+        },
+        {
+          "id": "cr_q7_c",
+          "text": "Mit Leitungswasser spülen",
+          "correct": false
+        },
+        {
+          "id": "cr_q7_d",
+          "text": "Vorbereitung ist nicht nötig",
+          "correct": false
+        }
+      ],
+      "onWrongChallengeId": "protective_gear_order"
+    },
+    {
+      "id": "cr_q8",
+      "index": 8,
+      "kind": "standard",
+      "stem": "Was ist bei der Dokumentation im CleanRoom wichtig?",
+      "points": 160,
+      "options": [
+        {
+          "id": "cr_q8_a",
+          "text": "Nur am Ende des Tages dokumentieren",
+          "correct": false
+        },
+        {
+          "id": "cr_q8_b",
+          "text": "Echtzeitdokumentation aller kritischen Schritte",
+          "correct": true
+        },
+        {
+          "id": "cr_q8_c",
+          "text": "Dokumentation ist optional",
+          "correct": false
+        },
+        {
+          "id": "cr_q8_d",
+          "text": "Nur Probleme dokumentieren",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "id": "cr_q9",
+      "index": 9,
+      "kind": "team",
+      "stem": "TEAMFRAGE: Wie koordiniert sich das CleanRoom-Team bei kritischen Situationen?",
+      "points": 250,
+      "options": [
+        {
+          "id": "cr_q9_a",
+          "text": "Jeder handelt eigenständig",
+          "correct": false
+        },
+        {
+          "id": "cr_q9_b",
+          "text": "Klare Kommunikation über designierte Kanäle",
+          "correct": true
+        },
+        {
+          "id": "cr_q9_c",
+          "text": "Nur der Teamleiter trifft Entscheidungen",
+          "correct": false
+        },
+        {
+          "id": "cr_q9_d",
+          "text": "Kommunikation vermeiden um Kontamination zu verhindern",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "id": "cr_q10",
+      "index": 10,
+      "kind": "risk",
+      "stem": "RISIKOFRAGE: Finale Qualitätskontrolle - Wann ist eine Probe freigegeben?",
+      "points": 300,
+      "options": [
+        {
+          "id": "cr_q10_a",
+          "text": "Nach visueller Inspektion",
+          "correct": false
+        },
+        {
+          "id": "cr_q10_b",
+          "text": "Nach vollständiger Analyse und Dokumentation",
+          "correct": true
+        },
+        {
+          "id": "cr_q10_c",
+          "text": "Sofort nach der Entnahme",
+          "correct": false
+        },
+        {
+          "id": "cr_q10_d",
+          "text": "Nach Ablauf der Wartezeit",
+          "correct": false
+        }
+      ],
+      "onWrongChallengeId": "secure_sample"
+    }
+  ]
+} 

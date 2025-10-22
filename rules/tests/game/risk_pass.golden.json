@@ -1,0 +1,5 @@
+{
+  "facts": "fixtures/risk_level3_pass.json",
+  "query": "apply_multiplier(U,L,M)?",
+  "expectContains": ["\"U\":\"lea\"", "\"L\":3", "\"M\":2"]
+} 

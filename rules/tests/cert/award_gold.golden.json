@@ -1,0 +1,5 @@
+{
+  "facts": "fixtures/cert_full_pass.json",
+  "query": "award_certificate(U,C,Tier)?",
+  "expectContains": ["\"U\":\"lea\"", "\"C\":\"onboarding\"", "\"Tier\":\"gold\""]
+} 

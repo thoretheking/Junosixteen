@@ -1,0 +1,53 @@
+policy_version: v1.0
+world: legal
+mission_template:
+  lives_start: 3
+  questions:
+    standard: 7
+    risk_at: [5, 10]
+    team_at: [9]
+  challenge_fallback: true
+
+compose:
+  max_quests_per_loop: 10
+  modality_weights:
+    mcq: 0.6
+    challenge: 0.3
+    reflection: 0.1
+
+zpd:
+  start: medium
+  adjust_rules:
+    - when: score_avg > 0.82
+      do: raise
+    - when: score_avg < 0.55 or help_rate > 0.25
+      do: lower
+
+risk_guard:
+  max_attempts: 2
+  cooldown_ms: 30000
+  boss_challenge_ids:
+    q5: dsgvo_article_selection
+    q10: complex_legal_case
+
+gamification:
+  base_points:
+    standard: 200
+    risk: 400
+    team: 300
+  bonus_minigame:
+    points: 5000
+    life_plus: 1
+    life_cap: 5
+
+avatar_feedback:
+  success_style: upbeat
+  fail_style: supportive
+
+story:
+  briefing: "Willkommen im Legal Labyrinth! Navigiere durch komplexe Rechtsfälle und DSGVO-Anforderungen. Jede Entscheidung zählt!"
+  debrief_success: "Rechtlich einwandfrei! Du hast alle Fälle erfolgreich gelöst. Die Compliance ist gesichert!"
+  debrief_fail: "Gesetzesverstoß! Diesmal hat die Rechtslage gewonnen. Aber Juristen lernen ein Leben lang!"
+  cliffhanger: "Eilmeldung: Ein kritischer Datenschutzvorfall erfordert deine sofortige Aufmerksamkeit..."
+
+

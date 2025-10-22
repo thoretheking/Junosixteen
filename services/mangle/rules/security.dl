@@ -1,0 +1,93 @@
+// Fakten:
+// module_dep(Module, Lib, Version).
+// vuln(Lib, AffectedRange).
+// uses_vuln(Module, Lib) :- module_dep(Module, Lib, V), version_in_range(V, AffectedRange).
+
+flag(Module, "vulnerable") :- uses_vuln(Module, _).
+
+// Admin Security Rules
+admin_access(User, Resource) :-
+  user_role(User, "admin"),
+  resource_clearance(Resource, "admin").
+
+admin_access(User, Resource) :-
+  user_role(User, "super_admin").
+
+// Content Security
+content_approved(Module) :-
+  content_review(Module, Reviewer),
+  user_role(Reviewer, "content_admin"),
+  review_status(Module, "approved").
+
+publish_allowed(Module) :-
+  content_approved(Module),
+  not flag(Module, "vulnerable"),
+  compliance_check(Module, "passed").
+
+// User Data Access Control (DSGVO)
+data_access_allowed(RequestUser, TargetUser, DataType) :-
+  RequestUser = TargetUser,
+  data_type(DataType, "personal").
+
+data_access_allowed(RequestUser, TargetUser, DataType) :-
+  user_role(RequestUser, "admin"),
+  data_type(DataType, "statistical").
+
+data_access_denied(RequestUser, TargetUser, DataType) :-
+  not data_access_allowed(RequestUser, TargetUser, DataType).
+
+// Audit Trail Requirements
+audit_required(Action) :-
+  action_type(Action, "certificate_issue").
+
+audit_required(Action) :-
+  action_type(Action, "level_reset").
+
+audit_required(Action) :-
+  action_type(Action, "admin_access").
+
+// Rate Limiting Rules
+rate_limit_exceeded(User, Action) :-
+  action_count(User, Action, Count, TimeWindow),
+  action_limit(Action, MaxCount, TimeWindow),
+  Count > MaxCount.
+
+block_action(User, Action) :-
+  rate_limit_exceeded(User, Action).
+
+// Suspicious Activity Detection
+suspicious_activity(User, "rapid_completion") :-
+  completion_time(User, Topic, TimeMin),
+  minimum_expected_time(Topic, MinTime),
+  TimeMin < MinTime * 0.3.
+
+suspicious_activity(User, "impossible_score") :-
+  user_score(User, Topic, Score),
+  theoretical_max(Topic, MaxScore),
+  Score > MaxScore.
+
+investigate_user(User) :-
+  suspicious_activity(User, _).
+
+// IP-based Restrictions
+location_allowed(User, Country) :-
+  user_clearance(User, "global").
+
+location_allowed(User, Country) :-
+  user_country(User, Country).
+
+access_blocked(User, "geo_restriction") :-
+  user_ip_country(User, Country),
+  not location_allowed(User, Country).
+
+// Session Security
+session_valid(User, SessionId) :-
+  active_session(User, SessionId),
+  session_created(SessionId, CreatedTime),
+  now(CurrentTime),
+  SessionAge = CurrentTime - CreatedTime,
+  session_max_age(MaxAge),
+  SessionAge <= MaxAge.
+
+force_logout(User, SessionId) :-
+  not session_valid(User, SessionId). 

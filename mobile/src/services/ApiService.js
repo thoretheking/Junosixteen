@@ -312,6 +312,133 @@ class ApiService {
   }
 
   // ===================================================
+  // 🎯 HRM/TRM SYSTEM - ADVENTURE ENGINE
+  // ===================================================
+
+  /**
+   * HRM: Plan a mission
+   */
+  async hrmPlan(userId, missionId, world, context = {}) {
+    return await this.request('/hrm/plan', {
+      method: 'POST',
+      body: {
+        userId,
+        goal: { missionId, world },
+        context
+      }
+    });
+  }
+
+  /**
+   * HRM: Update hypothesis with signals
+   */
+  async hrmUpdate(hypothesisId, signals) {
+    return await this.request('/hrm/update', {
+      method: 'POST',
+      body: { hypothesisId, signals }
+    });
+  }
+
+  /**
+   * TRM: Evaluate answer
+   */
+  async trmEval(evalRequest) {
+    return await this.request('/trm/eval', {
+      method: 'POST',
+      body: evalRequest
+    });
+  }
+
+  /**
+   * TRM: Get mission statistics
+   */
+  async trmStats(userId, missionId) {
+    return await this.request(`/trm/stats/${userId}/${missionId}`);
+  }
+
+  /**
+   * Get user profile
+   */
+  async getProfile(userId) {
+    return await this.request(`/profile/${userId}`);
+  }
+
+  /**
+   * Update user profile
+   */
+  async updateProfile(userId, updates) {
+    return await this.request(`/profile/${userId}`, {
+      method: 'PUT',
+      body: updates
+    });
+  }
+
+  /**
+   * Get user mission history
+   */
+  async getProfileHistory(userId, limit = 10) {
+    return await this.request(`/profile/${userId}/history?limit=${limit}`);
+  }
+
+  /**
+   * Get user badges
+   */
+  async getProfileBadges(userId) {
+    return await this.request(`/profile/${userId}/badges`);
+  }
+
+  /**
+   * Log telemetry event
+   */
+  async logEvent(event) {
+    return await this.request('/telemetry/event', {
+      method: 'POST',
+      body: event
+    });
+  }
+
+  /**
+   * Log batch telemetry events
+   */
+  async logEventBatch(events) {
+    return await this.request('/telemetry/batch', {
+      method: 'POST',
+      body: { events }
+    });
+  }
+
+  /**
+   * Get user telemetry events
+   */
+  async getTelemetryEvents(userId, limit = 100) {
+    return await this.request(`/telemetry/events/${userId}?limit=${limit}`);
+  }
+
+  /**
+   * Get user telemetry analytics
+   */
+  async getTelemetryAnalytics(userId) {
+    return await this.request(`/telemetry/analytics/${userId}`);
+  }
+
+  /**
+   * Generic POST request
+   */
+  async post(endpoint, body) {
+    return await this.request(endpoint, {
+      method: 'POST',
+      body
+    });
+  }
+
+  /**
+   * Generic GET request
+   */
+  async get(endpoint) {
+    return await this.request(endpoint);
+  }
+
+  // ===================================================
   // 📱 OFFLINE SUPPORT
   // ===================================================
 
@@ -383,4 +510,5 @@ class ApiService {
 // ===================================================
 
 const apiService = new ApiService();
-export default apiService; 
+export default apiService;
+export const api = apiService; // Named export for compatibility 

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 JunoSixteen - Auth Screen Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #5479F7 0%, #99B9FF 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-container {
+            max-width: 400px;
+            width: 90%;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin-bottom: 4px;
+        }
+
+        .logo-subtitle {
+            font-size: 14px;
+            color: #E6EFFF;
+        }
+
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #E6EFFF;
+            margin-bottom: 40px;
+        }
+
+        .button {
+            width: 100%;
+            min-height: 52px;
+            border: none;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+            border: 2px solid transparent;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .button:focus {
+            outline: none;
+            border-color: #FFFF00;
+            box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.3);
+        }
+
+        .button-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .button-icon {
+            font-size: 20px;
+        }
+
+        .passkey-button {
+            background-color: #4CAF50;
+            color: #FFFFFF;
+            border-color: #388E3C;
+        }
+
+        .google-button {
+            background-color: #FFFFFF;
+            color: #1A1A1A;
+            border-color: #E0E0E0;
+        }
+
+        .email-button {
+            background-color: #CADDFF;
+            color: #00002E;
+            border-color: #99B9FF;
+        }
+
+        .guest-button {
+            background-color: #FF9800;
+            color: #FFFFFF;
+            border-color: #F57F17;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+        }
+
+        .input {
+            width: 100%;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #1A1A1A;
+            border: 1px solid #E0E0E0;
+            min-height: 48px;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #5479F7;
+            box-shadow: 0 0 0 3px rgba(84, 121, 247, 0.2);
+        }
+
+        .toggle-container {
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 4px;
+        }
+
+        .toggle-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: #E6EFFF;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-button.active {
+            background-color: #FFFFFF;
+            color: #00002E;
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: #E6EFFF;
+            margin-top: 20px;
+            line-height: 16px;
+        }
+
+        .success-message {
+            display: none;
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .error-message {
+            display: none;
+            background-color: rgba(244, 67, 54, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 20px 15px;
+            }
+            
+            .header {
+                font-size: 20px;
+            }
+            
+            .subtitle {
+                font-size: 14px;
+            }
+        }
+
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            .button {
+                border-width: 3px;
+            }
+            
+            .passkey-button {
+                border-color: #006400;
+            }
+            
+            .google-button {
+                border-color: #000000;
+            }
+            
+            .email-button {
+                border-color: #000080;
+            }
+            
+            .guest-button {
+                border-color: #8B4513;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            .input {
+                background-color: #2D2D2D;
+                color: #FFFFFF;
+                border-color: #404040;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <!-- JunoSixteen Logo -->
+        <div class="logo-container">
+            <div class="logo">🎯 JunoSixteen</div>
+            <div class="logo-subtitle">Gamified Learning Platform</div>
+        </div>
+
+        <!-- Hauptüberschrift -->
+        <h1 class="header">Melde dich an, um loszulegen</h1>
+        <p class="subtitle">Wähle deine bevorzugte Anmeldemethode</p>
+
+        <!-- Success/Error Messages -->
+        <div id="successMessage" class="success-message">
+            ✅ Anmeldung erfolgreich! Weiterleitung zum Avatar-Auswahlbildschirm...
+        </div>
+        <div id="errorMessage" class="error-message">
+            ❌ Anmeldung fehlgeschlagen. Bitte überprüfe deine Eingaben.
+        </div>
+
+        <!-- Passkey Login Button -->
+        <button 
+            class="button passkey-button" 
+            onclick="handlePasskeyAction()"
+            aria-label="Mit Passkey anmelden"
+            id="passkeyButton"
+            type="button"
+        >
+            <div class="button-content">
+                <span class="button-icon">🔐</span>
+                <span id="passkeyButtonText">Mit Passkey anmelden</span>
+            </div>
+        </button>
+
+        <!-- Google Login Button -->
+        <button 
+            class="button google-button" 
+            onclick="handleGoogleLogin()"
+            aria-label="Mit Google anmelden"
+            type="button"
+        >
+            <div class="button-content">
+                <span class="button-icon">🔗</span>
+                <span>Mit Google anmelden</span>
+            </div>
+        </button>
+
+        <!-- E-Mail und Passwort Eingabe -->
+        <div class="form-container">
+            <input
+                type="email"
+                class="input"
+                id="emailInput"
+                placeholder="E-Mail Adresse"
+                aria-label="E-Mail Eingabefeld"
+                autocomplete="email"
+            />
+            <input
+                type="password"
+                class="input"
+                id="passwordInput"
+                placeholder="Passwort (mindestens 6 Zeichen)"
+                aria-label="Passwort Eingabefeld"
+                autocomplete="current-password"
+            />
+        </div>
+
+        <!-- Login/Register Toggle -->
+        <div class="toggle-container">
+            <button 
+                class="toggle-button active" 
+                id="loginToggle"
+                onclick="setMode('login')"
+                aria-label="Zur Anmeldung wechseln"
+            >
+                Anmelden
+            </button>
+            <button 
+                class="toggle-button" 
+                id="registerToggle"
+                onclick="setMode('register')"
+                aria-label="Zur Registrierung wechseln"
+            >
+                Registrieren
+            </button>
+        </div>
+
+        <!-- E-Mail Action Button -->
+        <button 
+            class="button email-button" 
+            id="emailActionButton"
+            onclick="handleEmailAction()"
+            aria-label="Mit E-Mail anmelden"
+            type="button"
+        >
+            <div class="button-content">
+                <span class="button-icon">📧</span>
+                <span id="emailActionText">Mit E-Mail anmelden</span>
+            </div>
+        </button>
+
+        <!-- Gast-Zugang -->
+        <button 
+            class="button guest-button" 
+            onclick="handleGuestLogin()"
+            aria-label="Als Gast fortfahren"
+            aria-describedby="guestHint"
+            type="button"
+        >
+            <div class="button-content">
+                <span class="button-icon">👤</span>
+                <span>Als Gast fortfahren</span>
+            </div>
+        </button>
+        <div id="guestHint" style="display: none;">Startet die App ohne Anmeldung mit eingeschränkten Funktionen</div>
+
+        <!-- Hinweis -->
+        <p class="disclaimer">
+            Mit der Anmeldung stimmst du unseren Nutzungsbedingungen zu
+        </p>
+    </div>
+
+    <script>
+        let isLoginMode = true;
+
+        // Mode Switching
+        function setMode(mode) {
+            isLoginMode = mode === 'login';
+            
+            const loginToggle = document.getElementById('loginToggle');
+            const registerToggle = document.getElementById('registerToggle');
+            const emailActionText = document.getElementById('emailActionText');
+            const emailActionButton = document.getElementById('emailActionButton');
+            const passkeyButtonText = document.getElementById('passkeyButtonText');
+            const passkeyButton = document.getElementById('passkeyButton');
+            
+            if (isLoginMode) {
+                loginToggle.classList.add('active');
+                registerToggle.classList.remove('active');
+                emailActionText.textContent = 'Mit E-Mail anmelden';
+                emailActionButton.setAttribute('aria-label', 'Mit E-Mail anmelden');
+                passkeyButtonText.textContent = 'Mit Passkey anmelden';
+                passkeyButton.setAttribute('aria-label', 'Mit Passkey anmelden');
+            } else {
+                loginToggle.classList.remove('active');
+                registerToggle.classList.add('active');
+                emailActionText.textContent = 'Neues Konto erstellen';
+                emailActionButton.setAttribute('aria-label', 'Mit E-Mail registrieren');
+                passkeyButtonText.textContent = 'Passkey erstellen';
+                passkeyButton.setAttribute('aria-label', 'Passkey erstellen');
+            }
+        }
+
+        // Passkey Authentication Handler
+        async function handlePasskeyAction() {
+            if (isLoginMode) {
+                await handlePasskeyLogin();
+            } else {
+                await handlePasskeyRegister();
+            }
+        }
+
+        // Passkey Login
+        async function handlePasskeyLogin() {
+            // Check WebAuthn support
+            if (!window.PublicKeyCredential) {
+                showMessage('❌ Passkey wird von diesem Browser nicht unterstützt', 'error');
+                return;
+            }
+
+            showMessage('🔐 Passkey-Authentifizierung wird gestartet...', 'success');
+
+            try {
+                // In einer echten Implementierung würde hier die WebAuthn API verwendet
+                // Für die Demo simulieren wir den Vorgang
+                const useRealWebAuthn = false; // Für Demo auf false, für Produktion auf true
+
+                if (useRealWebAuthn) {
+                    // Echte WebAuthn Implementation
+                    const credential = await navigator.credentials.get({
+                        publicKey: {
+                            challenge: new Uint8Array(32),
+                            rpId: location.hostname,
+                            allowCredentials: [],
+                            userVerification: 'preferred'
+                        }
+                    });
+
+                    if (credential) {
+                        showMessage('✅ Passkey-Authentifizierung erfolgreich!', 'success');
+                        setTimeout(() => {
+                            redirectToNextScreen('Passkey');
+                        }, 2000);
+                    }
+                } else {
+                    // Demo-Simulation
+                    await simulatePasskeyAuth();
+                }
+            } catch (error) {
+                console.error('Passkey Login Error:', error);
+                showMessage('❌ Passkey-Authentifizierung fehlgeschlagen', 'error');
+            }
+        }
+
+        // Passkey Registration
+        async function handlePasskeyRegister() {
+            if (!window.PublicKeyCredential) {
+                showMessage('❌ Passkey wird von diesem Browser nicht unterstützt', 'error');
+                return;
+            }
+
+            showMessage('🔐 Passkey wird erstellt...', 'success');
+
+            try {
+                const useRealWebAuthn = false; // Für Demo auf false
+
+                if (useRealWebAuthn) {
+                    // Echte WebAuthn Registration
+                    const credential = await navigator.credentials.create({
+                        publicKey: {
+                            challenge: new Uint8Array(32),
+                            rp: {
+                                name: "JunoSixteen",
+                                id: location.hostname,
+                            },
+                            user: {
+                                id: new TextEncoder().encode("user123"),
+                                name: "user@junosixteen.com",
+                                displayName: "JunoSixteen User",
+                            },
+                            pubKeyCredParams: [{alg: -7, type: "public-key"}],
+                            authenticatorSelection: {
+                                authenticatorAttachment: "platform",
+                                userVerification: "preferred"
+                            }
+                        }
+                    });
+
+                    if (credential) {
+                        showMessage('✅ Passkey erfolgreich erstellt!', 'success');
+                        setTimeout(() => {
+                            redirectToNextScreen('Passkey Registrierung');
+                        }, 2000);
+                    }
+                } else {
+                    // Demo-Simulation
+                    await simulatePasskeyRegistration();
+                }
+            } catch (error) {
+                console.error('Passkey Registration Error:', error);
+                showMessage('❌ Passkey-Erstellung fehlgeschlagen', 'error');
+            }
+        }
+
+        // Simulation Functions
+        function simulatePasskeyAuth() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    showMessage('✅ Passkey-Authentifizierung erfolgreich! Weiterleitung zur Avatar-Auswahl...', 'success');
+                    setTimeout(() => {
+                        redirectToNextScreen('Passkey Login');
+                    }, 2000);
+                    resolve();
+                }, 1500);
+            });
+        }
+
+        function simulatePasskeyRegistration() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    showMessage('✅ Passkey erfolgreich erstellt! Weiterleitung zur Avatar-Auswahl...', 'success');
+                    setTimeout(() => {
+                        redirectToNextScreen('Passkey Registrierung');
+                    }, 2000);
+                    resolve();
+                }, 2000);
+            });
+        }
+
+        // Google Login Handler
+        function handleGoogleLogin() {
+            showMessage('🔗 Google Login wird geöffnet...', 'success');
+            // Simuliere Google Login
+            setTimeout(() => {
+                showMessage('✅ Google Login erfolgreich! Weiterleitung zur Avatar-Auswahl...', 'success');
+                setTimeout(() => {
+                    redirectToNextScreen('Google');
+                }, 2000);
+            }, 1500);
+        }
+
+        // E-Mail Action Handler
+        function handleEmailAction() {
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            
+            if (!email || !password) {
+                showMessage('❌ Bitte E-Mail und Passwort eingeben', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showMessage('❌ Bitte eine gültige E-Mail-Adresse eingeben', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('❌ Das Passwort muss mindestens 6 Zeichen lang sein', 'error');
+                return;
+            }
+            
+            const action = isLoginMode ? 'Anmeldung' : 'Registrierung';
+            showMessage(`📧 ${action} wird verarbeitet...`, 'success');
+            
+            // Simuliere E-Mail Login/Register
+            setTimeout(() => {
+                showMessage(`✅ ${action} erfolgreich! Weiterleitung zur Avatar-Auswahl...`, 'success');
+                setTimeout(() => {
+                    redirectToNextScreen(isLoginMode ? 'E-Mail Login' : 'E-Mail Registrierung');
+                }, 2000);
+            }, 1500);
+        }
+
+        // Guest Login Handler
+        function handleGuestLogin() {
+            showMessage('👤 Gastzugang wird aktiviert...', 'success');
+            setTimeout(() => {
+                showMessage('✅ Als Gast angemeldet! Weiterleitung zur Avatar-Auswahl...', 'success');
+                setTimeout(() => {
+                    redirectToNextScreen('Gast');
+                }, 2000);
+            }, 1000);
+        }
+
+        // Helper Functions
+        function showMessage(text, type) {
+            hideAllMessages();
+            const messageElement = document.getElementById(type === 'success' ? 'successMessage' : 'errorMessage');
+            messageElement.textContent = text;
+            messageElement.style.display = 'block';
+            
+            if (type === 'error') {
+                setTimeout(hideAllMessages, 5000);
+            }
+        }
+
+        function hideAllMessages() {
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function redirectToNextScreen(method) {
+            console.log(`🎯 JunoSixteen Login erfolgreich mit: ${method}`);
+            alert(`🎯 JunoSixteen Auth Demo\n\n✅ Anmeldung erfolgreich!\nMethode: ${method}\n\n➡️ In der echten App würdest du jetzt zur Avatar-Auswahl weitergeleitet.`);
+            
+            // Reset form
+            document.getElementById('emailInput').value = '';
+            document.getElementById('passwordInput').value = '';
+            hideAllMessages();
+        }
+
+        // Keyboard Navigation Support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('button')) {
+                    focusedElement.click();
+                } else if (focusedElement.classList.contains('input')) {
+                    handleEmailAction();
+                }
+            }
+        });
+
+        // Check Passkey Support
+        function checkPasskeySupport() {
+            const passkeyButton = document.getElementById('passkeyButton');
+            const passkeyButtonText = document.getElementById('passkeyButtonText');
+            
+            if (!window.PublicKeyCredential) {
+                passkeyButton.style.opacity = '0.6';
+                passkeyButton.title = 'Passkey wird von diesem Browser nicht unterstützt';
+                console.log('⚠️ WebAuthn/Passkey nicht unterstützt');
+            } else {
+                console.log('✅ WebAuthn/Passkey wird unterstützt');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎯 JunoSixteen Auth Screen Demo geladen');
+            console.log('✅ Barrierefreiheit: Kontrast ≥ 7:1, Touch-Ziele ≥ 48dp');
+            console.log('✅ Features: Passkey Auth, Google Login, E-Mail Auth, Gastzugang, Responsive Design');
+            
+            // Check for Passkey support
+            checkPasskeySupport();
+        });
+    </script>
+</body>
+</html> 

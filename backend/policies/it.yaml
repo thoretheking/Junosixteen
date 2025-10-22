@@ -1,0 +1,53 @@
+policy_version: v1.0
+world: it
+mission_template:
+  lives_start: 3
+  questions:
+    standard: 7
+    risk_at: [5, 10]
+    team_at: [9]
+  challenge_fallback: true
+
+compose:
+  max_quests_per_loop: 10
+  modality_weights:
+    mcq: 0.6
+    challenge: 0.3
+    reflection: 0.1
+
+zpd:
+  start: medium
+  adjust_rules:
+    - when: score_avg > 0.82
+      do: raise
+    - when: score_avg < 0.55 or help_rate > 0.25
+      do: lower
+
+risk_guard:
+  max_attempts: 2
+  cooldown_ms: 30000
+  boss_challenge_ids:
+    q5: phishing_detect
+    q10: security_breach_response
+
+gamification:
+  base_points:
+    standard: 200
+    risk: 400
+    team: 300
+  bonus_minigame:
+    points: 5000
+    life_plus: 1
+    life_cap: 5
+
+avatar_feedback:
+  success_style: upbeat
+  fail_style: supportive
+
+story:
+  briefing: "Cyber Defense Initiative aktiviert! Hacker greifen das Netzwerk an. Deine Mission: Verteidigen, analysieren, abwehren!"
+  debrief_success: "System gesichert! Du hast alle Angriffe erfolgreich abgewehrt. Das Netzwerk ist wieder sicher!"
+  debrief_fail: "Security Breach! Diesmal haben die Hacker gewonnen. Aber du lernst aus jedem Angriff!"
+  cliffhanger: "WARNUNG: Ein Zero-Day-Exploit wurde entdeckt. Bist du bereit für die nächste Herausforderung?"
+
+

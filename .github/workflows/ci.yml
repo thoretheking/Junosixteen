@@ -1,0 +1,67 @@
+name: ci
+on: [push, pull_request]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Backend
+      - uses: actions/setup-node@v4
+        with: 
+          node-version: '20'
+      - name: Install & test backend
+        run: |
+          cd backend
+          npm ci || npm i
+          npm test -- --ci
+
+      # Go Mangle Service
+      - uses: actions/setup-go@v5
+        with: 
+          go-version: '1.22'
+      - name: Build mangle-svc
+        run: |
+          cd services/mangle
+          go mod tidy
+          go build -o mangle-svc
+
+      # Docker build (optional push via env)
+      - name: Docker build
+        run: |
+          docker build -t junosixteen/mangle-svc:ci services/mangle
+          docker build -t junosixteen/backend:ci backend
+
+  policy-tests:
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Setup Go & Node
+      - uses: actions/setup-go@v5
+        with: { go-version: '1.22' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      
+      # Start Mangle Service
+      - name: Start Mangle Service
+        run: |
+          cd services/mangle
+          go mod tidy
+          MANGLE_FAKE=1 go run . &
+          sleep 2
+          
+      # Run Policy Tests
+      - name: Run Policy Golden Tests
+        run: |
+          cd backend
+          npm ci || npm i
+          npm run test:mangle
+          
+      # Health Check
+      - name: Health Check Services
+        run: |
+          curl -f http://localhost:7070/health
+          echo "✅ Mangle Service healthy" 

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍿 JunoSixteen Wissenssnacks - Microlearning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .time-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .time-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .time-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .time-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .time-label {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #667eea;
+        }
+
+        .time-duration {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .snacks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .snack-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .snack-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .snack-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .snack-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .snack-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            flex: 1;
+        }
+
+        .snack-duration {
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .snack-bereich {
+            background: #667eea;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .snack-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .snack-preview {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .preview-badge {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 5px 8px;
+            border-radius: 8px;
+            font-size: 0.7em;
+            color: #495057;
+        }
+
+        .completed {
+            opacity: 0.7;
+            position: relative;
+        }
+
+        .completed::after {
+            content: '✓ Abgeschlossen';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #10b981;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.7em;
+        }
+
+        .snack-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .snack-detail.active {
+            display: flex;
+        }
+
+        .detail-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+
+        .detail-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .detail-subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .detail-body {
+            padding: 30px;
+        }
+
+        .abschnitt {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .abschnitt-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .abschnitt-text {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .reflexion-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .reflexion-question {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .reflexion-input {
+            width: 100%;
+            min-height: 100px;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1em;
+            resize: vertical;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-success {
+            background: #10b981;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .stats-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .snacks-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🍿 Wissenssnacks</h1>
+        <p>Microlearning für zwischendurch - Lernen in deinem Tempo</p>
+    </div>
+
+    <div class="container">
+        <!-- Statistiken -->
+        <div class="stats-section">
+            <h2 style="margin-bottom: 20px; color: #667eea;">📊 Deine Lernstatistiken</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="completedSnacks">3</span>
+                    <span class="stat-label">Abgeschlossen</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalMinutes">8</span>
+                    <span class="stat-label">Minuten gelernt</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalXP">245</span>
+                    <span class="stat-label">XP gesammelt</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="streak">5</span>
+                    <span class="stat-label">Tage Streak</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zeitkategorien -->
+        <h2 style="color: white; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">⏰ Lernzeiten</h2>
+        <div class="time-categories">
+            <div class="time-card" onclick="filterByTime('QUICK')">
+                <div class="time-icon">⚡</div>
+                <div class="time-label">QUICK</div>
+                <div class="time-duration">1 Minute</div>
+            </div>
+            <div class="time-card" onclick="filterByTime('SHORT')">
+                <div class="time-icon">🎯</div>
+                <div class="time-label">SHORT</div>
+                <div class="time-duration">3 Minuten</div>
+            </div>
+            <div class="time-card" onclick="filterByTime('MEDIUM')">
+                <div class="time-icon">📚</div>
+                <div class="time-label">MEDIUM</div>
+                <div class="time-duration">5 Minuten</div>
+            </div>
+            <div class="time-card" onclick="filterByTime('DEEP')">
+                <div class="time-icon">🧠</div>
+                <div class="time-label">DEEP</div>
+                <div class="time-duration">10 Minuten</div>
+            </div>
+        </div>
+
+        <!-- Wissenssnacks -->
+        <h2 style="color: white; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🎓 Verfügbare Wissenssnacks</h2>
+        <div class="snacks-grid" id="snacksGrid">
+            <!-- Snacks werden hier eingefügt -->
+        </div>
+    </div>
+
+    <!-- Snack Detail Modal -->
+    <div class="snack-detail" id="snackDetail">
+        <div class="detail-content">
+            <button class="close-btn" onclick="closeSnackDetail()">×</button>
+            <div class="detail-header">
+                <div class="detail-title" id="detailTitle">Ethik in 90 Sekunden</div>
+                <div class="detail-subtitle" id="detailSubtitle">Die Kunst des richtigen Handelns</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="detail-body">
+                <div id="abschnitteContainer">
+                    <!-- Abschnitte werden hier eingefügt -->
+                </div>
+                
+                <div class="reflexion-section">
+                    <div class="reflexion-question" id="reflexionQuestion">
+                        Wo triffst du täglich ethische Entscheidungen?
+                    </div>
+                    <textarea class="reflexion-input" id="reflexionInput" placeholder="Deine Gedanken und Reflexionen..."></textarea>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn btn-secondary" onclick="prevAbschnitt()">← Zurück</button>
+                <span id="progressText">1 von 3</span>
+                <button class="btn" id="nextBtn" onclick="nextAbschnitt()">Weiter →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Wissenssnacks Daten
+        const wissenssnacks = {
+            'ethik_basics': {
+                id: 'ethik_basics',
+                bereich: 'Ethik',
+                dauer: 90,
+                completed: false,
+                content: {
+                    titel: 'Ethik in 90 Sekunden',
+                    untertitel: 'Die Kunst des richtigen Handelns',
+                    abschnitte: [
+                        {
+                            typ: 'definition',
+                            text: 'Ethik fragt: "Was ist das Richtige?" Sie hilft uns dabei, gute Entscheidungen zu treffen.',
+                            icon: '❓'
+                        },
+                        {
+                            typ: 'beispiel',
+                            text: 'Beispiel: Darf KI über Menschen entscheiden? Ethik gibt uns Werkzeuge für diese Bewertung.',
+                            icon: '🤖'
+                        },
+                        {
+                            typ: 'anwendung',
+                            text: 'Im Beruf: Balance zwischen Ehrlichkeit und Diplomatie. Wie sagst du schwierige Wahrheiten?',
+                            icon: '💼'
+                        }
+                    ],
+                    reflexion: 'Wo triffst du täglich ethische Entscheidungen?'
+                }
+            },
+            'bias_types': {
+                id: 'bias_types',
+                bereich: 'KI & Ethik',
+                dauer: 120,
+                completed: true,
+                content: {
+                    titel: 'Bias erkennen & vermeiden',
+                    untertitel: 'Unsere mentalen Abkürzungen verstehen',
+                    abschnitte: [
+                        {
+                            typ: 'typ1',
+                            text: '1. Bestätigungsfehler: Wir suchen bevorzugt Informationen, die unsere Meinung bestätigen.',
+                            icon: '👁️'
+                        },
+                        {
+                            typ: 'typ2',
+                            text: '2. Ankereffekt: Die erste Information beeinflusst alle folgenden Entscheidungen stark.',
+                            icon: '⚓'
+                        },
+                        {
+                            typ: 'typ3',
+                            text: '3. Verfügbarkeitsheuristik: Was wir leicht erinnern, halten wir für wahrscheinlicher.',
+                            icon: '📚'
+                        }
+                    ],
+                    reflexion: 'Welcher Bias beeinflusst dich am meisten im Beruf?'
+                }
+            },
+            'pflege_basics': {
+                id: 'pflege_basics',
+                bereich: 'Pflegeethik',
+                dauer: 180,
+                completed: false,
+                content: {
+                    titel: 'Pflegeethik kompakt',
+                    untertitel: 'Ethische Grundlagen in der Pflege',
+                    abschnitte: [
+                        {
+                            typ: 'grundregel',
+                            text: 'Autonomie: Respektiere die Selbstbestimmung jedes Patienten, auch bei schwierigen Entscheidungen.',
+                            icon: '🤝'
+                        },
+                        {
+                            typ: 'qualitaet',
+                            text: 'Fürsorge: Handle immer im besten Interesse des Patienten, auch wenn es unbequem ist.',
+                            icon: '💝'
+                        },
+                        {
+                            typ: 'schutz',
+                            text: 'Schadensvermeidung: "Primum non nocere" - Vor allem: Schade nicht. Prüfe Risiken vor Handlungen.',
+                            icon: '🛡️'
+                        }
+                    ],
+                    reflexion: 'Wie balancierst du Patientenwünsche mit medizinischen Notwendigkeiten?'
+                }
+            },
+            'ki_ethics': {
+                id: 'ki_ethics',
+                bereich: 'KI & Ethik',
+                dauer: 240,
+                completed: false,
+                content: {
+                    titel: 'KI-Ethik Basics',
+                    untertitel: 'Moralische Fragen der Digitalisierung',
+                    abschnitte: [
+                        {
+                            typ: 'transparenz',
+                            text: 'Transparenz: KI-Entscheidungen müssen nachvollziehbar sein. "Black Box" ist ethisch problematisch.',
+                            icon: '🔍'
+                        },
+                        {
+                            typ: 'fairness',
+                            text: 'Fairness: Algorithmen dürfen nicht diskriminieren. Teste deine KI auf verschiedene Gruppen.',
+                            icon: '⚖️'
+                        },
+                        {
+                            typ: 'verantwortung',
+                            text: 'Verantwortung: Wer haftet für KI-Fehler? Mensch bleibt verantwortlich für KI-Entscheidungen.',
+                            icon: '🎯'
+                        }
+                    ],
+                    reflexion: 'Wie stellst du sicher, dass deine KI-Nutzung ethisch vertretbar ist?'
+                }
+            }
+        };
+
+        let currentSnack = null;
+        let currentAbschnitt = 0;
+
+        // Initialisierung
+        function init() {
+            renderSnacks();
+            updateStats();
+        }
+
+        // Snacks rendern
+        function renderSnacks() {
+            const grid = document.getElementById('snacksGrid');
+            grid.innerHTML = '';
+
+            Object.values(wissenssnacks).forEach(snack => {
+                const card = createSnackCard(snack);
+                grid.appendChild(card);
+            });
+        }
+
+        // Snack Card erstellen
+        function createSnackCard(snack) {
+            const card = document.createElement('div');
+            card.className = `snack-card ${snack.completed ? 'completed' : ''}`;
+            card.onclick = () => openSnackDetail(snack);
+
+            const duration = `${Math.floor(snack.dauer / 60)}:${(snack.dauer % 60).toString().padStart(2, '0')} min`;
+            
+            card.innerHTML = `
+                <div class="snack-header">
+                    <div class="snack-title">${snack.content.titel}</div>
+                    <div class="snack-duration">${duration}</div>
+                </div>
+                <div class="snack-bereich">${snack.bereich}</div>
+                <div class="snack-description">${snack.content.untertitel}</div>
+                <div class="snack-preview">
+                    ${snack.content.abschnitte.map((abschnitt, index) => 
+                        `<span class="preview-badge">${abschnitt.icon} ${abschnitt.typ}</span>`
+                    ).join('')}
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Snack Detail öffnen
+        function openSnackDetail(snack) {
+            currentSnack = snack;
+            currentAbschnitt = 0;
+
+            document.getElementById('detailTitle').textContent = snack.content.titel;
+            document.getElementById('detailSubtitle').textContent = snack.content.untertitel;
+            document.getElementById('reflexionQuestion').textContent = snack.content.reflexion;
+
+            renderAbschnitte();
+            updateProgress();
+            document.getElementById('snackDetail').classList.add('active');
+        }
+
+        // Abschnitte rendern
+        function renderAbschnitte() {
+            const container = document.getElementById('abschnitteContainer');
+            container.innerHTML = '';
+
+            const abschnitt = currentSnack.content.abschnitte[currentAbschnitt];
+            const div = document.createElement('div');
+            div.className = 'abschnitt';
+            div.innerHTML = `
+                <span class="abschnitt-icon">${abschnitt.icon}</span>
+                <div class="abschnitt-text">${abschnitt.text}</div>
+            `;
+            container.appendChild(div);
+        }
+
+        // Fortschritt aktualisieren
+        function updateProgress() {
+            const progress = ((currentAbschnitt + 1) / currentSnack.content.abschnitte.length) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = 
+                `${currentAbschnitt + 1} von ${currentSnack.content.abschnitte.length}`;
+
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentAbschnitt === currentSnack.content.abschnitte.length - 1) {
+                nextBtn.textContent = 'Abschließen';
+                nextBtn.className = 'btn btn-success';
+                nextBtn.onclick = completeSnack;
+            } else {
+                nextBtn.textContent = 'Weiter →';
+                nextBtn.className = 'btn';
+                nextBtn.onclick = nextAbschnitt;
+            }
+        }
+
+        // Nächster Abschnitt
+        function nextAbschnitt() {
+            if (currentAbschnitt < currentSnack.content.abschnitte.length - 1) {
+                currentAbschnitt++;
+                renderAbschnitte();
+                updateProgress();
+            }
+        }
+
+        // Vorheriger Abschnitt
+        function prevAbschnitt() {
+            if (currentAbschnitt > 0) {
+                currentAbschnitt--;
+                renderAbschnitte();
+                updateProgress();
+            }
+        }
+
+        // Snack abschließen
+        function completeSnack() {
+            const reflexionText = document.getElementById('reflexionInput').value;
+            
+            if (reflexionText.length < 10) {
+                alert('Bitte nimm dir einen Moment für die Reflexion (mindestens 10 Zeichen)');
+                return;
+            }
+
+            // Markiere als abgeschlossen
+            currentSnack.completed = true;
+            
+            // Belohnung berechnen
+            const xpReward = Math.floor(currentSnack.dauer / 30) * 10; // 10 XP pro 30 Sekunden
+            const timeBonus = currentSnack.dauer < 120 ? 20 : 10; // Bonus für kurze Snacks
+            
+            alert(`🎉 Wissenssnack abgeschlossen!\n\n` +
+                  `XP erhalten: ${xpReward + timeBonus}\n` +
+                  `Zeit-Bonus: +${timeBonus} XP\n\n` +
+                  `Deine Reflexion wurde gespeichert!`);
+
+            // UI aktualisieren
+            updateStats();
+            closeSnackDetail();
+            renderSnacks();
+        }
+
+        // Snack Detail schließen
+        function closeSnackDetail() {
+            document.getElementById('snackDetail').classList.remove('active');
+            document.getElementById('reflexionInput').value = '';
+        }
+
+        // Statistiken aktualisieren
+        function updateStats() {
+            const completed = Object.values(wissenssnacks).filter(s => s.completed).length;
+            const totalMinutes = Object.values(wissenssnacks)
+                .filter(s => s.completed)
+                .reduce((sum, s) => sum + Math.floor(s.dauer / 60), 0);
+            const totalXP = completed * 50; // Vereinfachte XP-Berechnung
+            
+            document.getElementById('completedSnacks').textContent = completed;
+            document.getElementById('totalMinutes').textContent = totalMinutes;
+            document.getElementById('totalXP').textContent = totalXP;
+        }
+
+        // Filter nach Zeit
+        function filterByTime(timeCategory) {
+            const timeRanges = {
+                'QUICK': [0, 90],
+                'SHORT': [90, 240],
+                'MEDIUM': [240, 360],
+                'DEEP': [360, 999]
+            };
+            
+            const [min, max] = timeRanges[timeCategory];
+            const filtered = Object.values(wissenssnacks).filter(s => 
+                s.dauer >= min && s.dauer < max
+            );
+
+            const grid = document.getElementById('snacksGrid');
+            grid.innerHTML = '';
+            
+            filtered.forEach(snack => {
+                const card = createSnackCard(snack);
+                grid.appendChild(card);
+            });
+
+            // Reset Button hinzufügen
+            if (filtered.length < Object.keys(wissenssnacks).length) {
+                const resetBtn = document.createElement('div');
+                resetBtn.className = 'snack-card';
+                resetBtn.style.background = '#f8f9fa';
+                resetBtn.style.display = 'flex';
+                resetBtn.style.alignItems = 'center';
+                resetBtn.style.justifyContent = 'center';
+                resetBtn.style.cursor = 'pointer';
+                resetBtn.innerHTML = '<div style="text-align: center;"><div style="font-size: 2em;">🔄</div><div>Alle anzeigen</div></div>';
+                resetBtn.onclick = renderSnacks;
+                grid.appendChild(resetBtn);
+            }
+        }
+
+        // Tastatur-Shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('snackDetail').classList.contains('active')) {
+                if (e.key === 'ArrowLeft') prevAbschnitt();
+                if (e.key === 'ArrowRight') nextAbschnitt();
+                if (e.key === 'Escape') closeSnackDetail();
+            }
+        });
+
+        // Initialisierung beim Laden
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html> 

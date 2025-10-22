@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JunoSixteen Complete - Level 1 & 2 Vollversion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease-out;
+        }
+
+        .loading-logo {
+            font-size: 4em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .loading-text {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: none;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.05); filter: brightness(1.2); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .version-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.9em;
+            opacity: 0.8;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .unlock-status {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 10px 0;
+            animation: unlockGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes unlockGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(78, 205, 196, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(78, 205, 196, 0.8); }
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4ecdc4;
+            text-shadow: 0 0 15px rgba(78, 205, 196, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover .stat-value {
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .game-area {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 35px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            min-height: 700px;
+            position: relative;
+        }
+
+        .level-selector {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .level-btn {
+            padding: 18px 35px;
+            border: 2px solid #4ecdc4;
+            background: transparent;
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .level-btn:hover::before {
+            left: 100%;
+        }
+
+        .level-btn.active {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: #333;
+            box-shadow: 0 0 25px rgba(78, 205, 196, 0.6);
+            transform: translateY(-3px);
+        }
+
+        .level-btn:hover {
+            background: rgba(78, 205, 196, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .question-container {
+            background: rgba(255,255,255,0.15);
+            border-radius: 18px;
+            padding: 35px;
+            margin: 25px 0;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: inset 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .question-number {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #4ecdc4;
+            text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+        }
+
+        .question-type {
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            animation: typeGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes typeGlow {
+            0%, 100% { box-shadow: 0 0 8px currentColor; }
+            50% { box-shadow: 0 0 18px currentColor; }
+        }
+
+        .type-standard {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: #333;
+        }
+
+        .type-risk {
+            background: linear-gradient(45deg, #ff6b6b, #ff8787);
+            color: white;
+        }
+
+        .type-team {
+            background: linear-gradient(45deg, #45b7d1, #4ecdc4);
+            color: white;
+        }
+
+        .question-text {
+            font-size: 1.4em;
+            line-height: 1.7;
+            margin-bottom: 35px;
+            text-align: left;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .answers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .answer-btn {
+            padding: 18px 25px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.4s ease;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .answer-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.8s;
+        }
+
+        .answer-btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .answer-btn:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: #4ecdc4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .answer-btn.correct {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            border-color: #4ecdc4;
+            color: #333;
+            animation: correctPulse 0.8s ease-in-out;
+        }
+
+        .answer-btn.incorrect {
+            background: linear-gradient(45deg, #ff6b6b, #ff8787);
+            border-color: #ff6b6b;
+            animation: incorrectShake 0.8s ease-in-out;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .badges-section {
+            margin-bottom: 25px;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            font-size: 0.85em;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .badge.unlocked {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: #333;
+            font-weight: bold;
+            animation: badgeUnlock 1.5s ease-in-out;
+            box-shadow: 0 0 25px rgba(78, 205, 196, 0.6);
+        }
+
+        @keyframes badgeUnlock {
+            0% { transform: scale(0.3) rotate(-180deg); opacity: 0; }
+            50% { transform: scale(1.3) rotate(-90deg); opacity: 0.8; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .wissenssnacks, .minigame-section {
+            margin-bottom: 25px;
+        }
+
+        .snack-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border-left: 4px solid #4ecdc4;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .snack-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(8px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .snack-duration {
+            color: #4ecdc4;
+            font-size: 0.95em;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(78, 205, 196, 0.5);
+        }
+
+        .minigame-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .minigame-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8787);
+            border: none;
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.95em;
+        }
+
+        .minigame-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+        }
+
+        .minigame-btn:hover::before {
+            width: 120%;
+            height: 120%;
+        }
+
+        .minigame-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            height: 25px;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1, #4ecdc4);
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.8s ease;
+            position: relative;
+            overflow: hidden;
+            background-size: 200% 100%;
+            animation: progressShine 3s ease-in-out infinite;
+        }
+
+        @keyframes progressShine {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .feedback {
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 15px;
+            font-weight: bold;
+            text-align: center;
+            animation: feedbackSlide 0.6s ease-in-out;
+            border: 2px solid transparent;
+        }
+
+        @keyframes feedbackSlide {
+            0% { opacity: 0; transform: translateY(30px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .feedback.correct {
+            background: rgba(78, 205, 196, 0.2);
+            border-color: #4ecdc4;
+            box-shadow: 0 0 30px rgba(78, 205, 196, 0.4);
+        }
+
+        .feedback.incorrect {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .level-complete {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: #333;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin: 25px 0;
+            animation: levelComplete 1.2s ease-in-out;
+            box-shadow: 0 0 40px rgba(78, 205, 196, 0.6);
+        }
+
+        @keyframes levelComplete {
+            0% { opacity: 0; transform: scale(0.6) rotateY(-90deg); }
+            50% { opacity: 0.8; transform: scale(1.15) rotateY(-45deg); }
+            100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+        }
+
+        .points-animation {
+            font-size: 2.5em;
+            font-weight: bold;
+            animation: pointsGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pointsGlow {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 15px currentColor; }
+            50% { transform: scale(1.3); text-shadow: 0 0 30px currentColor; }
+        }
+
+        .memory-game {
+            display: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.8em;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .memory-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .memory-card.flipped {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: #333;
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            background: linear-gradient(45deg, #45b7d1, #4ecdc4);
+            color: white;
+            animation: cardMatch 0.8s ease-in-out;
+        }
+
+        @keyframes cardMatch {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .controls-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        .notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            color: #333;
+            padding: 18px 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .help-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 5000;
+        }
+
+        .help-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            color: white;
+            text-align: center;
+        }
+
+        .help-shortcuts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .answers {
+                grid-template-columns: 1fr;
+            }
+            
+            .level-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #45b7d1, #4ecdc4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">🎯 JunoSixteen</div>
+        <div class="loading-text">
+            Lade Vollversion...<br>
+            <small>Level 1 & 2 freigeschaltet - Keine Anmeldung erforderlich</small>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loadingProgress"></div>
+        </div>
+    </div>
+
+    <!-- Controls Panel -->
+    <div class="controls-panel">
+        <button class="control-btn" onclick="saveGameState()" title="Spielstand speichern (Ctrl+S)">💾 Speichern</button>
+        <button class="control-btn" onclick="loadGameState()" title="Spielstand laden (Ctrl+O)">📂 Laden</button>
+        <button class="control-btn" onclick="resetGame()" title="Neues Spiel (Ctrl+N)">🔄 Neustart</button>
+        <button class="control-btn" onclick="toggleHelp()" title="Hilfe anzeigen (F1)">❓ Hilfe</button>
+        <button class="control-btn" onclick="toggleFullscreen()" title="Vollbild (F11)">⛶ Vollbild</button>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Help Overlay -->
+    <div class="help-overlay" id="helpOverlay">
+        <div class="help-content">
+            <h2>🎮 JunoSixteen Hilfe</h2>
+            <div class="help-shortcuts">
+                <div><strong>Ctrl+1/2:</strong> Level wechseln</div>
+                <div><strong>Ctrl+N:</strong> Neues Spiel</div>
+                <div><strong>Ctrl+S:</strong> Speichern</div>
+                <div><strong>Ctrl+O:</strong> Laden</div>
+                <div><strong>F11:</strong> Vollbild</div>
+                <div><strong>F1:</strong> Diese Hilfe</div>
+                <div><strong>Leertaste:</strong> Frage starten</div>
+                <div><strong>1-4 Tasten:</strong> Antworten</div>
+            </div>
+            <button class="level-btn" onclick="toggleHelp()">Schließen</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" id="mainContainer">
+        <div class="header">
+            <div class="version-info">Vollversion v2.0 - Offline</div>
+            <div class="logo">🎯 JunoSixteen</div>
+            <div class="subtitle">Gamifizierte Lernplattform - DSGVO Edition</div>
+            <div class="unlock-status">
+                ✅ Level 1 & 2 freigeschaltet - Keine Authentifizierung erforderlich
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item" title="Gesamtpunkte">
+                <div class="stat-value" id="totalPoints">0</div>
+                <div class="stat-label">Gesamtpunkte</div>
+            </div>
+            <div class="stat-item" title="Aktuelles Level">
+                <div class="stat-value" id="currentLevel">1</div>
+                <div class="stat-label">Aktuelles Level</div>
+            </div>
+            <div class="stat-item" title="Errungene Badges">
+                <div class="stat-value" id="badges">0</div>
+                <div class="stat-label">Badges</div>
+            </div>
+            <div class="stat-item" title="Richtige Antworten in Folge">
+                <div class="stat-value" id="streak">0</div>
+                <div class="stat-label">Streak</div>
+            </div>
+            <div class="stat-item" title="Spielzeit">
+                <div class="stat-value" id="gameTime">00:00</div>
+                <div class="stat-label">Spielzeit</div>
+            </div>
+        </div>
+
+        <div class="level-selector">
+            <button class="level-btn active" onclick="switchLevel(1)" title="Level 1: Rookie - DSGVO Grundlagen">
+                Level 1: Rookie ⭐
+            </button>
+            <button class="level-btn" onclick="switchLevel(2)" title="Level 2: Explorer - DSGVO Fortgeschritten">
+                Level 2: Explorer ⭐⭐
+            </button>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="badges-section">
+                    <h3>🏆 Badges</h3>
+                    <div class="badges-grid" id="badgesGrid">
+                        <div class="badge" title="Erste richtige Antwort">🎉 Erste Antwort</div>
+                        <div class="badge" title="5 richtige Antworten in Folge">🧠 Quiz Master</div>
+                        <div class="badge" title="Risikofrage gemeistert">⚡ Risk Master</div>
+                        <div class="badge" title="Minigame gewonnen">🎮 Minigame Pro</div>
+                        <div class="badge" title="Teamfrage erfolgreich">🤝 Team Player</div>
+                        <div class="badge" title="Level abgeschlossen">🏆 Level Master</div>
+                        <div class="badge" title="10 Wissenssnacks abgeschlossen">📚 Lernhungrig</div>
+                        <div class="badge" title="Perfektes Level ohne Fehler">💯 Perfektionist</div>
+                    </div>
+                </div>
+
+                <div class="wissenssnacks">
+                    <h3>🍎 Wissenssnacks</h3>
+                    <div class="snack-item" onclick="showSnack('quick')" title="2-3 Minuten Microlearning">
+                        <div class="snack-duration">QUICK (2-3 Min.)</div>
+                        <div>Datenschutz-Grundlagen</div>
+                    </div>
+                    <div class="snack-item" onclick="showSnack('short')" title="5-7 Minuten Kompaktlehrgang">
+                        <div class="snack-duration">SHORT (5-7 Min.)</div>
+                        <div>E-Mail-Etikette im Business</div>
+                    </div>
+                    <div class="snack-item" onclick="showSnack('medium')" title="10-15 Minuten Vertiefung">
+                        <div class="snack-duration">MEDIUM (10-15 Min.)</div>
+                        <div>DSGVO in der Praxis</div>
+                    </div>
+                    <div class="snack-item" onclick="showSnack('deep')" title="20-30 Minuten Expertenwissen">
+                        <div class="snack-duration">DEEP (20-30 Min.)</div>
+                        <div>Datenschutz-Folgenabschätzung</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-area">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+
+                <div class="question-container" id="questionContainer">
+                    <div class="question-header">
+                        <div class="question-number" id="questionNumber">Bereit zum Start</div>
+                        <div class="question-type type-standard" id="questionType">Willkommen</div>
+                    </div>
+                    <div class="question-text" id="questionText">
+                        Willkommen zur vollständigen JunoSixteen Experience! 🚀<br><br>
+                        ✅ <strong>Level 1 & 2 sind freigeschaltet</strong><br>
+                        ✅ <strong>Keine Anmeldung erforderlich</strong><br>
+                        ✅ <strong>Vollständige Offline-Funktionalität</strong><br><br>
+                        Nutzen Sie die Tastenkürzel für optimale Erfahrung. Drücken Sie <strong>F1</strong> für Hilfe.
+                    </div>
+                    <button class="level-btn" onclick="startQuestion()" id="startBtn">Spiel starten ▶️</button>
+                    <div class="answers" id="answersContainer" style="display: none;"></div>
+                </div>
+
+                <div class="feedback" id="feedback" style="display: none;"></div>
+
+                <div class="level-complete" id="levelComplete" style="display: none;">
+                    <h2>🎉 Level Abgeschlossen!</h2>
+                    <div class="points-animation" id="levelPoints">+ 5.000 Punkte</div>
+                    <p>Sie haben Zugang zu den Minigames freigeschaltet!</p>
+                    <button class="level-btn" onclick="showMinigames()" style="margin-top: 25px;">Minigames spielen 🎮</button>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="minigame-section">
+                    <h3>🎮 Minigames</h3>
+                    <div class="minigame-grid">
+                        <button class="minigame-btn" onclick="startMemoryGame()" title="Gedächtnistraining mit Fachbegriffen">
+                            🧠 Memory<br>Cards
+                        </button>
+                        <button class="minigame-btn" onclick="startWordScramble()" title="Buchstaben-Puzzle aus Lernthemen">
+                            🔤 Word<br>Scramble
+                        </button>
+                        <button class="minigame-btn" onclick="startReactionTest()" title="Schnelle Erkennung richtig/falsch">
+                            ⚡ Reaction<br>Test
+                        </button>
+                        <button class="minigame-btn" onclick="startPuzzleSlider()" title="Workflow-Diagramme zusammensetzen">
+                            🧩 Puzzle<br>Slider
+                        </button>
+                    </div>
+                </div>
+
+                <div class="memory-game" id="memoryGame">
+                    <h4>🧠 Memory Cards</h4>
+                    <p>Finden Sie die passenden DSGVO-Begriffspaare!</p>
+                    <div class="memory-grid" id="memoryGrid"></div>
+                    <button class="level-btn" onclick="hideMinigames()" style="margin-top: 20px;">Zurück zum Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State mit erweiterten Features
+        let gameState = {
+            currentLevel: 1,
+            currentQuestion: 1,
+            totalPoints: 0,
+            levelPoints: 0,
+            streak: 0,
+            maxStreak: 0,
+            badges: [],
+            answeredQuestions: [],
+            gameStartTime: new Date(),
+            wissenssnacksCompleted: 0,
+            perfectLevels: 0,
+            totalGameTime: 0
+        };
+
+        // Erweiterte Question Pools mit mehr Inhalt
+        const questionPools = {
+            1: [
+                {
+                    type: 'standard',
+                    text: 'Was ist der wichtigste Grundsatz des Datenschutzes nach DSGVO?',
+                    answers: [
+                        'Datenminimierung - nur notwendige Daten sammeln',
+                        'Datenmaximierung - alle verfügbaren Daten sammeln',
+                        'Daten können unbegrenzt gespeichert werden',
+                        'Datenschutz ist nur für große Unternehmen relevant'
+                    ],
+                    correct: 0,
+                    explanation: 'Datenminimierung ist ein Kernprinzip der DSGVO. Es besagt, dass nur die Daten verarbeitet werden dürfen, die für den spezifischen Zweck erforderlich sind.',
+                    points: 50
+                },
+                {
+                    type: 'standard',
+                    text: 'Wie lange dürfen personenbezogene Daten nach DSGVO gespeichert werden?',
+                    answers: [
+                        'Unbegrenzt, wenn einmal erhoben',
+                        'Nur so lange wie für den Zweck erforderlich',
+                        'Mindestens 10 Jahre für alle Daten',
+                        'Bis das Unternehmen schließt'
+                    ],
+                    correct: 1,
+                    explanation: 'Das Prinzip der Speicherbegrenzung besagt, dass Daten nur so lange gespeichert werden dürfen, wie es für den ursprünglichen Zweck erforderlich ist.',
+                    points: 100
+                },
+                {
+                    type: 'standard',
+                    text: 'Was bedeutet "Einwilligung" nach DSGVO?',
+                    answers: [
+                        'Stillschweigende Zustimmung durch Nutzung',
+                        'Freiwillige, spezifische und informierte Zustimmung',
+                        'Automatische Zustimmung bei Webseitenbesuch',
+                        'Zustimmung durch Nichthandeln (Opt-out)'
+                    ],
+                    correct: 1,
+                    explanation: 'Einwilligung muss nach Art. 7 DSGVO freiwillig, spezifisch, informiert und eindeutig sein. Sie muss jederzeit widerrufbar sein.',
+                    points: 150
+                },
+                {
+                    type: 'standard',
+                    text: 'Welche Rechte haben betroffene Personen nach DSGVO?',
+                    answers: [
+                        'Nur das Recht auf Information',
+                        'Auskunft, Berichtigung, Löschung und Datenübertragbarkeit',
+                        'Keine besonderen Rechte gegenüber Unternehmen',
+                        'Nur das Recht auf Löschung'
+                    ],
+                    correct: 1,
+                    explanation: 'Die DSGVO gewährt umfassende Betroffenenrechte: Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21).',
+                    points: 200
+                },
+                {
+                    type: 'risk',
+                    text: 'RISIKOFRAGE: Ein Mitarbeiter möchte Kundendaten für Marketingzwecke nutzen, die ursprünglich für Vertragsabwicklung erhoben wurden.',
+                    parts: [
+                        'Ist eine separate Einwilligung für die Marketingnutzung erforderlich?',
+                        'Muss der Datenschutzbeauftragte über die neue Nutzung informiert werden?'
+                    ],
+                    answers: [
+                        ['Ja, separate Einwilligung nötig', 'Nein, ursprüngliche Einwilligung reicht'],
+                        ['Ja, DSB muss informiert werden', 'Nein, keine Information nötig']
+                    ],
+                    correct: [0, 0],
+                    explanation: 'Für neue Zwecke ist eine separate Einwilligung erforderlich (Zweckbindungsprinzip). Der DSB muss über alle Verarbeitungsaktivitäten informiert werden.',
+                    points: 250
+                },
+                {
+                    type: 'standard',
+                    text: 'Was ist bei der Übermittlung von Daten in Drittländer zu beachten?',
+                    answers: [
+                        'Ist grundsätzlich immer erlaubt',
+                        'Angemessenes Datenschutzniveau oder geeignete Garantien erforderlich',
+                        'Nur innerhalb der EU möglich',
+                        'Bedarf keiner besonderen Regelung'
+                    ],
+                    correct: 1,
+                    explanation: 'Drittlandübermittlungen erfordern nach Kap. V DSGVO entweder einen Angemessenheitsbeschluss oder geeignete Garantien (z.B. Standardvertragsklauseln).',
+                    points: 300
+                },
+                {
+                    type: 'standard',
+                    text: 'Wann muss eine Datenschutz-Folgenabschätzung (DSFA) durchgeführt werden?',
+                    answers: [
+                        'Bei jeder Datenverarbeitung obligatorisch',
+                        'Bei voraussichtlich hohem Risiko für Betroffenenrechte',
+                        'Nur bei bereits eingetretenen Verstößen',
+                        'Ist nie gesetzlich erforderlich'
+                    ],
+                    correct: 1,
+                    explanation: 'Eine DSFA ist nach Art. 35 DSGVO bei voraussichtlich hohem Risiko für die Rechte und Freiheiten der Betroffenen erforderlich.',
+                    points: 350
+                },
+                {
+                    type: 'standard',
+                    text: 'Was charakterisiert personenbezogene Daten nach DSGVO?',
+                    answers: [
+                        'Nur direkter Name und Adresse',
+                        'Alle Informationen über identifizierte oder identifizierbare Personen',
+                        'Nur biometrische und genetische Daten',
+                        'Nur besondere Kategorien personenbezogener Daten'
+                    ],
+                    correct: 1,
+                    explanation: 'Nach Art. 4 Nr. 1 DSGVO sind personenbezogene Daten alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen.',
+                    points: 400
+                },
+                {
+                    type: 'team',
+                    text: 'TEAMFRAGE: Ihr Team entdeckt eine potenzielle Datenpanne mit Kundendaten.',
+                    teamQuestion: 'Welche Schritte sollten innerhalb der ersten 72 Stunden unternommen werden?',
+                    answers: [
+                        'Aufsichtsbehörde benachrichtigen und umfassende Dokumentation erstellen',
+                        'Abwarten und weitere Entwicklung beobachten',
+                        'Nur interne Meldung an Geschäftsführung',
+                        'Panne geheim halten um Reputationsschäden zu vermeiden'
+                    ],
+                    correct: 0,
+                    explanation: 'Bei Datenschutzverletzungen ist nach Art. 33 DSGVO eine Meldung an die Aufsichtsbehörde binnen 72 Stunden erforderlich, ggf. auch Benachrichtigung der Betroffenen nach Art. 34.',
+                    points: 450
+                },
+                {
+                    type: 'risk',
+                    text: 'FINALE RISIKOFRAGE: Ein externer IT-Dienstleister soll Kundendaten im Auftrag verarbeiten.',
+                    parts: [
+                        'Ist ein schriftlicher Auftragsverarbeitungsvertrag (AVV) zwingend erforderlich?',
+                        'Müssen technische und organisatorische Maßnahmen (TOMs) vertraglich definiert werden?'
+                    ],
+                    answers: [
+                        ['Ja, AVV ist gesetzlich vorgeschrieben', 'Nein, Vertrag ist optional'],
+                        ['Ja, TOMs müssen definiert werden', 'Nein, TOMs sind Ermessenssache']
+                    ],
+                    correct: [0, 0],
+                    explanation: 'Bei Auftragsverarbeitung sind nach Art. 28 DSGVO sowohl ein schriftlicher AVV als auch die Definition angemessener TOMs gesetzlich vorgeschrieben.',
+                    points: 500
+                }
+            ],
+            2: [
+                {
+                    type: 'standard',
+                    text: 'Welche Bußgelder können bei DSGVO-Verstößen maximal verhängt werden?',
+                    answers: [
+                        'Maximal 1.000 Euro pro Verstoß',
+                        'Bis zu 20 Millionen Euro oder 4% des Jahresumsatzes',
+                        'Nur Verwarnungen ohne Geldstrafen',
+                        'Ausschließlich Gefängnisstrafen'
+                    ],
+                    correct: 1,
+                    explanation: 'Nach Art. 83 DSGVO können Bußgelder von bis zu 20 Millionen Euro oder 4% des weltweiten Jahresumsatzes verhängt werden - je nachdem, welcher Betrag höher ist.',
+                    points: 100
+                },
+                {
+                    type: 'standard',
+                    text: 'Was versteht man unter "Privacy by Design"?',
+                    answers: [
+                        'Nachträgliche Implementierung von Datenschutzmaßnahmen',
+                        'Datenschutz von Anfang an in Systeme und Prozesse integrieren',
+                        'Datenschutz ist nur für Designabteilungen relevant',
+                        'Gilt nur für große Technologieunternehmen'
+                    ],
+                    correct: 1,
+                    explanation: 'Privacy by Design nach Art. 25 DSGVO bedeutet, dass Datenschutz bereits bei der Entwicklung von Systemen und Prozessen berücksichtigt werden muss.',
+                    points: 200
+                },
+                {
+                    type: 'standard',
+                    text: 'Wer darf als Datenschutzbeauftragter (DSB) bestellt werden?',
+                    answers: [
+                        'Jeder beliebige Mitarbeiter des Unternehmens',
+                        'Person mit nachgewiesenem Fachwissen im Datenschutzrecht',
+                        'Ausschließlich externe Berater',
+                        'Automatisch die Geschäftsführung'
+                    ],
+                    correct: 1,
+                    explanation: 'Nach Art. 37 DSGVO muss der DSB über Fachwissen im Datenschutzrecht und in der Praxis verfügen. Dies kann intern oder extern erfüllt werden.',
+                    points: 300
+                },
+                {
+                    type: 'standard',
+                    text: 'Was sind technische und organisatorische Maßnahmen (TOMs)?',
+                    answers: [
+                        'Nur technische IT-Sicherheitsmaßnahmen',
+                        'Umfassende Schutzmaßnahmen für personenbezogene Daten',
+                        'Nur Mitarbeiterschulungen und Richtlinien',
+                        'Optional bei kleinen Unternehmen unter 10 Mitarbeitern'
+                    ],
+                    correct: 1,
+                    explanation: 'TOMs nach Art. 32 DSGVO umfassen alle technischen und organisatorischen Maßnahmen zur Gewährleistung der Datensicherheit.',
+                    points: 400
+                },
+                {
+                    type: 'risk',
+                    text: 'RISIKOFRAGE: Ein Startup plant eine innovative App mit Standort-Tracking und KI-basierter Verhaltensanalyse.',
+                    parts: [
+                        'Ist eine Datenschutz-Folgenabschätzung (DSFA) zwingend erforderlich?',
+                        'Müssen die Nutzer explizit über KI-Algorithmen und Standortnutzung informiert werden?'
+                    ],
+                    answers: [
+                        ['Ja, DSFA ist bei KI und Standortdaten erforderlich', 'Nein, DSFA nicht nötig bei Innovation'],
+                        ['Ja, transparente Information über KI erforderlich', 'Nein, allgemeine AGB reichen aus']
+                    ],
+                    correct: [0, 0],
+                    explanation: 'Standortdaten und KI-Profiling erfordern eine DSFA. Transparenz über algorithmische Entscheidungen ist nach Art. 13/14 DSGVO Pflicht.',
+                    points: 500
+                },
+                {
+                    type: 'standard',
+                    text: 'Wie lange haben Unternehmen Zeit, auf Auskunftsersuchen zu antworten?',
+                    answers: [
+                        '72 Stunden wie bei Datenpannen',
+                        '1 Monat, verlängerbar auf 3 Monate bei komplexen Fällen',
+                        '6 Monate bei umfangreichen Datenbeständen',
+                        'Keine gesetzlich festgelegte Frist'
+                    ],
+                    correct: 1,
+                    explanation: 'Nach Art. 12 DSGVO müssen Auskunftsersuchen grundsätzlich innerhalb eines Monats beantwortet werden, in komplexen Fällen verlängerbar um weitere zwei Monate.',
+                    points: 600
+                },
+                {
+                    type: 'standard',
+                    text: 'Was ist bei der Videoüberwachung am Arbeitsplatz zu beachten?',
+                    answers: [
+                        'Ist grundsätzlich immer ohne Einschränkungen erlaubt',
+                        'Sorgfältige Interessenabwägung und transparente Mitarbeiterinformation erforderlich',
+                        'Nur mit ausdrücklicher Zustimmung des Betriebsrats möglich',
+                        'Ist nach DSGVO grundsätzlich verboten'
+                    ],
+                    correct: 1,
+                    explanation: 'Videoüberwachung erfordert eine sorgfältige Interessenabwägung nach Art. 6 Abs. 1 lit. f DSGVO und transparente Information der Betroffenen.',
+                    points: 700
+                },
+                {
+                    type: 'standard',
+                    text: 'Welche Hauptpflichten hat ein Auftragsverarbeiter?',
+                    answers: [
+                        'Keine besonderen Pflichten gegenüber dem Verantwortlichen',
+                        'Weisungsgebundene Verarbeitung und Gewährleistung der Vertraulichkeit',
+                        'Nur ordnungsgemäße Datenlöschung nach Auftragsende',
+                        'Vollständige Haftungsfreistellung des Verantwortlichen'
+                    ],
+                    correct: 1,
+                    explanation: 'Auftragsverarbeiter müssen nach Art. 28/29 DSGVO weisungsgebunden verarbeiten, Vertraulichkeit gewährleisten und den Verantwortlichen bei dessen Pflichten unterstützen.',
+                    points: 800
+                },
+                {
+                    type: 'team',
+                    text: 'TEAMFRAGE: Ihr Entwicklungsteam arbeitet an einer neuen Software mit Machine Learning.',
+                    teamQuestion: 'Welche Datenschutz-Prinzipien sollten von Anfang an berücksichtigt werden?',
+                    answers: [
+                        'Privacy by Design, Datenminimierung, Zweckbindung und Transparenz',
+                        'Nur die technische Funktionalität ist relevant',
+                        'Datenschutz kann in späteren Entwicklungsphasen ergänzt werden',
+                        'Nur relevant bei Verarbeitung sensibler Daten'
+                    ],
+                    correct: 0,
+                    explanation: 'Bei ML-Systemen sind Privacy by Design, Datenminimierung, Zweckbindung und algorithmische Transparenz von Anfang an essentiell.',
+                    points: 900
+                },
+                {
+                    type: 'risk',
+                    text: 'FINALE RISIKOFRAGE: Ein Mitarbeiter verliert ein unverschlüsseltes Firmen-Laptop mit 5.000 Kundendatensätzen.',
+                    parts: [
+                        'Muss eine Datenpanne binnen 72h an die Aufsichtsbehörde gemeldet werden?',
+                        'Müssen die 5.000 betroffenen Kunden individuell informiert werden?'
+                    ],
+                    answers: [
+                        ['Ja, Meldung ist bei hohem Risiko erforderlich', 'Nein, nur interne Behandlung nötig'],
+                        ['Ja, direkte Benachrichtigung der Kunden erforderlich', 'Nein, Behördenmeldung reicht aus']
+                    ],
+                    correct: [0, 0],
+                    explanation: 'Unverschlüsselte Laptop-Verluste stellen ein hohes Risiko dar und erfordern sowohl Behördenmeldung (Art. 33) als auch Betroffenenbenachrichtigung (Art. 34) nach DSGVO.',
+                    points: 1000
+                }
+            ]
+        };
+
+        // Erweiterte Wissenssnacks
+        const wissenssnacks = {
+            quick: {
+                title: 'QUICK: Datenschutz-Grundlagen',
+                duration: '2-3 Minuten',
+                content: `
+                    <h4>🔐 Die 7 Grundprinzipien der DSGVO:</h4>
+                    <ul>
+                        <li><strong>Rechtmäßigkeit:</strong> Verarbeitung nur mit Rechtsgrundlage</li>
+                        <li><strong>Zweckbindung:</strong> Daten nur für festgelegte Zwecke</li>
+                        <li><strong>Datenminimierung:</strong> Nur notwendige Daten erheben</li>
+                        <li><strong>Richtigkeit:</strong> Daten müssen korrekt und aktuell sein</li>
+                        <li><strong>Speicherbegrenzung:</strong> Löschung nach Zweckerfüllung</li>
+                        <li><strong>Sicherheit:</strong> Angemessene Schutzmaßnahmen</li>
+                        <li><strong>Rechenschaftspflicht:</strong> Nachweis der Compliance</li>
+                    </ul>
+                `,
+                points: 150
+            },
+            short: {
+                title: 'SHORT: E-Mail-Etikette im Business',
+                duration: '5-7 Minuten',
+                content: `
+                    <h4>📧 Professionelle E-Mail-Kommunikation:</h4>
+                    <ul>
+                        <li><strong>Betreffzeile:</strong> Präzise und aussagekräftig</li>
+                        <li><strong>Anrede:</strong> Formell und respektvoll</li>
+                        <li><strong>Struktur:</strong> Klare Gliederung mit Absätzen</li>
+                        <li><strong>Ton:</strong> Professionell aber freundlich</li>
+                        <li><strong>Anhänge:</strong> Relevanz prüfen, Größe beachten</li>
+                        <li><strong>Signatur:</strong> Vollständige Kontaktdaten</li>
+                        <li><strong>Antwortzeit:</strong> Binnen 24-48 Stunden</li>
+                        <li><strong>CC/BCC:</strong> Bewusst und sparsam einsetzen</li>
+                    </ul>
+                    <p><strong>Datenschutz:</strong> Bei externen E-Mails immer BCC für Verteiler nutzen!</p>
+                `,
+                points: 300
+            },
+            medium: {
+                title: 'MEDIUM: DSGVO in der Praxis',
+                duration: '10-15 Minuten',
+                content: `
+                    <h4>🎯 Praktische DSGVO-Umsetzung:</h4>
+                    <h5>1. Verarbeitungsverzeichnis erstellen</h5>
+                    <ul>
+                        <li>Zwecke der Verarbeitung dokumentieren</li>
+                        <li>Rechtsgrundlagen zuordnen</li>
+                        <li>Löschfristen definieren</li>
+                    </ul>
+                    
+                    <h5>2. Betroffenenrechte implementieren</h5>
+                    <ul>
+                        <li>Auskunftsprozess etablieren</li>
+                        <li>Lösch- und Berichtigungsverfahren</li>
+                        <li>Datenportabilität ermöglichen</li>
+                    </ul>
+                    
+                    <h5>3. TOMs definieren</h5>
+                    <ul>
+                        <li>Technische Sicherheitsmaßnahmen</li>
+                        <li>Organisatorische Prozesse</li>
+                        <li>Regelmäßige Überprüfung</li>
+                    </ul>
+                    
+                    <h5>4. Mitarbeiterschulungen</h5>
+                    <ul>
+                        <li>Sensibilisierung für Datenschutz</li>
+                        <li>Verfahrensanweisungen</li>
+                        <li>Incident Response Training</li>
+                    </ul>
+                `,
+                points: 500
+            },
+            deep: {
+                title: 'DEEP: Datenschutz-Folgenabschätzung (DSFA)',
+                duration: '20-30 Minuten',
+                content: `
+                    <h4>🔍 Wann ist eine DSFA erforderlich?</h4>
+                    <ul>
+                        <li>Automatisierte Entscheidungsfindung mit Rechtswirkung</li>
+                        <li>Umfangreiche Verarbeitung sensibler Daten</li>
+                        <li>Systematische Überwachung öffentlicher Bereiche</li>
+                        <li>Innovative Technologien (KI, IoT, Blockchain)</li>
+                    </ul>
+                    
+                    <h4>📋 DSFA-Prozess (7 Schritte):</h4>
+                    <ol>
+                        <li><strong>Beschreibung der Verarbeitung</strong> - Zweck, Umfang, Kontext</li>
+                        <li><strong>Bewertung der Notwendigkeit</strong> - Verhältnismäßigkeit prüfen</li>
+                        <li><strong>Risikoidentifikation</strong> - Mögliche Auswirkungen auf Betroffene</li>
+                        <li><strong>Risikobewertung</strong> - Eintrittswahrscheinlichkeit × Schwere</li>
+                        <li><strong>Schutzmaßnahmen</strong> - TOMs zur Risikominimierung</li>
+                        <li><strong>Konsultation</strong> - DSB und ggf. Aufsichtsbehörde einbeziehen</li>
+                        <li><strong>Dokumentation</strong> - Vollständige Nachweisführung</li>
+                    </ol>
+                    
+                    <h4>⚠️ Hohes Risiko bei:</h4>
+                    <ul>
+                        <li>Profiling natürlicher Personen</li>
+                        <li>Verarbeitung von Kindern</li>
+                        <li>Biometrische Identifikation</li>
+                        <li>Standortverfolgung</li>
+                        <li>Verhaltensüberwachung</li>
+                    </ul>
+                    
+                    <p><strong>💡 Tipp:</strong> DSFA ist kein einmaliger Prozess - regelmäßige Überprüfung bei Änderungen erforderlich!</p>
+                `,
+                points: 800
+            }
+        };
+
+        // Memory Game Data mit DSGVO-Begriffen
+        const memoryCards = [
+            '🔒', '🔑', '📊', '⚖️', '🛡️', '📋', '💾', '🌐',
+            '🎯', '📝', '🔍', '⚡', '🏛️', '📧', '🔐', '👥'
+        ];
+
+        let gameTimer;
+        let startTime;
+
+        // Loading und Initialization
+        window.addEventListener('load', function() {
+            simulateLoading();
+        });
+
+        function simulateLoading() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const progress = document.getElementById('loadingProgress');
+            const container = document.getElementById('mainContainer');
+            
+            let percent = 0;
+            const interval = setInterval(() => {
+                percent += Math.random() * 15;
+                if (percent > 100) percent = 100;
+                
+                progress.style.width = percent + '%';
+                
+                if (percent >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            container.style.display = 'block';
+                            initializeGame();
+                        }, 500);
+                    }, 500);
+                }
+            }, 100);
+        }
+
+        function initializeGame() {
+            setupKeyboardShortcuts();
+            updateStats();
+            updateProgress();
+            startGameTimer();
+            
+            // Load saved game if available
+            loadGameState();
+            
+            showNotification('🎮 JunoSixteen Vollversion geladen! Level 1 & 2 freigeschaltet!', 'success');
+            
+            // Auto-save every 30 seconds
+            setInterval(autoSaveGame, 30000);
+        }
+
+        function startGameTimer() {
+            startTime = new Date();
+            gameTimer = setInterval(updateGameTime, 1000);
+        }
+
+        function updateGameTime() {
+            const now = new Date();
+            const diff = now - startTime + gameState.totalGameTime;
+            const minutes = Math.floor(diff / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            document.getElementById('gameTime').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Enhanced keyboard shortcuts
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey) {
+                    switch(e.key) {
+                        case '1':
+                            e.preventDefault();
+                            switchLevel(1);
+                            break;
+                        case '2':
+                            e.preventDefault();
+                            switchLevel(2);
+                            break;
+                        case 'n':
+                        case 'N':
+                            e.preventDefault();
+                            resetGame();
+                            break;
+                        case 's':
+                        case 'S':
+                            e.preventDefault();
+                            saveGameState();
+                            break;
+                        case 'o':
+                        case 'O':
+                            e.preventDefault();
+                            loadGameState();
+                            break;
+                    }
+                }
+                
+                if (e.key === 'F11') {
+                    e.preventDefault();
+                    toggleFullscreen();
+                }
+                
+                if (e.key === 'F1') {
+                    e.preventDefault();
+                    toggleHelp();
+                }
+                
+                // Number keys for answers
+                const num = parseInt(e.key);
+                if (num >= 1 && num <= 4) {
+                    const answerBtns = document.querySelectorAll('.answer-btn');
+                    if (answerBtns[num - 1] && answerBtns[num - 1].onclick) {
+                        answerBtns[num - 1].click();
+                    }
+                }
+                
+                // Space for start/continue
+                if (e.code === 'Space') {
+                    const startBtn = document.getElementById('startBtn');
+                    if (startBtn && startBtn.style.display !== 'none') {
+                        e.preventDefault();
+                        startBtn.click();
+                    }
+                }
+            });
+        }
+
+        // Enhanced Game Functions
+        function switchLevel(level) {
+            gameState.currentLevel = level;
+            gameState.currentQuestion = 1;
+            gameState.levelPoints = 0;
+            gameState.answeredQuestions = [];
+            
+            document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="switchLevel(${level})"]`).classList.add('active');
+            document.getElementById('currentLevel').textContent = level;
+            
+            updateProgress();
+            resetQuestion();
+            showNotification(`Level ${level} ausgewählt! ${level === 1 ? 'Grundlagen' : 'Fortgeschritten'}`, 'info');
+        }
+
+        function startQuestion() {
+            const questions = questionPools[gameState.currentLevel];
+            const question = questions[gameState.currentQuestion - 1];
+            
+            document.getElementById('startBtn').style.display = 'none';
+            displayQuestion(question);
+        }
+
+        function displayQuestion(question) {
+            const container = document.getElementById('questionContainer');
+            const questionNumber = document.getElementById('questionNumber');
+            const questionType = document.getElementById('questionType');
+            const questionText = document.getElementById('questionText');
+            const answersContainer = document.getElementById('answersContainer');
+            
+            questionNumber.textContent = `Frage ${gameState.currentQuestion}/10`;
+            questionText.innerHTML = question.text;
+            
+            // Question type styling with enhanced animations
+            const typeNames = {
+                'standard': 'Standard',
+                'risk': '🎯 Risiko',
+                'team': '🤝 Team'
+            };
+            questionType.textContent = typeNames[question.type];
+            questionType.className = `question-type type-${question.type}`;
+            
+            // Clear previous answers
+            answersContainer.innerHTML = '';
+            answersContainer.style.display = 'grid';
+            
+            if (question.type === 'risk') {
+                displayRiskQuestion(question);
+            } else {
+                displayStandardQuestion(question);
+            }
+        }
+
+        function displayStandardQuestion(question) {
+            const answersContainer = document.getElementById('answersContainer');
+            
+            question.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-btn';
+                button.innerHTML = `<strong>${String.fromCharCode(65 + index)}.</strong> ${answer}`;
+                button.onclick = () => checkAnswer(index, question);
+                button.title = `Tastenkürzel: ${index + 1}`;
+                answersContainer.appendChild(button);
+            });
+        }
+
+        function displayRiskQuestion(question) {
+            const answersContainer = document.getElementById('answersContainer');
+            answersContainer.style.gridTemplateColumns = '1fr';
+            
+            question.parts.forEach((part, partIndex) => {
+                const partDiv = document.createElement('div');
+                partDiv.style.marginBottom = '25px';
+                partDiv.innerHTML = `<h4 style="color: #ff6b6b; margin-bottom: 15px;">Teil ${partIndex + 1}: ${part}</h4>`;
+                
+                const partAnswers = document.createElement('div');
+                partAnswers.style.display = 'grid';
+                partAnswers.style.gridTemplateColumns = '1fr 1fr';
+                partAnswers.style.gap = '15px';
+                
+                question.answers[partIndex].forEach((answer, answerIndex) => {
+                    const button = document.createElement('button');
+                    button.className = 'answer-btn';
+                    button.textContent = answer;
+                    button.onclick = () => selectRiskAnswer(partIndex, answerIndex, button);
+                    partAnswers.appendChild(button);
+                });
+                
+                partDiv.appendChild(partAnswers);
+                answersContainer.appendChild(partDiv);
+            });
+            
+            const submitBtn = document.createElement('button');
+            submitBtn.className = 'level-btn';
+            submitBtn.textContent = 'Antworten einreichen (Enter)';
+            submitBtn.onclick = () => checkRiskAnswers(question);
+            submitBtn.style.marginTop = '20px';
+            answersContainer.appendChild(submitBtn);
+        }
+
+        let riskAnswers = [];
+
+        function selectRiskAnswer(partIndex, answerIndex, button) {
+            // Deselect other buttons in this part
+            button.parentElement.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.classList.remove('correct');
+            });
+            
+            button.classList.add('correct');
+            riskAnswers[partIndex] = answerIndex;
+        }
+
+        function checkRiskAnswers(question) {
+            const isCorrect = question.correct.every((correct, index) => riskAnswers[index] === correct);
+            
+            if (isCorrect) {
+                // Double points for risk question
+                const points = question.points * 2;
+                gameState.levelPoints *= 2;
+                gameState.totalPoints += points;
+                gameState.streak++;
+                gameState.maxStreak = Math.max(gameState.maxStreak, gameState.streak);
+                showFeedback(true, `🎯 Risikofrage gemeistert! Punkte verdoppelt: +${points}`, question.explanation);
+                unlockBadge('risk');
+                playSuccessSound();
+            } else {
+                // Restart level for risk question
+                gameState.levelPoints = 0;
+                gameState.currentQuestion = 1;
+                gameState.streak = 0;
+                showFeedback(false, '💥 Risikofrage verfehlt! Level wird neu gestartet.', question.explanation);
+                playErrorSound();
+                setTimeout(() => {
+                    resetQuestion();
+                }, 4000);
+                return;
+            }
+            
+            riskAnswers = [];
+            nextQuestion();
+        }
+
+        function checkAnswer(selectedIndex, question) {
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach(btn => btn.onclick = null);
+            
+            const isCorrect = selectedIndex === question.correct;
+            const points = question.points || calculatePoints();
+            
+            if (isCorrect) {
+                buttons[selectedIndex].classList.add('correct');
+                gameState.levelPoints += points;
+                gameState.totalPoints += points;
+                gameState.streak++;
+                gameState.maxStreak = Math.max(gameState.maxStreak, gameState.streak);
+                showFeedback(true, `✅ Richtig! +${points} Punkte`, question.explanation);
+                
+                // Badge unlocking logic
+                if (gameState.currentQuestion === 1) unlockBadge('first');
+                if (gameState.streak === 5) unlockBadge('streak');
+                if (gameState.streak === 10) unlockBadge('perfect');
+                
+                playSuccessSound();
+            } else {
+                buttons[selectedIndex].classList.add('incorrect');
+                buttons[question.correct].classList.add('correct');
+                gameState.levelPoints = Math.max(0, gameState.levelPoints - points/2);
+                gameState.totalPoints = Math.max(0, gameState.totalPoints - points/2);
+                gameState.streak = 0;
+                showFeedback(false, `❌ Falsch! -${Math.floor(points/2)} Punkte`, question.explanation);
+                playErrorSound();
+            }
+            
+            updateStats();
+            setTimeout(nextQuestion, 4000);
+        }
+
+        function calculatePoints() {
+            return gameState.currentLevel * 50 * gameState.currentQuestion;
+        }
+
+        function showFeedback(isCorrect, message, explanation) {
+            const feedback = document.getElementById('feedback');
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedback.innerHTML = `<strong>${message}</strong><br><br><em>${explanation}</em>`;
+            feedback.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (gameState.currentQuestion >= 10) {
+                completeLevel();
+                return;
+            }
+            
+            gameState.currentQuestion++;
+            updateProgress();
+            resetQuestion();
+            
+            // Auto start next question after delay
+            setTimeout(() => {
+                startQuestion();
+            }, 1500);
+        }
+
+        function completeLevel() {
+            // Check for perfect level
+            const isPerfect = gameState.levelPoints > 0 && gameState.streak >= 10;
+            if (isPerfect) {
+                gameState.perfectLevels++;
+                unlockBadge('perfect');
+            }
+            
+            // Level completion bonus (5x multiplier)
+            const bonus = gameState.levelPoints * 4;
+            gameState.totalPoints += bonus;
+            
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('feedback').style.display = 'none';
+            
+            const levelComplete = document.getElementById('levelComplete');
+            const levelPoints = document.getElementById('levelPoints');
+            levelPoints.textContent = `+${gameState.levelPoints * 5} Punkte (Level-Bonus!)`;
+            levelComplete.style.display = 'block';
+            
+            unlockBadge('level');
+            updateStats();
+            autoSaveGame();
+            playLevelCompleteSound();
+            showNotification(`🏆 Level ${gameState.currentLevel} abgeschlossen! ${isPerfect ? 'Perfekt!' : 'Großartig!'}`, 'success');
+        }
+
+        function resetQuestion() {
+            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('startBtn').textContent = gameState.currentQuestion === 1 ? 'Spiel starten ▶️' : 'Nächste Frage starten (Leertaste)';
+            document.getElementById('answersContainer').style.display = 'none';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('levelComplete').style.display = 'none';
+            document.getElementById('questionContainer').style.display = 'block';
+            
+            if (gameState.currentQuestion === 1) {
+                document.getElementById('questionText').innerHTML = `
+                    Bereit für Level ${gameState.currentLevel}? 🚀<br><br>
+                    Nutzen Sie die <strong>Zahlen 1-4</strong> für schnelle Antworten oder die <strong>Leertaste</strong> zum Starten.
+                `;
+            } else {
+                document.getElementById('questionText').textContent = 'Bereit für die nächste Frage?';
+            }
+        }
+
+        function updateProgress() {
+            const progress = (gameState.currentQuestion - 1) / 10 * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+        }
+
+        function updateStats() {
+            document.getElementById('totalPoints').textContent = gameState.totalPoints.toLocaleString();
+            document.getElementById('currentLevel').textContent = gameState.currentLevel;
+            document.getElementById('badges').textContent = gameState.badges.length;
+            document.getElementById('streak').textContent = gameState.streak;
+        }
+
+        function unlockBadge(type) {
+            if (gameState.badges.includes(type)) return;
+            
+            gameState.badges.push(type);
+            const badges = document.querySelectorAll('.badge');
+            
+            const badgeMapping = {
+                'first': 0, 'streak': 1, 'risk': 2, 'minigame': 3, 
+                'team': 4, 'level': 5, 'learning': 6, 'perfect': 7
+            };
+            
+            if (badgeMapping[type] !== undefined) {
+                badges[badgeMapping[type]].classList.add('unlocked');
+            }
+            
+            showNotification(`🏆 Badge freigeschaltet: ${type}!`, 'success');
+            playBadgeSound();
+        }
+
+        // Enhanced Wissenssnacks
+        function showSnack(type) {
+            const snack = wissenssnacks[type];
+            const container = document.getElementById('questionContainer');
+            
+            container.innerHTML = `
+                <h2>📚 ${snack.title}</h2>
+                <p><strong>Dauer:</strong> ${snack.duration}</p>
+                <div style="margin: 25px 0; text-align: left; line-height: 1.6; background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px; border-left: 4px solid #4ecdc4; max-height: 400px; overflow-y: auto;">
+                    ${snack.content}
+                </div>
+                <button class="level-btn" onclick="completeSnack('${type}')">Abschließen (+${snack.points} Punkte)</button>
+            `;
+        }
+
+        function completeSnack(type) {
+            const snack = wissenssnacks[type];
+            gameState.totalPoints += snack.points;
+            gameState.wissenssnacksCompleted++;
+            
+            if (gameState.wissenssnacksCompleted >= 10) {
+                unlockBadge('learning');
+            }
+            
+            updateStats();
+            
+            showFeedback(true, `📚 Wissenssnack abgeschlossen! +${snack.points} Punkte`, 'Microlearning bringt Sie schnell voran. Weiter so!');
+            showNotification(`${snack.title} abgeschlossen!`, 'success');
+            
+            setTimeout(() => {
+                resetQuestion();
+            }, 3000);
+        }
+
+        // Enhanced Minigames
+        function showMinigames() {
+            document.getElementById('levelComplete').style.display = 'none';
+        }
+
+        function startMemoryGame() {
+            const memoryGame = document.getElementById('memoryGame');
+            const grid = document.getElementById('memoryGrid');
+            
+            // Hide other elements and show memory game
+            document.querySelector('.game-area').style.display = 'none';
+            memoryGame.style.display = 'block';
+            
+            // Create shuffled cards (pairs)
+            const gameCards = memoryCards.slice(0, 8); // Use 8 different cards
+            const cards = [...gameCards, ...gameCards].sort(() => Math.random() - 0.5);
+            
+            grid.innerHTML = '';
+            let flippedCards = [];
+            let matchedPairs = 0;
+            let attempts = 0;
+            
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'memory-card';
+                cardElement.textContent = '❓';
+                cardElement.dataset.card = card;
+                cardElement.onclick = () => flipCard(cardElement);
+                grid.appendChild(cardElement);
+            });
+            
+            function flipCard(cardElement) {
+                if (cardElement.classList.contains('flipped') || cardElement.classList.contains('matched') || flippedCards.length >= 2) return;
+                
+                cardElement.classList.add('flipped');
+                cardElement.textContent = cardElement.dataset.card;
+                flippedCards.push(cardElement);
+                
+                if (flippedCards.length === 2) {
+                    attempts++;
+                    setTimeout(() => {
+                        if (flippedCards[0].dataset.card === flippedCards[1].dataset.card) {
+                            flippedCards.forEach(card => card.classList.add('matched'));
+                            matchedPairs++;
+                            
+                            if (matchedPairs === gameCards.length) {
+                                const bonus = Math.max(500, 1000 - attempts * 50);
+                                gameState.totalPoints += bonus;
+                                unlockBadge('minigame');
+                                updateStats();
+                                showNotification(`🧠 Memory Game gewonnen! +${bonus} Punkte (${attempts} Versuche)`, 'success');
+                                playSuccessSound();
+                            }
+                        } else {
+                            flippedCards.forEach(card => {
+                                card.classList.remove('flipped');
+                                card.textContent = '❓';
+                            });
+                        }
+                        flippedCards = [];
+                    }, 1000);
+                }
+            }
+        }
+
+        function startWordScramble() {
+            showNotification('🔤 Word Scramble: Kommende Version - Buchstaben-Puzzle mit DSGVO-Begriffen!', 'info');
+            gameState.totalPoints += 300;
+            updateStats();
+        }
+
+        function startReactionTest() {
+            showNotification('⚡ Reaction Test: Kommende Version - Schnelle DSGVO-Entscheidungen!', 'info');
+            gameState.totalPoints += 200;
+            updateStats();
+        }
+
+        function startPuzzleSlider() {
+            showNotification('🧩 Puzzle Slider: Kommende Version - DSGVO-Prozess-Diagramme!', 'info');
+            gameState.totalPoints += 400;
+            updateStats();
+        }
+
+        function hideMinigames() {
+            document.getElementById('memoryGame').style.display = 'none';
+            document.querySelector('.game-area').style.display = 'block';
+            resetQuestion();
+        }
+
+        // Enhanced Save/Load functionality
+        function saveGameState() {
+            const saveData = {
+                gameState: {
+                    ...gameState,
+                    totalGameTime: gameState.totalGameTime + (new Date() - startTime)
+                },
+                timestamp: new Date().toISOString(),
+                version: '2.0',
+                userAgent: navigator.userAgent
+            };
+            
+            try {
+                localStorage.setItem('junosixteen-complete-gamestate', JSON.stringify(saveData));
+                
+                // Also create downloadable file
+                const blob = new Blob([JSON.stringify(saveData, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `junosixteen-spielstand-${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                showNotification('💾 Spielstand gespeichert und heruntergeladen!', 'success');
+            } catch (e) {
+                showNotification('❌ Fehler beim Speichern!', 'error');
+            }
+        }
+
+        function loadGameState() {
+            try {
+                const saved = localStorage.getItem('junosixteen-complete-gamestate');
+                if (saved) {
+                    const saveData = JSON.parse(saved);
+                    gameState = { ...gameState, ...saveData.gameState };
+                    updateStats();
+                    updateProgress();
+                    resetQuestion();
+                    
+                    // Update badges display
+                    gameState.badges.forEach(badgeType => {
+                        const badgeMapping = {
+                            'first': 0, 'streak': 1, 'risk': 2, 'minigame': 3, 
+                            'team': 4, 'level': 5, 'learning': 6, 'perfect': 7
+                        };
+                        if (badgeMapping[badgeType] !== undefined) {
+                            document.querySelectorAll('.badge')[badgeMapping[badgeType]].classList.add('unlocked');
+                        }
+                    });
+                    
+                    showNotification('📂 Spielstand geladen!', 'success');
+                } else {
+                    showNotification('⚠️ Kein Spielstand gefunden!', 'info');
+                }
+            } catch (e) {
+                showNotification('❌ Fehler beim Laden!', 'error');
+            }
+        }
+
+        function autoSaveGame() {
+            const saveData = {
+                gameState: {
+                    ...gameState,
+                    totalGameTime: gameState.totalGameTime + (new Date() - startTime)
+                },
+                timestamp: new Date().toISOString(),
+                version: '2.0',
+                autoSave: true
+            };
+            
+            try {
+                localStorage.setItem('junosixteen-autosave', JSON.stringify(saveData));
+            } catch (e) {
+                console.warn('Auto-save failed:', e);
+            }
+        }
+
+        function resetGame() {
+            if (confirm('🔄 Sind Sie sicher, dass Sie das Spiel zurücksetzen möchten?\n\nAlle Fortschritte gehen verloren!')) {
+                gameState = {
+                    currentLevel: 1,
+                    currentQuestion: 1,
+                    totalPoints: 0,
+                    levelPoints: 0,
+                    streak: 0,
+                    maxStreak: 0,
+                    badges: [],
+                    answeredQuestions: [],
+                    gameStartTime: new Date(),
+                    wissenssnacksCompleted: 0,
+                    perfectLevels: 0,
+                    totalGameTime: 0
+                };
+                
+                // Reset UI
+                document.querySelectorAll('.badge').forEach(badge => badge.classList.remove('unlocked'));
+                switchLevel(1);
+                startTime = new Date();
+                showNotification('🔄 Spiel zurückgesetzt! Neuer Start!', 'info');
+            }
+        }
+
+        // Utility functions
+        function toggleFullscreen() {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+                showNotification('🪟 Vollbild beendet', 'info');
+            } else {
+                document.documentElement.requestFullscreen();
+                showNotification('⛶ Vollbild aktiviert', 'info');
+            }
+        }
+
+        function toggleHelp() {
+            const helpOverlay = document.getElementById('helpOverlay');
+            helpOverlay.style.display = helpOverlay.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Enhanced Sound effects using Web Audio API
+        function playSuccessSound() {
+            playBeep([800, 1000, 1200], [100, 100, 200]);
+        }
+
+        function playErrorSound() {
+            playBeep([400, 300, 200], [150, 150, 300]);
+        }
+
+        function playLevelCompleteSound() {
+            playBeep([600, 800, 1000, 1200], [100, 100, 100, 300]);
+        }
+
+        function playBadgeSound() {
+            playBeep([800, 1200, 800, 1200], [100, 100, 100, 200]);
+        }
+
+        function playBeep(frequencies, durations) {
+            if (!Array.isArray(frequencies)) frequencies = [frequencies];
+            if (!Array.isArray(durations)) durations = [durations];
+            
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                let startTime = audioContext.currentTime;
+                
+                frequencies.forEach((freq, index) => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = freq;
+                    oscillator.type = 'sine';
+                    
+                    const duration = (durations[index] || durations[0]) / 1000;
+                    gainNode.gain.setValueAtTime(0.1, startTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(startTime + duration);
+                    
+                    startTime += duration + 0.05; // Small gap between notes
+                });
+            } catch (e) {
+                console.warn('Sound playback failed:', e);
+            }
+        }
+    </script>
+</body>
+</html> 

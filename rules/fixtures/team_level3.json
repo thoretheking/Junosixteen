@@ -1,0 +1,11 @@
+{
+  "team_member": [
+    ["lea","alpha"], ["max","alpha"], ["kim","alpha"], ["tom","alpha"]
+  ],
+  "team_size": [["alpha",4]],
+  "team_answer_correct": [["alpha",3,9,3]],
+  "answered_correct": [
+    ["lea",3,9,"2025-08-25T08:06:00Z"]
+  ],
+  "deadline": [[3,"2025-08-29T21:59:00Z"]]
+} 

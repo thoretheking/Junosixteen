@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "JunoSixteen",
+    "slug": "junosixteen-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#5479F7"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.junosixteen.mobile",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#5479F7"
+      },
+      "package": "com.junosixteen.mobile",
+      "versionCode": 1
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "@react-native-firebase/app",
+        {
+          "ios": {
+            "googleServicesFile": "./GoogleService-Info.plist"
+          },
+          "android": {
+            "googleServicesFile": "./google-services.json"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "junosixteen-mobile-project"
+      }
+    }
+  }
+} 

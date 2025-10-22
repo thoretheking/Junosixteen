@@ -1,0 +1,60 @@
+{
+  "description": "Demo data for leaderboard testing",
+  "users": [
+    {
+      "userId": "lea",
+      "name": "Lea Müller", 
+      "department": "IT",
+      "completions": [
+        {
+          "sessionId": "sess-lea-001",
+          "level": 3,
+          "completedAt": "2025-09-10T14:30:00Z",
+          "finalPoints": 465
+        },
+        {
+          "sessionId": "sess-lea-002", 
+          "level": 2,
+          "completedAt": "2025-09-08T16:45:00Z",
+          "finalPoints": 380
+        }
+      ]
+    },
+    {
+      "userId": "max",
+      "name": "Max Schmidt",
+      "department": "Marketing", 
+      "completions": [
+        {
+          "sessionId": "sess-max-001",
+          "level": 3,
+          "completedAt": "2025-09-10T11:20:00Z", 
+          "finalPoints": 420
+        }
+      ]
+    },
+    {
+      "userId": "kim",
+      "name": "Kim Chen",
+      "department": "IT",
+      "completions": [
+        {
+          "sessionId": "sess-kim-001",
+          "level": 2,
+          "completedAt": "2025-09-09T09:15:00Z",
+          "finalPoints": 350
+        }
+      ]
+    }
+  ],
+  "teams": [
+    {
+      "teamId": "team-alpha",
+      "members": ["lea", "max"]
+    },
+    {
+      "teamId": "team-beta", 
+      "members": ["kim"]
+    }
+  ]
+} 

@@ -1,0 +1,53 @@
+policy_version: v1.0
+world: health
+mission_template:
+  lives_start: 3
+  questions:
+    standard: 7
+    risk_at: [5, 10]
+    team_at: [9]
+  challenge_fallback: true
+
+compose:
+  max_quests_per_loop: 10
+  modality_weights:
+    mcq: 0.6
+    challenge: 0.3
+    reflection: 0.1
+
+zpd:
+  start: medium
+  adjust_rules:
+    - when: score_avg > 0.82
+      do: raise
+    - when: score_avg < 0.55 or help_rate > 0.25
+      do: lower
+
+risk_guard:
+  max_attempts: 2
+  cooldown_ms: 30000
+  boss_challenge_ids:
+    q5: contamination_emergency
+    q10: sterile_protocol_crisis
+
+gamification:
+  base_points:
+    standard: 200
+    risk: 400
+    team: 300
+  bonus_minigame:
+    points: 5000
+    life_plus: 1
+    life_cap: 5
+
+avatar_feedback:
+  success_style: upbeat
+  fail_style: supportive
+
+story:
+  briefing: "Willkommen zur CleanRoom Expedition! Heute lernst du die kritischen Sicherheitsprotokolle für sterile Umgebungen. Ein Fehler kann tödlich sein!"
+  debrief_success: "Ausgezeichnet! Du hast alle Protokolle gemeistert. Die sterile Umgebung ist sicher!"
+  debrief_fail: "Leider hast du die Mission nicht bestanden. Aber keine Sorge - jeder Experte hat mal klein angefangen!"
+  cliffhanger: "Nächste Mission: Ein mysteriöser Kontaminationsvorfall wartet auf deine Expertise..."
+
+

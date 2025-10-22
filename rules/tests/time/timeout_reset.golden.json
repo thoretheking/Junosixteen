@@ -1,0 +1,5 @@
+{
+  "facts": "fixtures/timelock_level3.json",
+  "query": "should_reset_due_timeout(U,L)?",
+  "expectContains": ["\"L\":3"]
+} 

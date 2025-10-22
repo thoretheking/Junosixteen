@@ -1,0 +1,5 @@
+{
+  "facts": "fixtures/team_level3.json",
+  "query": "apply_team_multiplier(U,L,M)?",
+  "expectContains": ["\"U\":\"lea\"", "\"L\":3", "\"M\":3"]
+} 

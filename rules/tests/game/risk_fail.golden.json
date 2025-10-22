@@ -1,0 +1,5 @@
+{
+  "facts": "fixtures/risk_level3_fail.json",
+  "query": "reset_level(U,L)?",
+  "expectContains": ["\"U\":\"lea\"", "\"L\":3"]
+} 

@@ -1,0 +1,9 @@
+{
+  "mangle_explainability": true,
+  "mangle_leaderboard": true,
+  "mangle_policy_decision": true,
+  "mangle_debug_mode": true,
+  "leaderboard_badges": true,
+  "advanced_analytics": false,
+  "experimental_features": false
+} 

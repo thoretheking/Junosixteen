@@ -1,0 +1,110 @@
+# Cursor Project Rules – JunoSixteen + Google Mangle
+
+## 🎯 Google Mangle Regelwerk-System
+
+### Regelorganisation
+- Alle Mangle-Regeln liegen unter `/rules` als `*.mg` (progress.mg, game.mg, time.mg, recommend.mg, certs.mg)
+- Kommentare in .mg sind auf Deutsch, jede Regel hat 1–2 erklärende Kommentarzeilen (WAS & WARUM)
+- Für jedes Regelpaket existieren Golden-Tests unter `/rules/tests/<paket>/`
+- Facts (Fakten) liegen als JSON unter `/rules/fixtures/*.json` (IDs statt Klarnamen)
+
+### Backend-Integration
+- Im Node-Adapter `/backend/policy.ts` werden ausschließlich die Mangle-Entscheidungen angewendet (keine Duplikat-Logik)
+- Negative Tests (Gegenbeweise) sind Pflicht: jeder Testfall sollte eine "nicht zutreffen"-Variante haben
+
+### DSGVO-Compliance
+- Keine PII in Facts; nur IDs und Metadaten (Zeitstempel, Level, Frage, Punktzahlen)
+- Alle personenbezogenen Daten werden pseudonymisiert verarbeitet
+- Audit-Logs enthalten nur anonymisierte Referenzen
+
+## 🎮 JunoSixteen Spezifische Regeln
+
+### Gamification-Engine
+- Alle Spielregeln (Punkte, Badges, Level) werden über Mangle-Regeln definiert
+- Fortschrittslogik erfolgt regelbasiert ohne Hardcoding
+- Adaptive Schwierigkeitsanpassung über Mangle-Policies
+
+### Fragenmanagement
+- Fragenpools werden über Mangle-Regeln kategorisiert und zugewiesen
+- KI-Fragengenerierung folgt Mangle-definierten Parametern
+- Qualitätskontrolle und -bewertung über Regelwerk
+
+### Zertifizierungssystem
+- Zertifikatsausstellung folgt Mangle-Policies (certs.mg)
+- Validierung und Verifizierung regelbasiert
+- Compliance-Anforderungen über Mangle-Regeln abgebildet
+
+## 📁 Verzeichnisstruktur
+
+```
+/rules/
+├── progress.mg          # Fortschritts- und Level-Regeln
+├── game.mg             # Gamification und Punktesystem
+├── time.mg             # Zeitbasierte Regeln und Deadlines
+├── recommend.mg        # Empfehlungsalgorithmen
+├── certs.mg            # Zertifikatserstellung und -validierung
+├── fixtures/
+│   ├── users.json      # Benutzer-IDs und Metadaten
+│   ├── questions.json  # Fragen-IDs und Kategorien
+│   ├── levels.json     # Level-Definitionen
+│   └── badges.json     # Badge-Konfiguration
+└── tests/
+    ├── progress/
+    ├── game/
+    ├── time/
+    ├── recommend/
+    └── certs/
+```
+
+## 🔧 Entwicklungsrichtlinien
+
+### Code-Struktur
+- Trennung von Geschäftslogik (Mangle-Regeln) und Implementation (TypeScript/Node.js)
+- Alle Entscheidungslogik erfolgt über Mangle-Engine
+- Backend fungiert als dünnere Adapter-Schicht
+
+### Testing-Philosophie
+- Jede Mangle-Regel hat positive und negative Testfälle
+- Golden-Tests dokumentieren erwartetes Verhalten
+- Regression-Tests bei Regeländerungen
+
+### Performance
+- Mangle-Evaluierung wird gecacht wo möglich
+- Regelkomplexität wird überwacht
+- Batch-Verarbeitung für große Datenmengen
+
+## 🛡️ Sicherheit & Compliance
+
+### Datenschutz
+- Alle Mangle-Facts sind DSGVO-konform anonymisiert
+- Keine direkten Personenbezüge in Regelwerk
+- Audit-Trail für alle Regelentscheidungen
+
+### Qualitätssicherung
+- Mangle-Regeln werden versioniert
+- Code-Reviews für alle Regeländerungen
+- Automatisierte Regel-Validierung
+
+## 🚀 Deployment & Monitoring
+
+### Regel-Deployment
+- Mangle-Regeln werden separat von Code deployed
+- Canary-Releases für kritische Regeländerungen
+- Rollback-Mechanismen für Regeländerungen
+
+### Monitoring
+- Mangle-Performance wird überwacht
+- Regel-Evaluierung wird geloggt
+- Anomalie-Erkennung bei unerwarteten Entscheidungen
+
+## 📋 Best Practices
+
+### Regel-Design
+- Regeln sind selbsterklärend und gut dokumentiert
+- Modulare Struktur für Wiederverwendbarkeit
+- Versionierung und Backward-Compatibility
+
+### Maintenance
+- Regelmäßige Review der Mangle-Regeln
+- Performance-Optimierung basierend auf Metriken
+- Kontinuierliche Verbesserung der Regel-Qualität 

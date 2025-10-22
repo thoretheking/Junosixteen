@@ -1,0 +1,10 @@
+{
+  "userId": "kim",
+  "sessionId": "sess-deadline-001",
+  "level": 1,
+  "watched": [1, 2],
+  "answers": [
+    { "idx": 1, "part": "-", "correct": true }
+  ],
+  "deadlineISO": "2025-08-20T23:59:00Z"
+} 

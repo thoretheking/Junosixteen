@@ -1,0 +1,5 @@
+{
+  "facts": "fixtures/lea_level3.json",
+  "query": "can_start(U,Next)?",
+  "expectContains": ["lea", "\"Next\":4"]
+} 

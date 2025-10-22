@@ -1,0 +1,78 @@
+// Fakten:
+// deadline(User, Topic, IsoTs).
+// answered_in_time(User, QuestionId).
+// finished(User, Topic).
+
+violation(User, Topic, "deadline_missed") :-
+  now(N), deadline(User, Topic, D), N > D, not finished(User, Topic).
+
+violation(User, Topic, "time_lock") :-
+  required_timelock(QuestionId, Sec), not answered_in_time(User, QuestionId).
+
+issue_certificate(User, Topic) :-
+  finished(User, Topic), not violation(User, Topic, _).
+
+// JunoSixteen spezifische Time-Lock Rules
+// Freitag 23:59 Deadline für wöchentliche Module
+weekly_deadline(User, Topic, "Friday", "23:59") :-
+  module_type(Topic, "weekly").
+
+deadline_violation(User, Topic) :-
+  weekly_deadline(User, Topic, Day, Time),
+  current_time(CurrentDay, CurrentTime),
+  time_exceeded(CurrentDay, CurrentTime, Day, Time),
+  not finished(User, Topic).
+
+// Question Time Limits (JunoSixteen Game Mechanics)
+question_timeout(User, Topic, QuestionId) :-
+  question_time_limit(Topic, QuestionId, LimitSec),
+  answer_duration(User, Topic, QuestionId, ActualSec),
+  ActualSec > LimitSec.
+
+// Certificate Eligibility Rules
+certificate_eligible(User, Topic) :-
+  level_complete(User, Topic, 10),
+  not violation(User, Topic, _),
+  not penalty(User, Topic, _),
+  quality_threshold_met(User, Topic).
+
+quality_threshold_met(User, Topic) :-
+  correct_answers(User, Topic, CorrectCount),
+  total_questions(Topic, TotalCount),
+  Accuracy = CorrectCount / TotalCount,
+  Accuracy >= 0.8.
+
+// Advanced Certificate Tiers
+certificate_tier(User, Topic, "gold") :-
+  certificate_eligible(User, Topic),
+  apply_multiplier(User, Topic, "risk_double"),
+  apply_multiplier(User, Topic, "team_triple"),
+  completion_time(User, Topic, TimeMin),
+  TimeMin <= 15.
+
+certificate_tier(User, Topic, "silver") :-
+  certificate_eligible(User, Topic),
+  apply_multiplier(User, Topic, "risk_double"),
+  not certificate_tier(User, Topic, "gold").
+
+certificate_tier(User, Topic, "bronze") :-
+  certificate_eligible(User, Topic),
+  not certificate_tier(User, Topic, "silver"),
+  not certificate_tier(User, Topic, "gold").
+
+// Auto-Reset Logic
+auto_reset_required(User, Topic) :-
+  violation(User, Topic, "deadline_missed").
+
+auto_reset_required(User, Topic) :-
+  penalty(User, Topic, "level_reset").
+
+// Imprint-Style Recommendations
+recommend_retry(User, Topic) :-
+  auto_reset_required(User, Topic),
+  retry_count(User, Topic, Count),
+  Count < 3.
+
+recommend_support(User, Topic) :-
+  retry_count(User, Topic, Count),
+  Count >= 3. 

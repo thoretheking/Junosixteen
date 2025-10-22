@@ -1,0 +1,53 @@
+policy_version: v1.0
+world: factory
+mission_template:
+  lives_start: 3
+  questions:
+    standard: 7
+    risk_at: [5, 10]
+    team_at: [9]
+  challenge_fallback: true
+
+compose:
+  max_quests_per_loop: 10
+  modality_weights:
+    mcq: 0.6
+    challenge: 0.3
+    reflection: 0.1
+
+zpd:
+  start: medium
+  adjust_rules:
+    - when: score_avg > 0.82
+      do: raise
+    - when: score_avg < 0.55 or help_rate > 0.25
+      do: lower
+
+risk_guard:
+  max_attempts: 2
+  cooldown_ms: 30000
+  boss_challenge_ids:
+    q5: hazard_identification
+    q10: production_emergency
+
+gamification:
+  base_points:
+    standard: 200
+    risk: 400
+    team: 300
+  bonus_minigame:
+    points: 5000
+    life_plus: 1
+    life_cap: 5
+
+avatar_feedback:
+  success_style: upbeat
+  fail_style: supportive
+
+story:
+  briefing: "Safety Protocol Mission aktiviert! Die Fabrik läuft auf Hochtouren. Verhindere Unfälle, sichere Prozesse, rette Leben!"
+  debrief_success: "Null Unfälle! Du hast alle Sicherheitsprotokolle perfekt umgesetzt. Die Produktion läuft sicher!"
+  debrief_fail: "Sicherheitsvorfall! Diesmal ist etwas schiefgegangen. Aber aus Fehlern lernen wir am meisten!"
+  cliffhanger: "ALARM: Not-Aus ausgelöst in Halle 3! Ein kritischer Vorfall erfordert deine Expertise..."
+
+

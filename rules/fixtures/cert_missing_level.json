@@ -1,0 +1,7 @@
+{
+  "completed_level": [["lea",1],["lea",2],["lea",3]], 
+  "course_of_level": [[1,"onboarding"],[2,"onboarding"],[3,"onboarding"],[4,"onboarding"]],
+  "answered_correct": [["lea",1,1,"2025-08-25T08:00:00Z"]],
+  "answered_wrong": [],
+  "team_member": [["lea","alpha"]]
+} 

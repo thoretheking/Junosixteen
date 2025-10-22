@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package mangle;
+
+service Mangle {
+  rpc Query (QueryRequest) returns (QueryReply);
+  rpc Update (UpdateRequest) returns (UpdateReply);
+}
+
+message QueryRequest { 
+  string query = 1; 
+}
+
+message QueryReply { 
+  repeated string facts = 1; 
+}
+
+message UpdateRequest { 
+  string program = 1; 
+}
+
+message UpdateReply { 
+  bool ok = 1; 
+  string error = 2; 
+} 

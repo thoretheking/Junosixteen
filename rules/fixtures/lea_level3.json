@@ -1,0 +1,44 @@
+{
+  "answered_correct": [
+    ["lea", 3, 1, "2025-08-25T07:58:00Z"],
+    ["lea", 3, 2, "2025-08-25T07:59:00Z"],
+    ["lea", 3, 3, "2025-08-25T08:00:00Z"],
+    ["lea", 3, 4, "2025-08-25T08:01:00Z"],
+    ["lea", 3, 5, "2025-08-25T08:02:00Z"],
+    ["lea", 3, 6, "2025-08-25T08:03:00Z"],
+    ["lea", 3, 7, "2025-08-25T08:04:00Z"],
+    ["lea", 3, 8, "2025-08-25T08:05:00Z"],
+    ["lea", 3, 9, "2025-08-25T08:06:00Z"],
+    ["lea", 3, 10, "2025-08-25T08:07:00Z"]
+  ],
+  "answered_wrong": [],
+  "deadline": [
+    [3, "2025-08-29T21:59:00Z"],
+    [4, "2025-09-05T21:59:00Z"]
+  ],
+  "level_completions": [
+    {
+      "userId": "lea",
+      "level": 3,
+      "timestamp": "2025-08-25T08:07:30Z",
+      "score": 15000,
+      "perfect": true
+    }
+  ],
+  "game_events": [
+    {
+      "userId": "lea",
+      "level": 3,
+      "eventType": "risk_success",
+      "data": {"questions": [5, 10], "multiplier": 2.0},
+      "timestamp": "2025-08-25T08:02:30Z"
+    },
+    {
+      "userId": "lea",
+      "level": 3,
+      "eventType": "level_completed",
+      "data": {"final_score": 15000, "time_spent": 570},
+      "timestamp": "2025-08-25T08:07:30Z"
+    }
+  ]
+} 

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 JunoSixteen - Dashboard Navigation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .admin-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .admin-toggle.active {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+        }
+
+        .category-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .category-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .category-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .category-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .category-features li {
+            padding: 5px 0;
+            color: #777;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .category-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .admin-section {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .admin-section.visible {
+            display: block;
+        }
+
+        .admin-section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .admin-card {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .admin-card p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .feature-list li:before {
+            content: "🚀";
+            position: absolute;
+            left: 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="admin-toggle" onclick="toggleAdmin()" id="adminToggle">
+            🔐 Admin Modus
+        </button>
+        <h1>🎯 JunoSixteen Dashboard</h1>
+        <p>Zentrale Navigation für alle Lernbereiche</p>
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number">8</span>
+                <span class="stat-label">Hauptbereiche</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">105</span>
+                <span class="stat-label">Themenbereiche</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">105K</span>
+                <span class="stat-label">Fragen</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">7</span>
+                <span class="stat-label">Sprachen</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10</span>
+                <span class="stat-label">Level</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            <!-- Berufsspezifisch -->
+            <div class="category-card" onclick="openModal('berufsspezifisch')">
+                <span class="category-icon">💼</span>
+                <h2 class="category-title">Berufsspezifisch</h2>
+                <p class="category-description">
+                    Maßgeschneiderte Lernpfade für verschiedene Branchen und Berufsfelder.
+                </p>
+                <ul class="category-features">
+                    <li>CleanRoom Essentials (Pflege)</li>
+                    <li>DataLegal Drive (Kanzleien)</li>
+                    <li>Digital Safety Sprint (Tech)</li>
+                    <li>Factory First (Produktion)</li>
+                    <li>Digital Kompetent (Verwaltung)</li>
+                </ul>
+            </div>
+
+            <!-- Themenspezifisch -->
+            <div class="category-card" onclick="openModal('themenspezifisch')">
+                <span class="category-icon">📚</span>
+                <h2 class="category-title">Themenspezifisch</h2>
+                <p class="category-description">
+                    13 Hauptkategorien mit 88+ Themenbereichen für umfassendes Lernen.
+                </p>
+                <ul class="category-features">
+                    <li>105.000 Fragen verfügbar</li>
+                    <li>10 Level pro Thema</li>
+                    <li>Adaptive KI-Fragengenerierung</li>
+                    <li>Progressive Schwierigkeit</li>
+                </ul>
+            </div>
+
+            <!-- Mini-Games -->
+            <div class="category-card" onclick="openModal('minigames')">
+                <span class="category-icon">🎮</span>
+                <h2 class="category-title">Mini-Games</h2>
+                <p class="category-description">
+                    Spielerische Lernaktivitäten als Belohnung für Level-Abschlüsse.
+                </p>
+                <ul class="category-features">
+                    <li>Memory Cards</li>
+                    <li>Word Scramble</li>
+                    <li>Reaction Test</li>
+                    <li>Puzzle Slider</li>
+                </ul>
+            </div>
+
+            <!-- Wissenssnacks -->
+            <div class="category-card" onclick="openModal('wissenssnacks')">
+                <span class="category-icon">🍎</span>
+                <h2 class="category-title">Wissenssnacks</h2>
+                <p class="category-description">
+                    Kurze Lerneinheiten für zwischendurch - flexibel und effizient.
+                </p>
+                <ul class="category-features">
+                    <li>QUICK (2-3 Min.)</li>
+                    <li>SHORT (5-7 Min.)</li>
+                    <li>MEDIUM (10-15 Min.)</li>
+                    <li>DEEP (20-30 Min.)</li>
+                </ul>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="category-card" onclick="openModal('softskills')">
+                <span class="category-icon">🌟</span>
+                <h2 class="category-title">Bonuspfade / Soft Skills</h2>
+                <p class="category-description">
+                    Persönliche Entwicklung und soziale Kompetenzen ohne Zeitdruck.
+                </p>
+                <ul class="category-features">
+                    <li>Kommunikation</li>
+                    <li>Resilienz</li>
+                    <li>Team Leadership</li>
+                    <li>Zeitmanagement</li>
+                </ul>
+            </div>
+
+            <!-- Fortschritt -->
+            <div class="category-card" onclick="openModal('fortschritt')">
+                <span class="category-icon">📊</span>
+                <h2 class="category-title">Mein Fortschritt / Zertifikate</h2>
+                <p class="category-description">
+                    Übersicht über Lernfortschritt, Achievements und Zertifikate.
+                </p>
+                <ul class="category-features">
+                    <li>Level-Übersicht</li>
+                    <li>Badges & Achievements</li>
+                    <li>Lernstatistiken</li>
+                    <li>Zertifikat-Management</li>
+                </ul>
+            </div>
+
+            <!-- Recht & KI -->
+            <div class="category-card" onclick="openModal('recht')">
+                <span class="category-icon">⚖</span>
+                <h2 class="category-title">Recht & KI-Regulierung</h2>
+                <p class="category-description">
+                    Spezialisiert auf rechtliche Aspekte der Digitalisierung und KI.
+                </p>
+                <ul class="category-features">
+                    <li>DSGVO & Datenschutz</li>
+                    <li>EU AI Act</li>
+                    <li>Algorithmic Bias</li>
+                    <li>Digital Services Act</li>
+                </ul>
+            </div>
+
+            <!-- Eigener Pfad -->
+            <div class="category-card" onclick="openModal('eigenpfad')">
+                <span class="category-icon">🔧</span>
+                <h2 class="category-title">Mein eigener Pfad</h2>
+                <p class="category-description">
+                    Individuell zusammengestellte Lernpfade nach persönlichen Zielen.
+                </p>
+                <ul class="category-features">
+                    <li>Custom Learning Paths</li>
+                    <li>Persönliche Zielsetzung</li>
+                    <li>Favoriten-System</li>
+                    <li>Personalisierte Empfehlungen</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Admin Section -->
+        <div class="admin-section" id="adminSection">
+            <h2>🔐 Admin-Funktionen</h2>
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <h3>👥 Nutzerverwaltung</h3>
+                    <p>User anlegen, bearbeiten, löschen und Berechtigungen verwalten</p>
+                </div>
+                <div class="admin-card">
+                    <h3>🎯 Pfadzuweisung</h3>
+                    <p>Benutzer zu spezifischen Lernpfaden zuweisen und Fortschritt überwachen</p>
+                </div>
+                <div class="admin-card">
+                    <h3>📊 System-Analytics</h3>
+                    <p>Gesamtstatistiken, Nutzungsanalysen und Performance-Metriken</p>
+                </div>
+                <div class="admin-card">
+                    <h3>🔧 Content-Management</h3>
+                    <p>Fragen, Pfade und Kategorien bearbeiten und verwalten</p>
+                </div>
+                <div class="admin-card">
+                    <h3>⚙️ System-Konfiguration</h3>
+                    <p>Einstellungen, API-Keys und Integrationen konfigurieren</p>
+                </div>
+                <div class="admin-card">
+                    <h3>📋 Audit-Logs</h3>
+                    <p>Vollständige Systemaktivität einsehen und exportieren</p>
+                </div>
+                <div class="admin-card">
+                    <h3>🏆 Badge-Management</h3>
+                    <p>Benutzerdefinierte Auszeichnungen erstellen und verwalten</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <h2 id="modalTitle">Bereich Details</h2>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content wird hier eingefügt -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isAdmin = false;
+
+        const modalContent = {
+            berufsspezifisch: {
+                title: "💼 Berufsspezifische Lernpfade",
+                content: `
+                    <h3>🎯 Verfügbare Pfade:</h3>
+                    <ul class="feature-list">
+                        <li><strong>CleanRoom Essentials</strong> - Pflege & Gesundheitswesen (10 Level)</li>
+                        <li><strong>DataLegal Drive</strong> - Kanzleien & Agenturen (10 Level)</li>
+                        <li><strong>Digital Safety Sprint</strong> - Tech-Startups (10 Level)</li>
+                        <li><strong>Factory First</strong> - Produktion & Logistik (10 Level)</li>
+                        <li><strong>Digital Kompetent</strong> - Öffentliche Verwaltung (10 Level)</li>
+                    </ul>
+                    <h3>🎮 Besonderheiten:</h3>
+                    <ul class="feature-list">
+                        <li>Videos vor jeder Frage (35 Sek., nicht vorspulbar)</li>
+                        <li>Time-Lock System für Antworten</li>
+                        <li>Branchenspezifische Avatare</li>
+                        <li>Spezielle Badges für jeden Pfad</li>
+                        <li>Praktische Fallstudien aus dem Arbeitsalltag</li>
+                    </ul>
+                `
+            },
+            themenspezifisch: {
+                title: "📚 Themenspezifische Lernpfade",
+                content: `
+                    <h3>🧭 13 Hauptkategorien:</h3>
+                    <ul class="feature-list">
+                        <li>Digitale Welt & Technik (10 Bereiche)</li>
+                        <li>Beruf & Karriere (9 Bereiche)</li>
+                        <li>Recht & Politik (12 Bereiche)</li>
+                        <li>Psychologie & Persönlichkeitsentwicklung (8 Bereiche)</li>
+                        <li>Gesundheit & Pflege (6 Bereiche)</li>
+                        <li>Umwelt & Nachhaltigkeit (2 Bereiche)</li>
+                        <li>Gesellschaft & Werte (7 Bereiche)</li>
+                        <li>Wirtschaft & Finanzen (4 Bereiche)</li>
+                        <li>Methoden & Tools (10 Bereiche)</li>
+                        <li>Interdisziplinär & Transfer (2 Bereiche)</li>
+                        <li>Schule (7 Bereiche)</li>
+                        <li>Studium (7 Bereiche)</li>
+                        <li>Ausbildung (8 Bereiche)</li>
+                    </ul>
+                    <h3>🎯 Features pro Thema:</h3>
+                    <ul class="feature-list">
+                        <li>10 progressive Level (Rookie → Super Expert)</li>
+                        <li>1.000 Fragen pro Bereich</li>
+                        <li>Adaptive KI-Fragengenerierung</li>
+                        <li>7 Sprachen verfügbar</li>
+                    </ul>
+                `
+            },
+            minigames: {
+                title: "🎮 Mini-Games System",
+                content: `
+                    <h3>🧠 Verfügbare Spiele:</h3>
+                    <ul class="feature-list">
+                        <li><strong>Memory Cards</strong> - Gedächtnistraining mit Fachbegriffen</li>
+                        <li><strong>Word Scramble</strong> - Buchstaben-Puzzle aus Lernthemen</li>
+                        <li><strong>Reaction Test</strong> - Schnelle Erkennung richtig/falsch</li>
+                        <li><strong>Puzzle Slider</strong> - Workflow-Diagramme zusammensetzen</li>
+                    </ul>
+                    <h3>🏆 Belohnungssystem:</h3>
+                    <ul class="feature-list">
+                        <li>Freischaltung nach Level-Abschluss</li>
+                        <li>Extra XP bei Perfect Score</li>
+                        <li>Highscore-Listen und Challenges</li>
+                        <li>Spezielle Minigame-Badges</li>
+                        <li>Themen-spezifische Inhalte</li>
+                    </ul>
+                `
+            },
+            wissenssnacks: {
+                title: "🍎 Wissenssnacks (Microlearning)",
+                content: `
+                    <h3>⏱️ Zeit-Kategorien:</h3>
+                    <ul class="feature-list">
+                        <li><strong>QUICK (2-3 Min.)</strong> - Schnelle Wissenslücken füllen</li>
+                        <li><strong>SHORT (5-7 Min.)</strong> - Kompakte Lerneinheiten</li>
+                        <li><strong>MEDIUM (10-15 Min.)</strong> - Vertiefende Themen</li>
+                        <li><strong>DEEP (20-30 Min.)</strong> - Umfassende Lernmodule</li>
+                    </ul>
+                    <h3>🎯 Eigenschaften:</h3>
+                    <ul class="feature-list">
+                        <li>Flexibel zwischen anderen Aktivitäten</li>
+                        <li>Keine Deadlines oder Zeitdruck</li>
+                        <li>Sofort pausier- und fortsetzbar</li>
+                        <li>Verschiedene Themen kombinierbar</li>
+                        <li>Mobile-optimiert für unterwegs</li>
+                    </ul>
+                `
+            },
+            softskills: {
+                title: "🌟 Bonuspfade / Soft Skills",
+                content: `
+                    <h3>🗣️ Entwicklungsbereiche:</h3>
+                    <ul class="feature-list">
+                        <li><strong>Kommunikation</strong> - Aktives Zuhören, Präsentationen</li>
+                        <li><strong>Resilienz</strong> - Stressmanagement, Burnout-Prävention</li>
+                        <li><strong>Team Leadership</strong> - Delegieren, Konfliktlösung</li>
+                        <li><strong>Zeitmanagement</strong> - Prioritäten, Produktivität</li>
+                    </ul>
+                    <h3>✨ Besonderheiten:</h3>
+                    <ul class="feature-list">
+                        <li>Freiwillige Teilnahme ohne Druck</li>
+                        <li>Selbstreflexion und persönliche Ziele</li>
+                        <li>Keine Deadlines oder Bewertungen</li>
+                        <li>Jederzeit pausierbar</li>
+                        <li>Wiederholbar für Vertiefung</li>
+                    </ul>
+                `
+            },
+            fortschritt: {
+                title: "📊 Mein Fortschritt / Zertifikate",
+                content: `
+                    <h3>📈 Fortschritts-Tracking:</h3>
+                    <ul class="feature-list">
+                        <li>Level-Übersicht aller Themenbereiche</li>
+                        <li>Punktestand und Badge-Sammlung</li>
+                        <li>Lernzeiten und Aktivitätsstatistiken</li>
+                        <li>Streak-Counter für tägliche Aktivität</li>
+                        <li>Persönliche Bestleistungen</li>
+                    </ul>
+                    <h3>🏆 Zertifikat-System:</h3>
+                    <ul class="feature-list">
+                        <li>Hash-basierte Verifizierung</li>
+                        <li>QR-Code für mobile Validierung</li>
+                        <li>PDF-Export für Bewerbungen</li>
+                        <li>Integration in HR-Systeme</li>
+                        <li>Öffentliche Verifikation möglich</li>
+                    </ul>
+                `
+            },
+            recht: {
+                title: "⚖ Recht & KI-Regulierung",
+                content: `
+                    <h3>📜 Rechtsbereiche:</h3>
+                    <ul class="feature-list">
+                        <li><strong>DSGVO & Datenschutz</strong> - Aktuelle Rechtslage</li>
+                        <li><strong>EU AI Act</strong> - KI-Regulierung und Compliance</li>
+                        <li><strong>Algorithmic Bias</strong> - Ethik in KI-Systemen</li>
+                        <li><strong>Digital Services Act</strong> - Plattform-Regulierung</li>
+                    </ul>
+                    <h3>🎯 Spezialbereich-Features:</h3>
+                    <ul class="feature-list">
+                        <li>Aktuelle Rechtsprechung integriert</li>
+                        <li>Praxisnahe Fallstudien</li>
+                        <li>Regelmäßige Updates bei Gesetzesänderungen</li>
+                        <li>Expertenvalidierte Inhalte</li>
+                        <li>Compliance-Checklisten</li>
+                    </ul>
+                `
+            },
+            eigenpfad: {
+                title: "🔧 Mein eigener Pfad",
+                content: `
+                    <h3>🎯 Personalisierung:</h3>
+                    <ul class="feature-list">
+                        <li><strong>Custom Learning Paths</strong> - Individuell zusammenstellbar</li>
+                        <li><strong>Persönliche Zielsetzung</strong> - Mit optionalen Deadlines</li>
+                        <li><strong>Favoriten-System</strong> - Bevorzugte Themen markieren</li>
+                        <li><strong>Notizen & Bookmarks</strong> - Zu Lerneinheiten hinzufügen</li>
+                    </ul>
+                    <h3>🤖 KI-Unterstützung:</h3>
+                    <ul class="feature-list">
+                        <li>Personalisierte Empfehlungen</li>
+                        <li>Lernverhalten-Analyse</li>
+                        <li>Optimale Lernzeiten vorschlagen</li>
+                        <li>Schwachstellen identifizieren</li>
+                        <li>Adaptive Schwierigkeitsanpassung</li>
+                    </ul>
+                `
+            }
+        };
+
+        function toggleAdmin() {
+            isAdmin = !isAdmin;
+            const toggle = document.getElementById('adminToggle');
+            const section = document.getElementById('adminSection');
+            
+            if (isAdmin) {
+                toggle.textContent = '👑 Admin Aktiv';
+                toggle.classList.add('active');
+                section.classList.add('visible');
+            } else {
+                toggle.textContent = '🔐 Admin Modus';
+                toggle.classList.remove('active');
+                section.classList.remove('visible');
+            }
+        }
+
+        function openModal(category) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            
+            const content = modalContent[category];
+            title.textContent = content.title;
+            body.innerHTML = content.content;
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'a' && e.ctrlKey) {
+                e.preventDefault();
+                toggleAdmin();
+            }
+        });
+
+        // Click outside modal to close
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
+</body>
+</html> 

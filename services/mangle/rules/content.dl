@@ -1,0 +1,68 @@
+// Fakten (Beispiele):
+// user_xp(User, XP).
+// module_req(Module, ReqXP).
+// completed_level(User, Topic, Level).
+
+allow(User, Module) :- user_xp(User, XP), module_req(Module, Req), XP >= Req.
+
+unlock_next_level(User, Topic, NextLevel) :-
+  completed_level(User, Topic, L), NextLevel = L + 1.
+
+// Risk Questions (5 & 10) - JunoSixteen spezifisch
+failed_risk_question(User, Topic, 5) :- answered_wrong(User, Topic, 5).
+failed_risk_question(User, Topic, 10) :- answered_wrong(User, Topic, 10).
+
+risk_reset(User, Topic) :-
+  failed_risk_question(User, Topic, Level), Level in {5,10}.
+
+// Penalty für Level Reset
+penalty(User, Topic, "level_reset") :- risk_reset(User, Topic).
+
+// Team Question Success (Question 9)
+team_success(User, Topic) :- 
+  team_question_passed(User, Topic, 9),
+  team_participation(User, Topic, TeamId),
+  team_success_rate(TeamId, Topic, Rate),
+  Rate >= 0.5.
+
+// Bonus Multiplier
+apply_multiplier(User, Topic, "risk_double") :-
+  risk_question_passed(User, Topic, 5),
+  risk_question_passed(User, Topic, 10).
+
+apply_multiplier(User, Topic, "team_triple") :-
+  team_success(User, Topic).
+
+// Level Completion
+level_complete(User, Topic, Level) :-
+  all_questions_answered(User, Topic, Level),
+  not penalty(User, Topic, "level_reset").
+
+// XP Calculation with Multipliers
+base_xp(User, Topic, Level, BaseXP) :-
+  questions_correct(User, Topic, Level, Count),
+  BaseXP = Count * 10.
+
+final_xp(User, Topic, Level, FinalXP) :-
+  base_xp(User, Topic, Level, BaseXP),
+  apply_multiplier(User, Topic, "risk_double"),
+  apply_multiplier(User, Topic, "team_triple"),
+  FinalXP = BaseXP * 2 * 3.
+
+final_xp(User, Topic, Level, FinalXP) :-
+  base_xp(User, Topic, Level, BaseXP),
+  apply_multiplier(User, Topic, "risk_double"),
+  not apply_multiplier(User, Topic, "team_triple"),
+  FinalXP = BaseXP * 2.
+
+final_xp(User, Topic, Level, FinalXP) :-
+  base_xp(User, Topic, Level, BaseXP),
+  not apply_multiplier(User, Topic, "risk_double"),
+  apply_multiplier(User, Topic, "team_triple"),
+  FinalXP = BaseXP * 3.
+
+final_xp(User, Topic, Level, FinalXP) :-
+  base_xp(User, Topic, Level, BaseXP),
+  not apply_multiplier(User, Topic, "risk_double"),
+  not apply_multiplier(User, Topic, "team_triple"),
+  FinalXP = BaseXP. 

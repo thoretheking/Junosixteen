@@ -1,0 +1,133 @@
+{
+  "app": {
+    "name": "JunoSixteen",
+    "tagline": "Lerne spielend"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "missions": "Missionen", 
+    "leaderboard": "Bestenliste",
+    "profile": "Profil",
+    "settings": "Einstellungen"
+  },
+  "auth": {
+    "welcome": "Willkommen bei JunoSixteen",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "forgotPassword": "Passwort vergessen?",
+    "createAccount": "Konto erstellen",
+    "signInWithGoogle": "Mit Google anmelden"
+  },
+  "language": {
+    "select": "Sprache wählen",
+    "german": "Deutsch",
+    "english": "English",
+    "confirm": "Bestätigen"
+  },
+  "avatar": {
+    "select": "Avatar wählen",
+    "confirm": "Avatar bestätigen",
+    "change": "Avatar ändern"
+  },
+  "missions": {
+    "title": "Missionen",
+    "start": "Mission starten",
+    "continue": "Fortsetzen",
+    "completed": "Abgeschlossen",
+    "locked": "Gesperrt",
+    "lives": "Leben",
+    "points": "Punkte",
+    "progress": "Fortschritt",
+    "question": "Frage",
+    "of": "von",
+    "submit": "Antwort bestätigen",
+    "correct": "Richtig!",
+    "wrong": "Falsch!",
+    "tryAgain": "Nochmal versuchen",
+    "missionFailed": "Mission fehlgeschlagen",
+    "missionCompleted": "Mission abgeschlossen!",
+    "bonusAvailable": "Bonus-Spiel verfügbar!",
+    "playBonus": "Bonus-Spiel spielen",
+    "skipBonus": "Überspringen"
+  },
+  "challenges": {
+    "title": "Challenge",
+    "instructions": "Anweisungen",
+    "timeLeft": "Zeit übrig",
+    "start": "Start",
+    "submit": "Bestätigen",
+    "success": "Challenge erfolgreich!",
+    "failed": "Challenge fehlgeschlagen",
+    "continue": "Weiter",
+    "tryAgain": "Nochmal",
+    "giveUp": "Aufgeben"
+  },
+  "worlds": {
+    "health": "Gesundheit & CleanRoom",
+    "it": "IT & Cyber Security",
+    "legal": "Recht & Compliance",
+    "public": "Öffentliche Verwaltung",
+    "factory": "Produktion & Sicherheit"
+  },
+  "difficulty": {
+    "easy": "Einfach",
+    "medium": "Mittel", 
+    "hard": "Schwer"
+  },
+  "badges": {
+    "topPerformer": "Top-Performer",
+    "teamPlayer": "Teamplayer",
+    "consistentLearner": "Beständiger Lerner",
+    "speedRunner": "Speedrunner",
+    "earned": "Erhalten",
+    "notEarned": "Noch nicht erhalten"
+  },
+  "leaderboard": {
+    "title": "Bestenliste",
+    "individual": "Einzelwertung",
+    "team": "Teamwertung",
+    "weekly": "Diese Woche",
+    "monthly": "Dieser Monat", 
+    "allTime": "Gesamt",
+    "rank": "Platz",
+    "points": "Punkte",
+    "you": "Du"
+  },
+  "bonusGame": {
+    "title": "Bonus-Spiel",
+    "description": "Verdiene extra Punkte und ein Leben!",
+    "reward": "Belohnung",
+    "pointsReward": "{{points}} Punkte",
+    "lifeReward": "+1 Leben",
+    "success": "Bonus erhalten!",
+    "failed": "Bonus verpasst",
+    "timeUp": "Zeit abgelaufen!"
+  },
+  "accessibility": {
+    "livesRemaining": "{{count}} Leben übrig",
+    "pointsEarned": "{{points}} Punkte erhalten", 
+    "questionProgress": "Frage {{current}} von {{total}}",
+    "selectAnswer": "Wähle eine Antwort aus",
+    "challengeStarted": "Challenge gestartet",
+    "missionComplete": "Mission abgeschlossen"
+  },
+  "errors": {
+    "generic": "Ein Fehler ist aufgetreten",
+    "network": "Netzwerkfehler",
+    "retry": "Nochmal versuchen",
+    "goBack": "Zurück"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Abbrechen",
+    "yes": "Ja",
+    "no": "Nein",
+    "loading": "Lade...",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "close": "Schließen"
+  }
+} 

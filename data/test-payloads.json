@@ -1,0 +1,57 @@
+{
+  "level_reset_risk": {
+    "userId": "u1",
+    "team": "blue",
+    "sessionId": "s1",
+    "level": 2,
+    "watched": [1, 2, 3, 4, 5],
+    "answers": [
+      { "idx": 5, "part": "A", "correct": true },
+      { "idx": 5, "part": "B", "correct": false }
+    ],
+    "deadlineISO": "2025-08-29T21:59:00Z"
+  },
+  "team_success": {
+    "userId": "u7",
+    "team": "red",
+    "sessionId": "s9",
+    "level": 4,
+    "watched": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "answers": [
+      { "idx": 9, "part": "-", "correct": true }
+    ],
+    "teamAnswers": [
+      { "memberId": "u7", "correct": true },
+      { "memberId": "u8", "correct": true },
+      { "memberId": "u9", "correct": false }
+    ],
+    "deadlineISO": "2025-09-05T21:59:00Z"
+  },
+  "level_passed": {
+    "userId": "u3",
+    "team": "green",
+    "sessionId": "s3",
+    "level": 1,
+    "watched": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "answers": [
+      { "idx": 1, "part": "-", "correct": true },
+      { "idx": 2, "part": "-", "correct": true },
+      { "idx": 3, "part": "-", "correct": true },
+      { "idx": 4, "part": "-", "correct": true },
+      { "idx": 5, "part": "A", "correct": true },
+      { "idx": 5, "part": "B", "correct": true },
+      { "idx": 6, "part": "-", "correct": true },
+      { "idx": 7, "part": "-", "correct": true },
+      { "idx": 8, "part": "-", "correct": true },
+      { "idx": 9, "part": "-", "correct": true },
+      { "idx": 10, "part": "A", "correct": true },
+      { "idx": 10, "part": "B", "correct": true }
+    ],
+    "teamAnswers": [
+      { "memberId": "u3", "correct": true },
+      { "memberId": "u4", "correct": true },
+      { "memberId": "u5", "correct": true }
+    ],
+    "deadlineISO": "2025-09-10T21:59:00Z"
+  }
+} 
