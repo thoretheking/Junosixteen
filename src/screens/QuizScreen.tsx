@@ -559,7 +559,14 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ navigation, route }) => {
               key={index}
               style={getAnswerStyle(index)}
               onPress={() => handleAnswerSelect(index)}
-              disabled={isAnswering || selectedAnswer !== null}>
+              disabled={isAnswering || selectedAnswer !== null}
+              accessibilityRole="button"
+              accessibilityLabel={`Antwort ${String.fromCharCode(65 + index)}: ${answer}`}
+              accessibilityHint="Doppeltipp um diese Antwort auszuwählen"
+              accessibilityState={{
+                disabled: isAnswering || selectedAnswer !== null,
+                selected: selectedAnswer === index
+              }}>
               <Text style={styles.answerText}>{answer}</Text>
             </TouchableOpacity>
           ))}

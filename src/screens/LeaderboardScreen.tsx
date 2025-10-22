@@ -310,21 +310,33 @@ const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({ navigation }) => 
         <View style={styles.typeSelector}>
           <TouchableOpacity
             style={[styles.typeButton, selectedType === 'points' && styles.typeButtonActive]}
-            onPress={() => setSelectedType('points')}>
+            onPress={() => setSelectedType('points')}
+            accessibilityRole="radio"
+            accessibilityLabel="Rangliste nach Punkten"
+            accessibilityState={{ selected: selectedType === 'points' }}
+            accessibilityHint="Zeigt die Rangliste sortiert nach Gesamtpunkten">
             <Text style={[styles.typeText, selectedType === 'points' && styles.typeTextActive]}>
               Punkte
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.typeButton, selectedType === 'level' && styles.typeButtonActive]}
-            onPress={() => setSelectedType('level')}>
+            onPress={() => setSelectedType('level')}
+            accessibilityRole="radio"
+            accessibilityLabel="Rangliste nach Level"
+            accessibilityState={{ selected: selectedType === 'level' }}
+            accessibilityHint="Zeigt die Rangliste sortiert nach Level">
             <Text style={[styles.typeText, selectedType === 'level' && styles.typeTextActive]}>
               Level
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.typeButton, selectedType === 'modules' && styles.typeButtonActive]}
-            onPress={() => setSelectedType('modules')}>
+            onPress={() => setSelectedType('modules')}
+            accessibilityRole="radio"
+            accessibilityLabel="Rangliste nach Modulen"
+            accessibilityState={{ selected: selectedType === 'modules' }}
+            accessibilityHint="Zeigt die Rangliste sortiert nach abgeschlossenen Modulen">
             <Text style={[styles.typeText, selectedType === 'modules' && styles.typeTextActive]}>
               Module
             </Text>

@@ -457,7 +457,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         )}
 
         {/* Hauptaktionen */}
-        <TouchableOpacity style={styles.actionButton} onPress={handleStartNextModule}>
+        <TouchableOpacity 
+          style={styles.actionButton} 
+          onPress={handleStartNextModule}
+          accessibilityRole="button"
+          accessibilityLabel="Nächstes Modul starten"
+          accessibilityHint="Startet das nächste verfügbare Lernmodul">
           <Text style={styles.actionButtonText}>
             🚀 Nächstes Modul starten
           </Text>
@@ -465,7 +470,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
         <TouchableOpacity 
           style={[styles.actionButton, styles.actionButtonSecondary]}
-          onPress={() => navigation.navigate('Progress')}>
+          onPress={() => navigation.navigate('Progress')}
+          accessibilityRole="button"
+          accessibilityLabel="Detaillierten Fortschritt anzeigen"
+          accessibilityHint="Öffnet die Fortschrittsübersicht">
           <Text style={[styles.actionButtonText, styles.actionButtonTextSecondary]}>
             📈 Detaillierten Fortschritt anzeigen
           </Text>
@@ -475,21 +483,30 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <View style={styles.quickActions}>
           <TouchableOpacity 
             style={styles.quickActionButton}
-            onPress={() => navigation.navigate('Modules')}>
+            onPress={() => navigation.navigate('Modules')}
+            accessibilityRole="button"
+            accessibilityLabel="Module anzeigen"
+            accessibilityHint="Öffnet die Modulübersicht">
             <Text style={styles.quickActionIcon}>📚</Text>
             <Text style={styles.quickActionText}>Module</Text>
           </TouchableOpacity>
           
           <TouchableOpacity 
             style={styles.quickActionButton}
-            onPress={() => navigation.navigate('Leaderboard')}>
+            onPress={() => navigation.navigate('Leaderboard')}
+            accessibilityRole="button"
+            accessibilityLabel="Rangliste anzeigen"
+            accessibilityHint="Öffnet die Bestenliste">
             <Text style={styles.quickActionIcon}>🏆</Text>
             <Text style={styles.quickActionText}>Rangliste</Text>
           </TouchableOpacity>
           
           <TouchableOpacity 
             style={styles.quickActionButton}
-            onPress={() => navigation.navigate('Progress')}>
+            onPress={() => navigation.navigate('Progress')}
+            accessibilityRole="button"
+            accessibilityLabel="Ziele anzeigen"
+            accessibilityHint="Öffnet deine Lernziele">
             <Text style={styles.quickActionIcon}>🎯</Text>
             <Text style={styles.quickActionText}>Ziele</Text>
           </TouchableOpacity>

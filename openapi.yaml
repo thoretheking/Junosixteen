@@ -1,0 +1,1026 @@
+openapi: 3.1.0
+info:
+  title: JunoSixteen E-Learning API
+  version: 1.0.0
+  description: |
+    Vollständige API-Dokumentation für das JunoSixteen Gamification E-Learning System.
+    Umfasst Authentication, Gamification, HRM/TRM, Mangle Policy Engine, MCP-Integration und mehr.
+  contact:
+    name: JunoSixteen API Support
+    email: support@junosixteen.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+  - url: https://api.junosixteen.com
+    description: Production server
+
+tags:
+  - name: Authentication
+    description: User registration, login, and profile management
+  - name: Gamification
+    description: Points, levels, badges, and rewards
+  - name: Modules
+    description: Learning modules and questions
+  - name: Progress
+    description: User progress tracking and completion
+  - name: Leaderboard
+    description: Rankings and competitive features
+  - name: Policy (Mangle)
+    description: Policy engine for game rules and decisions
+  - name: HRM/TRM
+    description: Holistic & Technical Risk Management
+  - name: MCP (Adaptive)
+    description: Model Context Protocol - Adaptive content generation
+  - name: Certificates
+    description: Certificate generation and management
+  - name: Admin
+    description: Administrative endpoints
+  - name: Deadlines
+    description: Deadline management
+  - name: UL (Unsupervised Learning)
+    description: User clustering and learning pattern analysis
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Firebase ID Token
+  
+  schemas:
+    User:
+      type: object
+      properties:
+        uid:
+          type: string
+          description: Unique user identifier
+        email:
+          type: string
+          format: email
+        displayName:
+          type: string
+        language:
+          type: string
+          enum: [de, en, fr, es]
+          default: de
+        avatar:
+          type: string
+        level:
+          type: integer
+          minimum: 1
+          maximum: 10
+        totalPoints:
+          type: integer
+          minimum: 0
+        currentPoints:
+          type: integer
+          minimum: 0
+        cluster:
+          type: string
+          nullable: true
+          enum: [Typ_A, Typ_B, Typ_C]
+          description: UL learning cluster
+        badges:
+          type: array
+          items:
+            type: string
+        progress:
+          $ref: '#/components/schemas/UserProgress'
+        deadlineStatus:
+          type: string
+          enum: [active, urgent, expired]
+        isAdmin:
+          type: boolean
+          default: false
+      required:
+        - uid
+        - email
+        - displayName
+        - level
+        - totalPoints
+    
+    UserProgress:
+      type: object
+      properties:
+        completedModules:
+          type: array
+          items:
+            type: string
+        currentModule:
+          type: integer
+        totalModules:
+          type: integer
+          default: 10
+    
+    Question:
+      type: object
+      properties:
+        id:
+          type: string
+        question:
+          type: string
+        answers:
+          type: array
+          items:
+            type: string
+        correctAnswer:
+          type: integer
+        explanation:
+          type: string
+        timeLimit:
+          type: integer
+          description: Time limit in seconds
+        isRiskQuestion:
+          type: boolean
+          default: false
+        points:
+          type: integer
+      required:
+        - id
+        - question
+        - answers
+        - correctAnswer
+    
+    Module:
+      type: object
+      properties:
+        moduleId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        level:
+          type: integer
+          minimum: 1
+          maximum: 10
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+        status:
+          type: string
+          enum: [locked, available, in_progress, completed]
+      required:
+        - moduleId
+        - title
+        - level
+    
+    LeaderboardEntry:
+      type: object
+      properties:
+        rank:
+          type: integer
+          minimum: 1
+        uid:
+          type: string
+        displayName:
+          type: string
+        avatar:
+          type: string
+        totalPoints:
+          type: integer
+        level:
+          type: integer
+        completedModules:
+          type: integer
+        badges:
+          type: integer
+      required:
+        - rank
+        - uid
+        - displayName
+        - totalPoints
+    
+    PolicyDecisionRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        sessionId:
+          type: string
+        level:
+          type: integer
+          minimum: 1
+          maximum: 10
+        watched:
+          type: array
+          items:
+            type: string
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              questionId:
+                type: string
+              correct:
+                type: boolean
+              timeSpent:
+                type: integer
+        deadlineISO:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - sessionId
+        - level
+        - watched
+        - answers
+        - deadlineISO
+    
+    PolicyDecisionResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [proceed, blocked, completed]
+        pointsFinal:
+          type: integer
+        nextQuestion:
+          type: integer
+          nullable: true
+        message:
+          type: string
+        risk:
+          type: object
+          properties:
+            isRisk:
+              type: boolean
+            attemptsLeft:
+              type: integer
+            cooldownUntil:
+              type: string
+              format: date-time
+              nullable: true
+        debug:
+          type: object
+          properties:
+            queryTime:
+              type: string
+            facts:
+              type: object
+    
+    HRMPlanResponse:
+      type: object
+      properties:
+        plan:
+          type: object
+          properties:
+            sections:
+              type: array
+              items:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  content:
+                    type: string
+                  actions:
+                    type: array
+                    items:
+                      type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+        riskScore:
+          type: number
+          minimum: 0
+          maximum: 1
+    
+    TRMEvalResponse:
+      type: object
+      properties:
+        evaluation:
+          type: object
+          properties:
+            score:
+              type: number
+              minimum: 0
+              maximum: 100
+            feedback:
+              type: string
+            improvements:
+              type: array
+              items:
+                type: string
+        rubric:
+          type: object
+    
+    Certificate:
+      type: object
+      properties:
+        certificateId:
+          type: string
+        userId:
+          type: string
+        type:
+          type: string
+          enum: [bronze, silver, gold]
+        issuedAt:
+          type: string
+          format: date-time
+        validUntil:
+          type: string
+          format: date-time
+          nullable: true
+        downloadUrl:
+          type: string
+          format: uri
+    
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
+      required:
+        - error
+
+paths:
+  # ==================== AUTHENTICATION ====================
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: Register a new user
+      description: Creates a new user account with Firebase Auth and Firestore profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 6
+                displayName:
+                  type: string
+                language:
+                  type: string
+                  enum: [de, en, fr, es]
+                  default: de
+                avatar:
+                  type: string
+                  default: default
+              required:
+                - email
+                - password
+                - displayName
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  uid:
+                    type: string
+                  email:
+                    type: string
+        '400':
+          description: Registration failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Login user
+      description: Authenticates user with Firebase ID token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idToken:
+                  type: string
+                  description: Firebase ID token
+              required:
+                - idToken
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  user:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: User profile not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /auth/profile:
+    get:
+      tags: [Authentication]
+      summary: Get user profile
+      description: Returns the current user's profile data
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Profile data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  # ==================== GAMIFICATION ====================
+  /gamification/submit-answer:
+    post:
+      tags: [Gamification]
+      summary: Submit answer and get points
+      description: Submits a quiz answer, calculates points, checks badges, and updates user progress
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questionId:
+                  type: string
+                answer:
+                  type: integer
+                timeSpent:
+                  type: integer
+                isCorrect:
+                  type: boolean
+              required:
+                - questionId
+                - answer
+                - timeSpent
+                - isCorrect
+      responses:
+        '200':
+          description: Answer submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      correct:
+                        type: boolean
+                      pointsGained:
+                        type: integer
+                      newBadges:
+                        type: array
+                        items:
+                          type: string
+                      levelUp:
+                        type: boolean
+                      newLevel:
+                        type: integer
+  
+  /gamification/stats:
+    get:
+      tags: [Gamification]
+      summary: Get game statistics
+      description: Returns user's game statistics including points, badges, and achievements
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Game statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalPoints:
+                    type: integer
+                  currentPoints:
+                    type: integer
+                  level:
+                    type: integer
+                  badges:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        icon:
+                          type: string
+                        points:
+                          type: integer
+  
+  # ==================== MODULES ====================
+  /modules:
+    get:
+      tags: [Modules]
+      summary: Get all modules
+      description: Returns all learning modules for the specified language
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [de, en, fr, es]
+            default: de
+      responses:
+        '200':
+          description: List of modules
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  modules:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Module'
+  
+  /modules/{moduleId}:
+    get:
+      tags: [Modules]
+      summary: Get specific module
+      description: Returns a specific module with all questions
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [de, en, fr, es]
+            default: de
+      responses:
+        '200':
+          description: Module details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  module:
+                    $ref: '#/components/schemas/Module'
+  
+  /modules/{moduleId}/complete:
+    post:
+      tags: [Modules]
+      summary: Complete module
+      description: Marks a module as completed and awards points
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                score:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                timeSpent:
+                  type: integer
+                correctAnswers:
+                  type: integer
+                totalQuestions:
+                  type: integer
+              required:
+                - score
+                - timeSpent
+      responses:
+        '200':
+          description: Module completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  certificateEligible:
+                    type: boolean
+                  nextModule:
+                    type: string
+                    nullable: true
+  
+  # ==================== LEADERBOARD ====================
+  /leaderboard:
+    get:
+      tags: [Leaderboard]
+      summary: Get leaderboard
+      description: Returns leaderboard sorted by specified metric
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [totalPoints, level, modules]
+            default: totalPoints
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Leaderboard data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  leaderboard:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LeaderboardEntry'
+                  userRank:
+                    $ref: '#/components/schemas/LeaderboardEntry'
+  
+  # ==================== POLICY (MANGLE) ====================
+  /policy/decision:
+    post:
+      tags: [Policy (Mangle)]
+      summary: Get policy decision
+      description: Evaluates game rules using Mangle policy engine
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyDecisionRequest'
+      responses:
+        '200':
+          description: Policy decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyDecisionResponse'
+        '400':
+          description: Invalid request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /policy/health:
+    get:
+      tags: [Policy (Mangle)]
+      summary: Check Mangle service health
+      description: Returns health status of the Mangle policy engine
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [ok]
+                  mangle:
+                    type: object
+                  timestamp:
+                    type: string
+                    format: date-time
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  # ==================== MCP (ADAPTIVE) ====================
+  /mcp/generate-question:
+    post:
+      tags: [MCP (Adaptive)]
+      summary: Generate adaptive question
+      description: Uses MCP to generate personalized questions based on user cluster and difficulty
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                moduleId:
+                  type: string
+                level:
+                  type: integer
+                  minimum: 1
+                  maximum: 10
+                language:
+                  type: string
+                  enum: [de, en, fr, es]
+                cluster:
+                  type: string
+                  enum: [Typ_A, Typ_B, Typ_C]
+                difficulty:
+                  type: string
+                  enum: [easy, medium, hard]
+                isRiskQuestion:
+                  type: boolean
+              required:
+                - moduleId
+                - level
+                - language
+      responses:
+        '200':
+          description: Question generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  questionId:
+                    type: string
+                  question:
+                    $ref: '#/components/schemas/Question'
+  
+  /mcp/stats:
+    get:
+      tags: [MCP (Adaptive)]
+      summary: Get MCP statistics
+      description: Returns statistics about adaptive content generation
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: period
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['7d', '30d', '90d']
+            default: 7d
+      responses:
+        '200':
+          description: MCP statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalGenerated:
+                    type: integer
+                  successRate:
+                    type: number
+                  avgGenerationTime:
+                    type: number
+  
+  # ==================== CERTIFICATES ====================
+  /certificates/{userId}:
+    get:
+      tags: [Certificates]
+      summary: Get user certificates
+      description: Returns all certificates earned by the user
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User certificates
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  certificates:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Certificate'
+  
+  /certificates/generate:
+    post:
+      tags: [Certificates]
+      summary: Generate certificate
+      description: Generates a new certificate for the user
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                type:
+                  type: string
+                  enum: [bronze, silver, gold]
+                moduleId:
+                  type: string
+              required:
+                - userId
+                - type
+      responses:
+        '201':
+          description: Certificate generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+  
+  # ==================== UL (UNSUPERVISED LEARNING) ====================
+  /ul/analyze-behavior:
+    post:
+      tags: [UL (Unsupervised Learning)]
+      summary: Analyze user behavior
+      description: Analyzes user learning behavior and assigns cluster
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                avgTime:
+                  type: integer
+                errors:
+                  type: integer
+                clicks:
+                  type: integer
+                moduleId:
+                  type: string
+              required:
+                - avgTime
+                - errors
+                - clicks
+      responses:
+        '200':
+          description: Behavior analysis result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cluster:
+                    type: string
+                    enum: [Typ_A, Typ_B, Typ_C]
+                  clusterDescription:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      description:
+                        type: string
+                  recommendations:
+                    type: array
+                    items:
+                      type: string
+  
+  /ul/learning-pattern:
+    get:
+      tags: [UL (Unsupervised Learning)]
+      summary: Get learning pattern
+      description: Returns user's learning pattern and recommendations
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Learning pattern data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pattern:
+                    type: string
+                    enum: [improving, stable, struggling, insufficient_data]
+                  recommendations:
+                    type: array
+                    items:
+                      type: string
+  
+  # ==================== DEADLINES ====================
+  /deadlines/check:
+    get:
+      tags: [Deadlines]
+      summary: Check deadline status
+      description: Returns current deadline status for the user
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Deadline information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hasDeadline:
+                    type: boolean
+                  status:
+                    type: string
+                    enum: [active, urgent, expired]
+                  daysRemaining:
+                    type: integer
+                  canExtend:
+                    type: boolean
+  
+  /deadlines/extend:
+    post:
+      tags: [Deadlines]
+      summary: Request deadline extension
+      description: Requests an extension of the current deadline
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                requestedDays:
+                  type: integer
+                  minimum: 1
+                  maximum: 30
+              required:
+                - reason
+                - requestedDays
+      responses:
+        '200':
+          description: Extension request submitted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [approved, pending, rejected]
+                  newDeadline:
+                    type: string
+                    format: date-time
+                    nullable: true
+
